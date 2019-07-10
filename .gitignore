@@ -111,7 +111,7 @@ acs-*.bib
 *.glsdefs
 
 # uncomment this for glossaries-extra (will ignore makeindex's style files!)
-# *.ist
+*.ist
 
 # gnuplottex
 *-gnuplottex-*
@@ -263,3 +263,10 @@ TSWLatexianTemp*
 
 # standalone packages
 *.sta
+
+
+# Off named glossaries
+
+*glg*
+*gls*
+*glo*

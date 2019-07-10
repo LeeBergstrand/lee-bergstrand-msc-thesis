@@ -1,0 +1,181 @@
+\chapter{Development of a Python library for programmatic exploration and comparison of organism Genome Properties}
+
+Introduction text..
+
+\section{Parsing the Genome Properties Database}
+
+The Genome Properties database consists of a series of flat files, whose individual property records are not indexed or connected. In all use cases, Pygenprop requires the information found within the Genome Properties database to perform its job. Before this information can be used by the library, it must be loaded into main memory.  The intent of Pygenprop's parser is to read the database files from disk, load them into main memory, build connections between records found within and present the information contained to the rest of the library. 
+
+\subsection{Overview of the Genome Properties flat file database and associated file formats}
+
+The Genome Properties database currently consists of a series of flat files which are hosted inside a Github Repository (see URL). Information about both public and non-public properties are hosted under this repository's \textbf{data} folder. Each property is assigned a single file folder which contains three files. A \textbf{DESC} file, which contains information about the property; a \textbf{status} file which contains information onto whether the property is public or has been manually curated; and a \textbf{FASTA} file, for properties whose steps are supported by InterProScan signatures, which contain representative protein sequences for each step of the property. In addition to the per-property folders contained within the repository's  \textbf{data} folder, there is also a Genome Properties release file located in the \textbf{flatfiles} folder which also contains Genome Properties information. Specifically, this file, called \textbf{genomeProperties.txt}, is a concatenation of the \textbf{DESC} files for all public properties found in the repositories \textbf{data} folder and is created with each release of the Genome Properties database on Github. Below is simplified a folder structure for the Genome Properties Github repository.
+
+\begin{verbatim}
+├── code/ - # Contains the Genome Properties Perl library.
+├── data/ - # Data about both public and private properties
+│   ├── GenProp0001/
+│   │   ├── DESC - # Detailed property information
+│   │   ├── FASTA - # Example sequences of proteins that carry out each step of the property
+│   │   └── status - # Contains public and manual curation statuses
+│   └── GenProp0002/
+│       ├── DESC
+│       ├── FASTA
+│       └── status
+└── flatfiles/
+    └── genomeProperties.txt
+\end{verbatim}
+
+Pygenprop contains a parser for parsing both the \textbf{DESC} files of single singular property folders and the concatenated \textbf{genomeProperties.txt} file. The format of each \textbf{DESC} file is very similar to the Stockholm sequence alignment format used by both the Pfam and Rfam databases \cite{bateman2004pfam, griffiths2003rfam} and as such the format consists of key value pairs. However, since these files use different keys than Stockholm a custom parser had to be developed. It is of note that the Genome Properties database format wraps every eighty characters. Thus, some key types which contain long sentences will be repeated for multiple lines.  Below is an example \textbf{DESC} file and a summary of key types can be found in Table \ref{table:property-file-keys}.
+
+\begin{verbatim}
+AC  GenProp0145
+DE  Histidine degradation to glutamate
+TP  PATHWAY
+AU  Haft DH
+TH  2
+RN  [1]
+RM  2203753
+RT  Nucleotide sequence of the gene encoding the repressor for the
+RT  histidine utilization genes of Pseudomonas putida.
+RA  Allison SL, Phillips AT;
+RL  J Bacteriol. 1990;172:5470-5476.
+RN  [2]
+RM  25559274
+RT  Structure of N-formimino-L-glutamate iminohydrolase from Pseudomonas 
+RT  aeruginosa.
+RA  Fedorov AA, Martí-Arbona R, Nemmara VV, Hitchcock D, Fedorov EV, Almo SC, 
+RA  Raushel FM;
+RL  Biochemistry. 2015;54(3):890-7.
+DC  Histidine Catabolism
+DR  IUBMB; AminoAcid; His3;
+DC  Histidine Metabolism
+DR  KEGG; map00340;
+DC  L-histidine degradation II
+DR  MetaCyc; PWY-5028;
+CC  This pathway is involved in histidine utilization system (hut). HutP is
+CC  the first gene in the hut operon encoding the hutHUIG operator and a
+CC  positive regulator of the operon, activated allostatically in the
+CC  presence of L-histidine. HutC represses histidine utilization by binding 
+CC  the regulatory sites for hutHUIG and hutF [1]. There are multiple
+CC  variations in the histidine degradation pathway, including two possible 
+CC  routes for the first step (either via histidine transaminase, or as in 
+CC  this pathway, via histidine ammonia-lyase/histidase). L-histidine is 
+CC  first converted to urocanate by hutH (histidine ammonia-lyase), which is 
+CC  then converted to 4-imidazolone-5-propionate by hutU (urocanate 
+CC  hydratase), and finally hydrolysed to N-formimino-L-glutamate by hutI 
+CC  (imidazolonepropionate amidohydrolase). From here there are three 
+CC  potential paths to glutamate. This property refers to the two-step 
+CC  process found in some bacteria where N-formimino-L-glutamate is first 
+CC  converted to N-formyl-l-glutamate by hutF (formimidoylglutamate 
+CC  deiminase) and then hydrolyzed to L-glutamate by hutG 
+CC  (N-formyl-l-glutamate deformylase)[2].
+**  Evidence for steps 4 and 5 is the same.
+--
+SN  1
+ID  Histidine ammonia-lyase (hutH)
+DN  Histidine ammonia-lyase/hutH (EC 4.3.1.3)
+RQ  1
+EV  IPR005921; TIGR01225; sufficient;
+TG  GO:0006548;
+--
+SN  2
+ID  Urocanate hydratase (hutU)
+DN  Urocanate hydratase/hutU (EC 4.2.1.49)
+RQ  1
+EV  IPR023637; TIGR01228; sufficient;
+TG  GO:0006548;
+--
+SN  3
+ID  Imidazolonepropionase (hutI)
+DN  Imidazolonepropionase/hutI (EC 3.5.2.7)
+RQ  1
+EV  IPR005920; TIGR01224; sufficient;
+TG  GO:0006548;
+--
+SN  4
+ID  Formimidoylglutamate deiminase/formiminoglutamase/glu-formyltransferase
+DN  Formimidoylglutamate deiminase/hutF (EC 3.5.3.13)
+RQ  1
+EV  IPR005923; TIGR01227; sufficient;
+TG  GO:0006548;
+EV  IPR010252; TIGR02022; sufficient;
+TG  GO:0006548;
+EV  IPR004227; TIGR02024; sufficient;
+TG  GO:0006548;
+--
+SN  5
+ID  Formylglutamate deformylase/formiminoglutamase/glu-formyltransferase
+DN  N-formylglutamate deformylase/hutG (EC 3.5.1.68)
+RQ  1
+EV  IPR005923; TIGR01227; sufficient;
+TG  GO:0006548;
+EV  IPR010247; TIGR02017; sufficient;
+TG  GO:0006548;
+EV  IPR004227; TIGR02024; sufficient;
+TG  GO:0006548;
+--
+SN  6
+ID  Histidine utilization repressor (hutC)
+DN  Histidine utilization repressor/hutC
+RQ  0
+EV  IPR010248; TIGR02018; sufficient;
+//
+\end{verbatim}
+
+% Please add the following required packages to your document preamble:
+% \usepackage{longtable}
+% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
+\begin{longtable}{|l|l|}
+\caption{Genome Properties DESC files use a variety of keys to provide information about a single property. Note table is copied form the genome properties documentation.}
+\label{table:property-file-keys}\\
+\hline
+\textbf{Key} & \textbf{Information Type} \\ \hline
+\endfirsthead
+%
+\multicolumn{2}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Key} & \textbf{Information Type} \\ \hline
+\endhead
+%
+AC & Accession ID \\ \hline
+DE & Description/name of Genome Property \\ \hline
+TP & Type \\ \hline
+AU & Author \\ \hline
+TH & Threshold \\ \hline
+RN & Reference number \\ \hline
+RM & PMID of reference \\ \hline
+RT & Reference title \\ \hline
+RA & Reference author \\ \hline
+RL & Reference citation \\ \hline
+DC & Database title \\ \hline
+DR & Database link \\ \hline
+PN & Parent accession ID \\ \hline
+CC & Property description \\ \hline
+** & Private notes \\ \hline
+– & Separator \\ \hline
+SN & Step number \\ \hline
+ID & Step ID \\ \hline
+DN & Step display name (includes EC number if available) \\ \hline
+RQ & Required step \\ \hline
+EV & Evidence (includes whether sufficient) \\ \hline
+TG & Gene Ontology (GO) ID \\ \hline
+// & End \\ \hline
+\end{longtable}
+
+\subsection{Parser Implementation}
+
+Pygenprop's Genome Properties flat file parser can parse both single property \textbf{DESC} files and \textbf{genomeProperties.txt} database release files which contain information about multiple properties. It reads these files one line at a time to decrease memory usage, allowing for compatibility with low memory machines and increases in database size. While loading line by line, lines for each property are loaded into a Python list as they are encountered. Once a list for a single property is full, the key types which can take up multiple lines, such as property descriptions (see Table \ref{table:property-file-keys} and example file above), are collapsed to single key value pairs. These collapsed key-value pairs are then iterated and the data inside are used to create a series of in-memory objects representing the property. As individual property objects are created they are added to a list. Once parsing is completed, the parser places this list in a Genome Property Tree object which represents the connections in the database's DAG structure. This object is then returned from the parser.
+
+\subsection{Parser Performance}
+
+Pygenprop's Genome Properties flat file parser was found to be able to parse single \textbf{DESC} files in 415 µs ± 5.59 µs on average and the latest release of the entire Genome Properties database (\textbf{genomeProperties.txt} of release 2.0) in 242 ms ± 4.81 ms (using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor). Since most applications of the parser will involve only parsing the database once, this speed was determined to be sufficient. If a greater speed is required, for example if the genome properties database grows greatly in size, the parser could be sped up by using software such as Cython \cite{behnel2010cython} or Numba \cite{lam2015numba} to transpile the existing Python code to C \cite{kernighan2006c}. Alternatively, the parser could be rewritten in C or C++ \cite{ISO:1998:IIP} from scratch and integrated into the existing Python code via CPython's  C extension interface \cite{van1995python}. If the machine that Pygenprop is running on is I/O bound, other solution may be required such as storing the Genome Properties database in a Random-access memory (RAM) disk or on a Solid-state drive (SSD). \\
+
+\section{Development of an object oriented class framework for the representation of the Genome Properties database}
+
+TODO
+
+\subsubsection{The Genome Property Class}
+
+The genome property class creates a bluebrint for objects which represent
+
