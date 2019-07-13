@@ -126,7 +126,7 @@ EV  IPR010248; TIGR02018; sufficient;
 % \usepackage{longtable}
 % Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
 \begin{longtable}{|l|l|}
-\caption{Genome Properties DESC files use a variety of keys to provide information about a single property. Note table is copied form the genome properties documentation.}
+\caption{Genome Properties DESC files use a variety of keys to provide information about a single property. Note that this table is copied form the Genome Properties database documentation (see \href{https://genome-properties.readthedocs.io/en/latest/flatfile.html\#desc-file}{https://genome-properties.readthedocs.io/en/latest/flatfile.html\#desc-file}).}
 \label{table:property-file-keys}\\
 \hline
 \textbf{Key} & \textbf{Information Type} \\ \hline
@@ -173,13 +173,49 @@ Pygenprop's Genome Properties flat file parser was found to be able to parse sin
 
 \section{Development of an object oriented class framework for the representation of the Genome Properties database}
 
-As discussed in the previous chapter, the Genome Properties database consists of series of interdependent genome properties representing both metabolic and structural features of cells. Some properties are used as evidence of others forming parent child relationships between properties and an overall rooted directed acyclic graph structure (DAG). After parsing, Pygenprop instantiates a series of objects representing that information contained with the database. These objects are connected to each other in linked list fashion where objects point to each other. Property relationships are doubly linked facilitating climbing both up and down the genome properties DAG. Individual methods and attributes of these objects can be used in software or used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail the classes and how they can be used.
+As discussed in the previous chapter, the Genome Properties database consists of series of interdependent genome properties representing both metabolic and structural features of cells. Some properties are used as evidence of others forming parent child relationships between properties and an overall rooted directed acyclic graph structure (DAG). After parsing the Genome Properties database, Pygenprop instantiates a series of objects representing that information contained within the database (see Table \ref{tab:database-objects}, Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). These objects are connected to each other in linked list fashion where objects point to each othe. These connections are doubly linked facilitating climbing both up and down the genome properties DAG and between genome property, step, functional element and evidence objects (Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). Individual methods and attributes of these objects can be used in software applications or used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail the Genome Properties database classes and how they can be used. 
 
-\subsubsection{The Genome Property Class}
+\begin{longtable}{|p{4cm}|p{11cm}|}
+\caption{A summary of the object types used to represent the Genome Properties database.}
+\label{tab:database-objects}\\
+\hline
+\textbf{Object Type} & \textbf{Description}                                                                          \\ \hline
+\endfirsthead
+%
+\multicolumn{2}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Object Type} & \textbf{Description}                                                                          \\ \hline
+\endhead
+%
+Tree                 & Encapsulates a DAG of genome property objects                                                 \\ \hline
+Genome Property      & Represents an individual genome property                                                      \\ \hline
+Literature Reference & Represents an article discussing a genome property                                            \\ \hline
+Database Reference   & Represents a record in an external pathways database which is equivalent to a genome property \\ \hline
+Step                 & Represents a step supporting the existence of a genome property                               \\ \hline
+Functional Element   & Represents a functional element supporting the existence of a step                            \\ \hline
+Evidence             & Represents an evidence supporting the existence of a functional element                       \\ \hline
+\end{longtable}
+
+\begin{figure}[!ht]
+     \centering
+	\includegraphics[width=0.90\textwidth]{media/Figure_1A.eps}
+	 \caption{Some property objects are the children of others. Database reference, literature reference and step objects are children of property objects. Figure is from  \cite{bergstrand2019pygenprop}.}
+	  \label{fig:propertytree}
+\end{figure}
+
+\begin{figure}[!ht]
+     \centering
+	\includegraphics[width=0.90\textwidth]{media/Figure_1B.eps}
+	 \caption{Each property is supported by step, functional element, and evidence objects. Figure is from  \cite{bergstrand2019pygenprop}.}
+	  \label{fig:property}
+\end{figure}
+
+\subsection{The Genome Property Class}
 
 The genome property class creates a blueprint for objects which represent individual genome properties. Instantiated objects possess methods, properties (attributes whose return value is generated by a function), and attributes which represents data about the property contained in the property \textbf{DESC} file. Information about property steps, database references and literature references have been abstracted into their own classes. A summary of the methods, properties and attributes of genome property objects can be seem in Table \ref{tab:genome-property-object} and example code below.
 
-\begin{longtable}{|p{2.8cm}|p{2cm}|p{10cm}|}
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \caption{A list of methods, properties and attributes of genome property objects.}
 \label{tab:genome-property-object}\\
 \hline
@@ -210,8 +246,6 @@ id & Attribute & The genome property identifier (e.g. GenPropXXXX) \\ \hline
 parents & Attribute & A list of parent genome properties objects representing properties that use the property as step evidences \\ \hline
 \end{longtable}
 
-\pagebreak
-
 \subsubsection{Example code for using genome property objects}
 
 \begin{lstlisting}[language=Python]
@@ -239,12 +273,12 @@ Out: List of literature reference objects
 
 \end{lstlisting}
 
-\subsubsection{The Database Reference Class}
+\subsection{The Database Reference Class}
 
-The database reference class allows for the creation of objects which map the property to equivalent records in other databases such as KEGG and Metacyc. A summary of the methods, properties and attributes of database reference objects can be seem in Table \ref{tab:database-reference-object} and example code below.
+The database reference class allows for the creation of objects which map the property to equivalent records in other databases such as KEGG and Metacyc. They are children of genome property objects. A summary of the methods, properties and attributes of database reference objects can be seem in Table \ref{tab:database-reference-object} and example code below.
 
-\begin{longtable}{|p{2.8cm}|p{2cm}|p{10cm}|}
-\caption{}
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of database reference objects.}
 \label{tab:database-reference-object}\\
 \hline
 \textbf{Name}  & \textbf{Type} & \textbf{Description}                                                                       \\ \hline
@@ -279,13 +313,13 @@ Out: 'PWY-7159'
 
 \end{lstlisting}
 
-\subsubsection{The Literature Reference Class}
+\subsection{The Literature Reference Class}
 
-The literature reference class lays out the foundation for objects which represent specific articles which support the existence of the property. A summary of the methods, properties and attributes of literature reference objects can be seem in Table \ref{tab:genome-property-object} and example code below.
+The literature reference class lays out the foundation for objects which represent specific articles which support the existence of the property. They are children of genome property objects. A summary of the methods, properties and attributes of literature reference objects can be seem in Table \ref{tab:literature-reference-object} and example code below.
 
-\begin{longtable}{|p{2.8cm}|p{2cm}|p{10cm}|}
-\caption{}
-\label{tab:database-reference-object}\\
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of literature reference objects.}
+\label{tab:literature-reference-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description}                   \\ \hline
 \endfirsthead
@@ -319,3 +353,223 @@ reference.citation
 Out: 'Photosynth Res. 2006;90(2):173-194.'
 
 \end{lstlisting}
+
+\subsection{The Step Class}
+
+The step class is used to generate objects representing individual genome property steps. They are children of parent genome properties. They also have functional elements as children. A summary of the methods, properties and attributes of step objects can be seem in Table \ref{tab:step-object} and example code below.
+
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of step objects.}
+\label{tab:step-object}\\
+\hline
+\textbf{Name}           & \textbf{Type} & \textbf{Description}                                                                                                                   \\ \hline
+\endfirsthead
+%
+\multicolumn{3}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Name}           & \textbf{Type} & \textbf{Description}                                                                                                                   \\ \hline
+\endhead
+%
+name                    & Property      & Return the name of the step                                                                                                                   \\ \hline
+required                & Property      & Return true if the step is required for assignment of the parent genome property                                                              \\ \hline
+property \_identifiers   & Property      & Return a list of genome property identifiers of genome properties which are used as evidence for the step                                     \\ \hline
+interpro \_identifiers   & Property      & Return a list of InterPro identifiers which are used as evidence for the step (e.g. IPRXXXX)                                                  \\ \hline
+consortium \_identifiers & Property      & Return a list of InterPro consortium member database (e.g. PFAM) signature identifiers which are used as evidence for the step (e.g. PFXXXXX) \\ \hline
+genome \_properties      & Property      & Return a list of child genome property objects which are used as evidence for the step                                                        \\ \hline
+number                  & Attribute     & The number of the step                                                                                                                 \\ \hline
+parent                  & Attribute     & The parent genome property of the step                                                                                                 \\ \hline
+functional \_elements    & Attribute     & A list of functional elements which are used to support the existence a step                                                           \\ \hline
+\end{longtable}
+
+\subsubsection{Example code for using step objects}
+
+\begin{lstlisting}[language=Python]
+
+step = property.steps[0]
+	
+step.number
+Out: '1'
+
+step.name
+Out: 'Magnesium-chelatase subunit ChlD (EC 6.6.1.1)'
+
+step.required
+Out: 'True'
+
+step.interpro_identifiers
+Out: 'A list of InterPro identifiers (e.g. IPR011776)'
+
+step.consortium_identifiers 
+Out: 'A list of consortium signature identifiers (e.g. TIGR02031)'
+
+step.functional_elements
+Out: 'A list of functional element objects'
+
+\end{lstlisting}
+
+\subsection{The Functional Element Class}
+
+The functional element class allows for the instantiation of objects which are placed between step object and evidence objects during parsing. Functional elements are not part of the original genome properties database schema and were added by Pygenprop to take into account for certain steps which can be catalysed by multiple enzyme families. For example, it is common that under anoxic conditions organisms will use a different set of enzymes to catalyze a step in a biochemical pathway due to the lack of oxygen present to support the reaction. This issue of having multiple types of enzymes being able to catalyze a step is an open issue on the Genome Properties database Github (see \href{https://github.com/ebi-pf-team/genome-properties/issues/29}{https://github.com/ebi-pf-team/genome-properties/issues/29}). The addition of functional elements is designed to address this issue.  A summary of the methods, properties and attributes of functional element objects can be seem in Table \ref{tab:element-object} and example code below.
+
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of functional element objects.}
+\label{tab:element-object}\\
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description}                                                                    \\ \hline
+\endfirsthead
+%
+\multicolumn{3}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description}                                                                    \\ \hline
+\endhead
+%
+parent        & Attribute     & The step object for to which the functional element supports                            \\ \hline
+evidence      & Attribute     & A list of evidence objects that support the existence of the functional element         \\ \hline
+name          & Attribute     & The name of the functional element                                                      \\ \hline
+id            & Attribute     & The identifier of the functional element                                                \\ \hline
+required      & Attribute     & True if the functional element is required for assignment of the parent genome property \\ \hline
+\end{longtable}
+
+\subsubsection{Example code for using functional element objects}
+
+\begin{lstlisting}[language=Python]
+
+element = step.functional_elements[0]
+	
+element.id
+Out: 'element.id'
+
+element.name
+Out: 'Magnesium-chelatase subunit ChlD (EC 6.6.1.1)'
+
+element.required
+Out: 'True'
+
+element.evidence
+Out: 'A list of evidence objects'
+
+\end{lstlisting}
+
+\subsection{The Evidence Class}
+
+The evidence class allows for the generations of objects which represent individual pieces of evidence which support the existence of functional elements and in turn genome property steps. Pieces of evidence include the presence of InterPro consortium signatures or support for existence of other genome properties found in an organism's genome.  A summary of the methods, properties and attributes of evidence objects can be seem in Table \ref{tab:element-object} and example code below.
+
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of evidence objects.}
+\label{tab:evidence-object}\\
+\hline
+\textbf{Name}           & \textbf{Type} & \textbf{Description}                                                                                                                                \\ \hline
+\endfirsthead
+%
+\multicolumn{3}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Name}           & \textbf{Type} & \textbf{Description}                                                                                                                                \\ \hline
+\endhead
+%
+has\_genome \_property   & Property      & Return true if the evidence is supported by the existence a genome property                                                                                \\ \hline
+property \_identfiers    & Property      & Return a list of genome property identifiers of genome properties which are used by the evidence                                                           \\ \hline
+interpro \_identifiers   & Property      & Return a list InterPro identifiers of genome properties which are used by this evidence (e.g. IPRXXXX)                                                     \\ \hline
+consortium \_identifiers & Property      & Return a list of InterPro consortium member database (e.g. PFAM) signature identifiers of genome properties which are used by this evidence (e.g. PFXXXXX) \\ \hline
+genome \_properties      & Property      & Return a list of child genome property objects which are used by this evidence                                                                             \\ \hline
+parent                  & Attribute     & The parent functional element of this evidence                                                                                                      \\ \hline
+gene\_ontology \_terms   & Attribute     & The GO term identifiers associated with the InterPro identifiers which are used by the evidence                                                     \\ \hline
+evidence \_identifiers   & Attribute     & A list of both InterPro and signature identifiers used by the evidence                                                                              \\ \hline
+sufficient              & Attribute     & True if the evidence alone can prove the existence of a functional element                                                                          \\ \hline
+\end{longtable}
+
+\subsubsection{Example code for using evidence objects}
+
+\begin{lstlisting}[language=Python]
+
+evidence = element.evidence[0]
+	
+evidence.has_genome_property
+Out: 'false'
+
+evidence.sufficient
+Out: 'true'
+
+evidence.interpro_identifiers
+Out: 'A list of InterPro identifiers (e.g. IPR011776)'
+
+evidence.consortium_identifiers 
+Out: 'A list of consortium signature identifiers (e.g. TIGR02031)'
+
+\end{lstlisting}
+
+\subsection{The Genome Properties Tree Class}
+
+Genome properties tree objects, as instantiated from the genome properties tree class, represent the rooted DAG structure of entire Genome Properties database. even though the Genome Properties database is actually a rooted DAG, the name 'tree' is used for the class and tree terminology is used in the object's methods for end user convenience. A rooted DAG is not a tree as its branches can merge together unlike those of a true tree. Tree objects contains a Python dictionary of genome property objects indexed by their property identifiers. In addition, individual property objects point to each other using their child and parent (Fig. \ref{fig:propertytree} and Table \ref{tab:genome-property-object}). These child-parent relationships between property objects are built the genome properties tree object's instantiation. The genome properties tree class allows users to search for specific genome properties, and find root and leaf properties. A summary of the methods, properties and attributes of tree objects can be seem in Table \ref{tab:tree-object} and example code below.
+
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of tree objects.}
+\label{tab:tree-object}\\
+\hline
+\textbf{Name}                               & \textbf{Type} & \textbf{Description}                                                                                                                                                                                                                                                            \\ \hline
+\endfirsthead
+%
+\multicolumn{3}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Name}                               & \textbf{Type} & \textbf{Description}                                                                                                                                                                                                                                                            \\ \hline
+\endhead
+%
+build\_genome \_property \_connections        & Method        & Iterate through every genome property which is a child of the tree; set these property's parent and child attributes to point to child and parent property objects which are also children of the tree. This method connects property objects to create a rooted DAG structure. \\ \hline
+to\_json                                    & Method        & Serialize the property tree to a JSON string                                                                                                                                                                                                                                    \\ \hline
+create \_metabolism \_database \_mapping\_file & Method        & Write a CSV file which maps from genome property identifiers to the identifiers of equivelent records found in KEGG and Metacyc                                                                                                                                                 \\ \hline
+root                                        & Property      & The genome property who has no parent.                                                                                                                                                                                                                                          \\ \hline
+leafs                                       & Property      & Return a list of genome property objects whose steps are not supported by other genome properties                                                                                                                                                                               \\ \hline
+genome \_property \_identifiers               & Property      & Return a list of the genome property identifiers (e.g. GenPropXXXX) for all genome properties within the database                                                                                                                                                               \\ \hline
+interpro \_identifiers                       & Property      & Return a list of InterPro identifiers which are used as evidence for all steps (e.g. IPRXXXX) within the database                                                                                                                                                               \\ \hline
+consortium \_identifiers                     & Property      & Return a list of InterPro consortium member database (e.g. PFAM) signature identifiers which are used as evidence for the step (e.g. PFXXXXX) within the database                                                                                                               \\ \hline
+consortium \_identifiers \_dataframe          & Property      & Return the above in the form of a pandas DataFrame                                                                                                                                                                                                                              \\ \hline
+genome \_properties \_dictionary              & Attribute     & A dictionary of genome property objects representing all genome properties within by the database; dictionary is keyed by genome property identifier                                                                                                                            \\ \hline
+\end{longtable}
+
+\subsubsection{Example code for using genome property tree objects}
+
+\begin{lstlisting}[language=Python]
+
+tree = GenomePropertyTree(*property_object_list)
+tree_two = parse_genome_properties_flat_file(genome_properties_file_handle)
+	
+len(tree)  # number of properties in the database
+Out: 'false'
+
+tree.root
+Out: 'The root genome property object'
+
+tree.leafs
+Out: 'A list of leaf genome property objects (those with no child properties)'
+
+for genome_property in tree:  # Properties in the tree can be iterated.
+	print(genome_property.id)
+Out: 'Prints all genome property identifiers'
+
+tree['GenProp1127'] # The tree can be rapidly searched
+Out: 'The genome property object representing GenProp1127.'
+
+\end{lstlisting}
+
+\subsection{Performance of Pygenprop's Genome Properties database representation}
+
+Pygenprop's representation of the Genome Properties database (Version 2.0), a genome properties tree object and its children, takes only up 11.16 MB of random-access memory. This in contrast to the database's original \textbf{genomeProperties.txt} file which takes up only 1.76 MB on disk. The memory usage difference is due the representation of the database as a series of objects and their associated data structures. However, since 11.16 MB is still takes up little memory on a modern machine, more compact data representations for Genome Properties data were not pursued. The size of the database, and its read-only use case, allows for its storage in main memory rather than in an on-disk database such as SQLite \cite{owens2006definitive} or PostgreSQL \cite{momjian2001postgresql}.
+
+Individual genome property objects can be looked up, by property identifier, from within a genome properties tree object within 277 ns ± 7.91 ns. This speed is due property objects being stored within a Python dictionary. Python dictionaries are implemented a hash tables, allowing for quick look ups \cite{van1995python}.
+
+\section{Assignment of Properties to Organism Genomes}
+
+\subsection{The Assignment Cache class}
+
+\subsection{The Assignment Algorithm}
+
+\subsubsection{Assignment of steps, functional elements and evidences}
+
+\subsubsection{Assignment of non-categorical properties}
+
+\subsubsection{Assignment of categorical properties}
+
+\subsection{Assignment Algorithm Performance}
