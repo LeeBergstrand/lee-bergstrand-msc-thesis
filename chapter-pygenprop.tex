@@ -1,4 +1,4 @@
-\chapter{Development of a Python library for programmatic exploration and comparison of organism Genome Properties}
+\chapter{Development of a Python library for programmatic exploration and comparison of organism genome properties}
 
 Introduction text..
 
@@ -13,112 +13,112 @@ The Genome Properties database currently consists of a series of flat files whic
 \begin{verbatim}
 ├── code/ - # Contains the Genome Properties Perl library.
 ├── data/ - # Data about both public and private properties
-│   ├── GenProp0001/
-│   │   ├── DESC - # Detailed property information
-│   │   ├── FASTA - # Example sequences of proteins that carry out each step of the property
-│   │   └── status - # Contains public and manual curation statuses
-│   └── GenProp0002/
-│       ├── DESC
-│       ├── FASTA
-│       └── status
+│ ├── GenProp0001/
+│ │ ├── DESC - # Detailed property information
+│ │ ├── FASTA - # Example sequences of proteins that carry out each step of the property
+│ │ └── status - # Contains public and manual curation statuses
+│ └── GenProp0002/
+│  ├── DESC
+│  ├── FASTA
+│  └── status
 └── flatfiles/
-    └── genomeProperties.txt
+ └── genomeProperties.txt
 \end{verbatim}
 
-Pygenprop contains a parser for parsing both the \textbf{DESC} files of single singular property folders and the concatenated \textbf{genomeProperties.txt} file. The format of each \textbf{DESC} file is very similar to the Stockholm sequence alignment format used by both the Pfam and Rfam databases \cite{bateman2004pfam, griffiths2003rfam} and as such the format consists of key value pairs. However, since these files use different keys than Stockholm a custom parser had to be developed. It is of note that the Genome Properties database format wraps every eighty characters. Thus, some key types which contain long sentences will be repeated for multiple lines.  Below is an example \textbf{DESC} file and a summary of key types can be found in Table \ref{table:property-file-keys}.
+Pygenprop contains a parser for parsing both the \textbf{DESC} files of single singular property folders and the concatenated \textbf{genomeProperties.txt} file. The format of each \textbf{DESC} file is very similar to the Stockholm sequence alignment format used by both the Pfam and Rfam databases \cite{bateman2004pfam, griffiths2003rfam} and as such the format consists of key value pairs. However, since these files use different keys than Stockholm a custom parser had to be developed. It is of note that the Genome Properties database format wraps every eighty characters. Thus, some key types which contain long sentences will be repeated for multiple lines. Below is an example \textbf{DESC} file and a summary of key types can be found in Table \ref{table:property-file-keys}.
 
 \begin{verbatim}
-AC  GenProp0145
-DE  Histidine degradation to glutamate
-TP  PATHWAY
-AU  Haft DH
-TH  2
-RN  [1]
-RM  2203753
-RT  Nucleotide sequence of the gene encoding the repressor for the
-RT  histidine utilization genes of Pseudomonas putida.
-RA  Allison SL, Phillips AT;
-RL  J Bacteriol. 1990;172:5470-5476.
-RN  [2]
-RM  25559274
-RT  Structure of N-formimino-L-glutamate iminohydrolase from Pseudomonas 
-RT  aeruginosa.
-RA  Fedorov AA, Martí-Arbona R, Nemmara VV, Hitchcock D, Fedorov EV, Almo SC, 
-RA  Raushel FM;
-RL  Biochemistry. 2015;54(3):890-7.
-DC  Histidine Catabolism
-DR  IUBMB; AminoAcid; His3;
-DC  Histidine Metabolism
-DR  KEGG; map00340;
-DC  L-histidine degradation II
-DR  MetaCyc; PWY-5028;
-CC  This pathway is involved in histidine utilization system (hut). HutP is
-CC  the first gene in the hut operon encoding the hutHUIG operator and a
-CC  positive regulator of the operon, activated allostatically in the
-CC  presence of L-histidine. HutC represses histidine utilization by binding 
-CC  the regulatory sites for hutHUIG and hutF [1]. There are multiple
-CC  variations in the histidine degradation pathway, including two possible 
-CC  routes for the first step (either via histidine transaminase, or as in 
-CC  this pathway, via histidine ammonia-lyase/histidase). L-histidine is 
-CC  first converted to urocanate by hutH (histidine ammonia-lyase), which is 
-CC  then converted to 4-imidazolone-5-propionate by hutU (urocanate 
-CC  hydratase), and finally hydrolysed to N-formimino-L-glutamate by hutI 
-CC  (imidazolonepropionate amidohydrolase). From here there are three 
-CC  potential paths to glutamate. This property refers to the two-step 
-CC  process found in some bacteria where N-formimino-L-glutamate is first 
-CC  converted to N-formyl-l-glutamate by hutF (formimidoylglutamate 
-CC  deiminase) and then hydrolyzed to L-glutamate by hutG 
-CC  (N-formyl-l-glutamate deformylase)[2].
-**  Evidence for steps 4 and 5 is the same.
+AC GenProp0145
+DE Histidine degradation to glutamate
+TP PATHWAY
+AU Haft DH
+TH 2
+RN [1]
+RM 2203753
+RT Nucleotide sequence of the gene encoding the repressor for the
+RT histidine utilization genes of Pseudomonas putida.
+RA Allison SL, Phillips AT;
+RL J Bacteriol. 1990;172:5470-5476.
+RN [2]
+RM 25559274
+RT Structure of N-formimino-L-glutamate iminohydrolase from Pseudomonas 
+RT aeruginosa.
+RA Fedorov AA, Martí-Arbona R, Nemmara VV, Hitchcock D, Fedorov EV, Almo SC, 
+RA Raushel FM;
+RL Biochemistry. 2015;54(3):890-7.
+DC Histidine Catabolism
+DR IUBMB; AminoAcid; His3;
+DC Histidine Metabolism
+DR KEGG; map00340;
+DC L-histidine degradation II
+DR MetaCyc; PWY-5028;
+CC This pathway is involved in histidine utilization system (hut). HutP is
+CC the first gene in the hut operon encoding the hutHUIG operator and a
+CC positive regulator of the operon, activated allostatically in the
+CC presence of L-histidine. HutC represses histidine utilization by binding 
+CC the regulatory sites for hutHUIG and hutF [1]. There are multiple
+CC variations in the histidine degradation pathway, including two possible 
+CC routes for the first step (either via histidine transaminase, or as in 
+CC this pathway, via histidine ammonia-lyase/histidase). L-histidine is 
+CC first converted to urocanate by hutH (histidine ammonia-lyase), which is 
+CC then converted to 4-imidazolone-5-propionate by hutU (urocanate 
+CC hydratase), and finally hydrolysed to N-formimino-L-glutamate by hutI 
+CC (imidazolonepropionate amidohydrolase). From here there are three 
+CC potential paths to glutamate. This property refers to the two-step 
+CC process found in some bacteria where N-formimino-L-glutamate is first 
+CC converted to N-formyl-l-glutamate by hutF (formimidoylglutamate 
+CC deiminase) and then hydrolyzed to L-glutamate by hutG 
+CC (N-formyl-l-glutamate deformylase)[2].
+** Evidence for steps 4 and 5 is the same.
 --
-SN  1
-ID  Histidine ammonia-lyase (hutH)
-DN  Histidine ammonia-lyase/hutH (EC 4.3.1.3)
-RQ  1
-EV  IPR005921; TIGR01225; sufficient;
-TG  GO:0006548;
+SN 1
+ID Histidine ammonia-lyase (hutH)
+DN Histidine ammonia-lyase/hutH (EC 4.3.1.3)
+RQ 1
+EV IPR005921; TIGR01225; sufficient;
+TG GO:0006548;
 --
-SN  2
-ID  Urocanate hydratase (hutU)
-DN  Urocanate hydratase/hutU (EC 4.2.1.49)
-RQ  1
-EV  IPR023637; TIGR01228; sufficient;
-TG  GO:0006548;
+SN 2
+ID Urocanate hydratase (hutU)
+DN Urocanate hydratase/hutU (EC 4.2.1.49)
+RQ 1
+EV IPR023637; TIGR01228; sufficient;
+TG GO:0006548;
 --
-SN  3
-ID  Imidazolonepropionase (hutI)
-DN  Imidazolonepropionase/hutI (EC 3.5.2.7)
-RQ  1
-EV  IPR005920; TIGR01224; sufficient;
-TG  GO:0006548;
+SN 3
+ID Imidazolonepropionase (hutI)
+DN Imidazolonepropionase/hutI (EC 3.5.2.7)
+RQ 1
+EV IPR005920; TIGR01224; sufficient;
+TG GO:0006548;
 --
-SN  4
-ID  Formimidoylglutamate deiminase/formiminoglutamase/glu-formyltransferase
-DN  Formimidoylglutamate deiminase/hutF (EC 3.5.3.13)
-RQ  1
-EV  IPR005923; TIGR01227; sufficient;
-TG  GO:0006548;
-EV  IPR010252; TIGR02022; sufficient;
-TG  GO:0006548;
-EV  IPR004227; TIGR02024; sufficient;
-TG  GO:0006548;
+SN 4
+ID Formimidoylglutamate deiminase/formiminoglutamase/glu-formyltransferase
+DN Formimidoylglutamate deiminase/hutF (EC 3.5.3.13)
+RQ 1
+EV IPR005923; TIGR01227; sufficient;
+TG GO:0006548;
+EV IPR010252; TIGR02022; sufficient;
+TG GO:0006548;
+EV IPR004227; TIGR02024; sufficient;
+TG GO:0006548;
 --
-SN  5
-ID  Formylglutamate deformylase/formiminoglutamase/glu-formyltransferase
-DN  N-formylglutamate deformylase/hutG (EC 3.5.1.68)
-RQ  1
-EV  IPR005923; TIGR01227; sufficient;
-TG  GO:0006548;
-EV  IPR010247; TIGR02017; sufficient;
-TG  GO:0006548;
-EV  IPR004227; TIGR02024; sufficient;
-TG  GO:0006548;
+SN 5
+ID Formylglutamate deformylase/formiminoglutamase/glu-formyltransferase
+DN N-formylglutamate deformylase/hutG (EC 3.5.1.68)
+RQ 1
+EV IPR005923; TIGR01227; sufficient;
+TG GO:0006548;
+EV IPR010247; TIGR02017; sufficient;
+TG GO:0006548;
+EV IPR004227; TIGR02024; sufficient;
+TG GO:0006548;
 --
-SN  6
-ID  Histidine utilization repressor (hutC)
-DN  Histidine utilization repressor/hutC
-RQ  0
-EV  IPR010248; TIGR02018; sufficient;
+SN 6
+ID Histidine utilization repressor (hutC)
+DN Histidine utilization repressor/hutC
+RQ 0
+EV IPR010248; TIGR02018; sufficient;
 //
 \end{verbatim}
 
@@ -408,12 +408,12 @@ Out: 'A list of functional element objects'
 
 \end{lstlisting}
 
-\subsection{The Functional Element Class}
+\subsection{The FunctionalElement Class}
 
-The functional element class allows for the instantiation of objects which are placed between step object and evidence objects during parsing. Functional elements are not part of the original genome properties database schema and were added by Pygenprop to take into account for certain steps which can be catalysed by multiple enzyme families. For example, it is common that under anoxic conditions organisms will use a different set of enzymes to catalyze a step in a biochemical pathway due to the lack of oxygen present to support the reaction. This issue of having multiple types of enzymes being able to catalyze a step is an open issue on the Genome Properties database Github (see \href{https://github.com/ebi-pf-team/genome-properties/issues/29}{https://github.com/ebi-pf-team/genome-properties/issues/29}). The addition of functional elements is designed to address this issue. A summary of the methods, properties and attributes of functional element objects can be seem in Table \ref{tab:element-object} and example code below.
+The FunctionalElement class allows for the instantiation of objects which are placed between step object and evidence objects during parsing. Functional elements are not part of the original genome properties database schema and were added by Pygenprop to take into account for certain steps which can be catalysed by multiple enzyme families. For example, it is common that under anoxic conditions organisms will use a different set of enzymes to catalyze a step in a biochemical pathway due to the lack of oxygen present to support the reaction. This issue of having multiple types of enzymes being able to catalyze a step is an open issue on the Genome Properties database Github (see \href{https://github.com/ebi-pf-team/genome-properties/issues/29}{https://github.com/ebi-pf-team/genome-properties/issues/29}). The addition of functional elements is designed to address this issue. A summary of the methods, properties and attributes of FunctionalElement objects can be seem in Table \ref{tab:element-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{A list of methods, properties and attributes of functional element objects.}
+\caption{A list of methods, properties and attributes of FunctionalElement objects.}
 \label{tab:element-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description}                 \\ \hline
@@ -432,7 +432,7 @@ id   & Attribute  & The identifier of the functional element            \\ \hlin
 required  & Attribute  & True if the functional element is required for assignment of the parent genome property \\ \hline
 \end{longtable}
 
-\subsubsection{Example code for using functional element objects}
+\subsubsection{Example code for using FunctionalElement objects}
 
 \begin{lstlisting}[language=Python]
 
@@ -529,12 +529,14 @@ consortium \_identifiers \_dataframe   & Property  & Return the above in the for
 genome \_properties \_dictionary    & Attribute  & A dictionary of genome property objects representing all genome properties within by the database; dictionary is keyed by genome property identifier                               \\ \hline
 \end{longtable}
 
+\pagebreak
+
 \subsubsection{Example code for using genome property tree objects}
 
 \begin{lstlisting}[language=Python]
 
 tree = GenomePropertyTree(*property_object_list)
-tree_two = parse_genome_properties_flat_file(genome_properties_file_handle)
+tree_two = parse_genome_properties_flat_file(properties_file_handle)
 	
 len(tree) # number of properties in the database
 Out: 'false'
@@ -543,7 +545,8 @@ tree.root
 Out: 'The root genome property object'
 
 tree.leafs
-Out: 'A list of leaf genome property objects (those with no child properties)'
+Out: 'A list of leaf genome property objects 
+     (those with no child properties)'
 
 for genome_property in tree: # Properties in the tree can be iterated.
 	print(genome_property.id)
@@ -554,13 +557,13 @@ Out: 'The genome property object representing GenProp1127.'
 
 \end{lstlisting}
 
-\subsection{Performance of Pygenprop's Genome Properties database representation}
+\subsection{Performance of Pygenprop's Genome Properties database OOP Implementation}
 
 Pygenprop's representation of the Genome Properties database (Version 2.0), a genome properties tree object and its children, takes only up 11.16 MB of random-access memory. This in contrast to the database's original \textbf{genomeProperties.txt} file which takes up only 1.76 MB on disk. The memory usage difference is due the representation of the database as a series of objects and their associated data structures. However, since 11.16 MB is still takes up little memory on a modern machine, more compact data representations for Genome Properties data were not pursued. The size of the database, and its read-only use case, allows for its storage in main memory rather than in an on-disk database such as SQLite \cite{owens2006definitive} or PostgreSQL \cite{momjian2001postgresql}.
 
 Individual genome property objects can be looked up, by property identifier, from within a genome properties tree object within 277 ns ± 7.91 ns. This speed is due property objects being stored within a Python dictionary. Python dictionaries are implemented a hash tables, allowing for quick look ups \cite{van1995python}.
 
-\section{Assignment of Properties to Organism Genomes}
+\section{Assignment of Genome Properties to Organism Genomes}
 
 Information contained within the Genome Properties database can be used to assign YES, NO or PARTIAL support for an organism possessing a genetically-derived property such as a biochemical pathway. These assignments of YES, NO or PARTIAL are based on the the presence of InterPro consortium database signatures (e.g PFAMs, TIGRFAMS, etc.) present in protein domain annotations on an organism's genome. These domain annotations are generated by InterProScan \cite{jones2014interproscan}. Some genome properties, in addition to the above signatures, rely on the previous assignments of support for child genome properties for their own assignment. Pygenprop's code for assigning genome properties is based on that of the Genome Properties Perl library (see https://github.com/ebi-pf-team/genome-properties) that ships along side the Genome Properties database. It replicates the library's assignment functionality. Pygenprop assigns properties support from leaf to root using a recursive algorithm (\ref{fig:propertyassignment}). Assignment starts with step evidences and flows up through functional elements and steps and eventually to individual properties (Fig. \ref{fig:propertyassignment}). The rules used for assigning support at different levels are detailed in the subsections below. For each organism that needs to be to have properties assigned an AssignmentCache object is created. This object contains all data required for property assignment and methods for assigning support for properties using this data. A detailed description of this class is also found in the subsections below.
 
@@ -605,10 +608,10 @@ interpro \_signiture \_accessions & Attribute & A set of InterPro consortium sig
 sample\_name & Attribute & The name of the organism or sample. When the AssignmentCache is created from a file, the sample name is set to the filename without file extension. \\ \hline
 \end{longtable}
 
-\subsubsection{Example code for using genome property tree objects}
+\subsubsection{Example code for using AssignmentCache  objects}
 
 \begin{lstlisting}[language=Python]
-tree = parse_genome_properties_flat_file(genome_properties_file_handle)
+tree = parse_genome_properties_flat_file(properties_file_handle)
 
 cache1 = parse_genome_property_longform_file(pre_calculated_file_handle)
 cache2 = parse_interproscan_file(interproscan_tsv_file_handle)
@@ -636,45 +639,46 @@ cache2.flush_property_from_cache('GenProp2567')
 # Bootstrap both step and property assignments
 cache2.boostrap_assignments(properties_tree=tree)
 
-# Create pajndas DataFrames for per organism property and step assignments
+# Create pandas DataFrames for per organism property
+# and step assignments
 tables = cache2.create_results_tables(properties_tree=tree)
 property_table = tables[0]
 step_table = tables[1]
 
 \end{lstlisting}
 
-\subsection{The Assignment Algorithms}
+\subsection{Implemented Assignment Algorithms}
 
 As mentioned above, Pygenprop use recursion, the process of functions calling themselves, to assign YES, NO and PARTIAL support for individual properties found within the genome properties database. During assignment recursion, Pygenprop uses a genome properties tree object to provide it with information about assignment requirements and connections between individual genome properties. In the context of AssignmentCache objects, the support assignment process is referred to as bootstrapping assignments. This is because properties are assigned from a mixture of existing informations such as pre-calculated assignments and InterPro consortium signatures found in an organism's domain annotations. Like in the algorithms used in the Genome Properties Perl library, both properties and steps are given assignments and step assignment are used to assign support for parent properties. It is of note that, during the recursion process, that newly calculated step and property assignments are added to the AssignmentCache object's step and property assignment dictionaries. Successive recursive assignment calculates check these dictionaries first, using the \textbf{get\_property\_assignment} and \textbf{get\_step\_assignment} methods, to find step and property assignment which have already been calculated. Since the Genome Properties database forms a rooted DAG, branches in the parent-child property relationships can merge. Thus there will be property assignments to retrieve from the cache as they have already been calculated in previous recursions. In addition, the step and AssignmentCache dictionaries can be filled with pre-calculated assignments from a file or database. The use of an assignment caching, allows for the assignment process to increase in speed up exponentially as more properties are calculated. Assignments which are already cached are taken as gospel and recursion stops when they are collected from the cache. Recursion also stops when step assignments are calculated for steps which are not supported by the assignment of other genome properties. 
 
-\subsubsection{Assignment of steps, functional elements and evidences}
+\subsubsection{Assigning support for steps, functional elements and evidences}
 
 Step assignments are calculated recursively from functional element and evidence assignments (Fig. \ref{fig:propertyassignment}). Evidences are assigned YES or NO based on the presence an InterPro consortium signature found in the AssignmentCache's \textbf{interpro \_signiture \_accessions} set (Table \ref{tab:assignment-cache-object}) or a recursively calculated property assignment. The signature identifier or child property to be used specified inside evidence's representative evidence object (Table \ref{tab:evidence-object}) inside the genome property tree object passed to the cache's \textbf{bootstrap\_assignments} function. Evidence are assigned NO if they are not found in the cache's \textbf{interpro \_signiture \_accessions} attribute and YES otherwise. If the evidence is supported by the support assignment of another genome property, then the evidence is only assigned YES if the genome property's assignment is YES or PARTIAL (Fig. \ref{fig:propertyassignment}). Functional elements are assigned YES under two situations: If all underlying evidences have been assigned YES or if a single evidence which sufficient on its own to support the existence of a step is assigned YES (Fig. \ref{fig:propertyassignment}). For example, if As mentioned in Table \ref{tab:evidence-object}, some evidences can be used as the sole piece of evidence for a step. Other than these two situations the functional element is assigned NO. Steps are assigned YES or NO based off the assignments of functional elements (Fig. \ref{fig:propertyassignment}). Steps are assigned YES only if all functional elements of that step have been assigned YES and are assigned NO otherwise. As noted in the above section, assignment results for already calculated steps are checked for before step assignment recursion and are added to the cache after step assignment calculations. If an evidence has a genome property as its child, this property's assignment is calculated creating another recursion cascade.
 
-\subsubsection{Assignment of non-categorical properties}
+\subsubsection{Assigning support for non-categorical properties}
 
 Some properties have steps which are required to exist for the property to be assigned YES or PARTIAL. In addition each property is given a \textbf{threshold} attribute (Table \ref{tab:genome-property-object}) which specifies how many required steps must be present before an assignment of PARTIAL support can be applied to the property. If their are required steps for a property, as specified by information contained in a genome property object in the genome property tree, the genome property can only be assigned YES if all required properties are present (Fig. \ref{fig:propertyassignment}). The property is assigned PARTIAL if the number of its required steps assigned YES is greater than its required steps threshold attribute (Fig. \ref{fig:propertyassignment}). If the number of required steps assigned YES is less than or equal to the required steps threshold then the property is assigned NO support. It is important to note that genome property support assignment does note take into account steps which are optional, only those which are required. As noted in the above section, assignment results for already calculated properties are checked for before property assignment recursion and are added to the cache after property assignment calculations. If a property's step's assignment value is not known it is calculated causing a recursion cascade.
 
-\subsubsection{Assignment of categorical properties}
+\subsubsection{Assigning support for categorical properties}
 
 Categorical properties, such as GenProp0065 Metabolism, do not have any required steps. All steps are optional. Thus a different algorithm is required for their assignment. Categorical properties are only assigned YES if all steps are assigned YES, NO if all steps are assigned NO and PARTIAL otherwise (Fig. \ref{fig:propertyassignment}). Note that the generation of support assignments for categorical properties is unique to Pygenprop and is not performed by the Genome Properties Perl library. The recursion in the Perl library stops before it reaches categorical properties.
 
-\subsection{AssignmentCache and Assignment Performance}
+\subsection{AssignmentCache and Assignment Algorithm Performance}
 
 For a 2.93 MB InterProScan TSV file containing domain annotations for 4100 \textit{Escherichia\ coli }K12 proteins, the resulting AssignmentCache object was found to be 1.16 MB of main memory before bootstrapping assignments and 1.71 MB after. Assignment bootstrapping was found to take 76.7 ± 15.41 ms for K12 (using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor). Thus, Pygenprop could calculate property assignments for thousands genomes in only a few minutes. This speed was found to be sufficient. However, further performance gains could be made in the future if assignments were stored inside pandas DataFrames \cite{mckinney2010data} similar to those created by an AssignmentCache object's \textbf{create\_results\_tables} method (Table \ref{tab:assignment-cache-object}), rather than a Python dictionary.
 
-\section{Development of a Representation for Comparing Genome Property Assignments Across Multiple Organisms}
+\section{Development of a Framework for Comparing Genome Property Assignments Across Multiple Organisms}
 
 One of the main goals of Pygenprop was to facilitate comparison of the presence/absence of biochemical pathways across organism. In addition, Pygenprop is designed to support making these comparisons programmatically. Specifically, it is designed to provide methods to filter out properties which are shared between organisms to highlight differences in metabolic or functional capabilities across organisms. Having programmatic access to these difference and having them in computationally accessible form will allow future researchers to automate many aspects of pathway analysis, such as complex phenotype prediction and prediction of niche partitioning in the case of microbial ecology contexts.
 
 \subsection{The GenomePropertiesResults Class}
 
-To support programmatic exploration of genome properties assignments Pygenprop includes the GenomePropertiesResults class. Objects of this class takes a series of AssignmentCache objects (Table \ref{tab:assignment-cache-object}), potentially from disparate sources, as input during their instantiation (Fig. \ref{fig:resultscreation}). The per-sample assignments found within these caches are then combined into a multiple sample form. Specifically, they are stored in two indexed pandas DataFrames \cite{mckinney2010data}: One for property level assignments and another for step level assignments. Within these DataFrames, assignments are stored in compact NumPy arrays \cite{van2011numpy}. In addition, to these two DataFrames the GenomePropertiesResults class contains a series of functions for filtering down step and property assignments. A summary of the methods, properties and attributes of GenomePropertiesResults objects can be seem in Table \ref{tab:results-object} and example code below.
+To support programmatic exploration of genome properties assignments Pygenprop includes the GenomePropertiesResults class. Objects of this class takes a series of AssignmentCache objects (Table \ref{tab:assignment-cache-object}), potentially from disparate sources, as input during their instantiation (Fig. \ref{fig:resultscreation}). The per-sample assignments found within these caches are then combined into a multiple sample form. Specifically, they are stored in two indexed pandas DataFrames \cite{mckinney2010data}: One for property level assignments and another for step level assignments (Fig. \ref{fig:resultswithmatchescreation}). Within these DataFrames, assignments are stored in compact NumPy arrays \cite{van2011numpy}. In addition, to these two DataFrames the GenomePropertiesResults class contains a series of functions for filtering down step and property assignments. A summary of the methods, properties and attributes of GenomePropertiesResults objects can be seem in Table \ref{tab:results-object} and example code below.
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.80\textwidth]{media/assignment_results_overview.pdf}
-	 \caption{GenomePropertiesResults objects are created by combining the AssignmentCaches generate for multiple organisms. These caches can be from disparate sources such as InterProScan results files or lists of InterPro signatures provided by an remote server.}
+	\includegraphics[width=0.85\textwidth]{media/assignment_results_overview.pdf}
+	 \caption{GenomePropertiesResults objects are created by combining the AssignmentCache objects generate for multiple organisms. These caches can be generated from disparate sources such as InterProScan results files or lists of InterPro signatures provided by an remote server.}
 	 \label{fig:resultscreation}
 \end{figure}
 
@@ -705,9 +709,100 @@ tree & Attribute & The genome properties tree object used during instantiation o
 
 \subsubsection{Example code for using GenomePropertiesResults objects}
 
-TODO
+\begin{lstlisting}[language=Python]
+tree = parse_genome_properties_flat_file(properties_file_handle)
 
-\subsection{The choice of pandas for compatibility with the Python data science and machine learning software stack}
+cache_one = parse_interproscan_file(ipr_file_handle_one)
+cache_two = parse_interproscan_file(ipr_file_handle_two)
+results = GenomePropertiesResults(cache_one, cache_two, 
+                                  properties_tree=property_tree)
+
+results.sample_names
+Out: ['E_coli_K12', 'C_luteolum_DSM_273']
+
+results.get_property_result('GenProp1065')
+Out: ['NO', 'NO']
+
+results.get_step_result('GenProp1067', 2) 
+Out: ['YES', 'NO']
+
+# Get step assignments for GenProp1065 and GenProp1067 with 
+# property and step names.
+results.get_results('GenProp1065', 'GenProp1067', 
+                      steps=True, names=True)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|l|}
+\hline
+\textbf{Property\_Identifier} & \textbf{Property\_Name} & \textbf{Step\_Number} & \textbf{Step\_Name} & \textbf{E\_coli\_K12} & \textbf{C\_luteolum\_DSM\_273} \\ \hline
+GenProp1065 & Radical SAM/SPASM TIGR04347/TIGR04031 system & 1 & RSAM-partnered protein, Htur\_1727 family & NO & NO \\ \hline
+GenProp1065 & Radical SAM/SPASM TIGR04347/TIGR04031 system & 2 & Pseudo-rSAM protein/SPASM domain protein & NO & NO \\ \hline
+GenProp1067 & Defense systems & 1 & CRISPR systems & YES & YES \\ \hline
+GenProp1067 & Defense systems & 2 & Restriction enzyme system, type I & YES & NO \\ \hline
+GenProp1067 & Defense systems & 3 & DNA sulfur modification system dnd & NO & NO \\ \hline
+GenProp1067 & Defense systems & 4 & Abortive infection proteins & NO & NO \\ \hline
+GenProp1067 & Defense systems & 5 & Complement activation, common pathway 1 & NO & NO \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\begin{lstlisting}[language=Python]
+# Get property assignments for GenProp1065 and GenProp1067
+results.get_results('GenProp1065', 'GenProp1067', 
+                    steps=False, names=False)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Property\_Identifier} & \textbf{E\_coli\_K12} & \textbf{C\_luteolum\_DSM\_273} \\ \hline
+GenProp1065 & NO & NO \\ \hline
+GenProp1067 & PARTIAL & PARTIAL \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[language=Python]
+# Get counts of YES and NO assignments for steps GenProp1065 
+# and GenProp1067
+results.get_results_summary('GenProp1065', 'GenProp1067', steps=True)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Assignment} & \textbf{E\_coli\_K12} & \textbf{C\_luteolum\_DSM\_273} \\ \hline
+NO & 5 & 6 \\ \hline
+YES & 2 & 1 \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{lstlisting}[language=Python]
+# Get percentages of YES and NO assignments for steps GenProp1065 
+# and GenProp1067
+results.get_results_summary('GenProp1065', 'GenProp1067', 
+                             steps=True, normalize=True)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\begin{tabular}{|l|l|l|}
+\hline
+\textbf{Assignment} & \textbf{E\_coli\_K12} & \textbf{C\_luteolum\_DSM\_273} \\ \hline
+NO & 71.428571 & 85.714286 \\ \hline
+YES & 28.571429 & 14.285714 \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{The use of Pandas for Compatibility With the Python Data Science and Machine Learning Software Stack}
 
 Pandas is a Python library for cleaning, filtering and reshaping data. It presents data to users as a DataFrame, in other words a two dimentional data matrix with both column and row names. Pandas dataframe's allow user's to index columns, supporting the rapid joining of datasets. During data analysis it is common to join DataFrames together creating joint datasets. Pandas DataFrames were designed to provide Python with similar functionality to the builtin dataframes presented by other data analysis languages such as R \cite{rprogman}. Both pandas DataFrame objects contained within an GenomePropertiesResults object are built on top of NumPy arrays \cite{mckinney2010data}. NumPy arrays are a compact memory format designed to support vectorized mathematical calculations on both numeric and string data \cite{van2011numpy}. They are roughly equivalent to R vectors \cite{rprogman}. NumPy arrays are used extensively across the entire Python data science stack . This software stack is called SciPy \cite{scipystack}.
 
@@ -715,9 +810,9 @@ Pygenprop presents property and step assignments as pandas DataFrames inside of 
 
 \subsection{GenomePropertiesResults Performance}
 
-TODO
+When generated from two assignment caches containing assignments for to bacteria with 4100 and 1877 proteins, respectively, the resulting GenomePropertiesResults object took up 14.4 MB of main memory. Creating the  object took 177 ms ± 10 ms (using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor). Thus, Pygenprop could create a GenomePropertiesResults object from thousands of assignment caches in only a few tens of minutes. This speed was found to be sufficient. The memory usage is likely due to the using indexed pandas DataFrames. Pandas DataFrames uses up more memory than raw Python or NumPy arrays since pandas allows for the creation of indexed columns which take up more memory but allow for faster look ups. Pygenprop uses these types of columns. If one needed lower memory usage they could store assignments as raw unindexed NumPy arrays inside the GenomePropertiesResults objects rather than pandas DataFrames.
 
-\section{Extension of the AssignmentCache and GenomePropertiesResults classes to include supporting match information}
+\section{Extension of the AssignmentCache and GenomePropertiesResults classes to Include Supporting Match Information}
 
 Motifs are a discrete patterns in a protein's sequence which are often associated with the existence of a protein domain. A protein domain is conserved part of a protein's sequence which carries out a specific function for the protein and are evolutionarily conserved. These domains often generate their own discrete three dimensional structures during protein folding. Domain annotation is the process of predicting the placement and function of domains in protein sequences. During genomic analysis it is a common practice to perform domain annotation on an organism's predicted proteins.
 
@@ -725,9 +820,9 @@ Domain annotations of an organism's proteins are created by finding similarities
 
 One tool for performing domain annotation of an organism's proteins is InterProScan which predicts both the type and placement of domains in an organism's proteins and also provides supporting match information to justify its predictions. This supporting information includes E-value scores for matches and predicted domain start and stop points on the annotated protein. The domain annotations and match information generated by InterProScan are stored in TSV files. InterProScan takes a FASTA file \cite{pearson19905} containing an organism's predicted proteins as input.
 
-As mentioned in previous sections, Genome properties are assigned from InterProScan domain annotations of an organism's proteins. These annotations are provided in the above TSV. Specifically predictions of the existence of domains that can be used, either singly or in consort, to uniquely identify enzymes or protein structures which act as evidence for genome property steps. It may be the case that domains used as genome property step evidence's will be found in more than one protein of an organism and some of these proteins may be false positives which may posses the identifying domain (or a similar domain) but do not carry out the genome property step. To filter out these false positives, researchers often want direct access to the match information, such as E-value scores, held within the InterProScan file so they can use it to further filter matches. Alternatively, users may want access to the entire sequence of proteins containing matches so they can be further analysed. For example, the proteins which are predicted to possess a step evidence domain could be compared phylogenetically to reference proteins which are already known carry out a property step in other organisms.
+As mentioned in previous sections, Genome properties are assigned from InterProScan domain annotations of an organism's proteins. These annotations are provided in the above TSV. Specifically predictions of the existence of domains that can be used, either singly or in consort, to uniquely identify enzymes or protein structures which act as evidence for genome property steps. It may be the case that domains used as genome property step evidence's will be found in more than one protein of an organism and some of these proteins may be false positives which may posses the identifying domain (or a similar domain) but do not carry out the genome property step. To filter out these false positives, researchers often want direct access to the match information, such as E-value scores, held within the InterProScan file so they can use it to further filter matches. Alternatively, users may want access to the entire sequence of proteins containing matches so they can be further analysed. For example, the proteins which are predicted to possess a step evidence domain could be compared phylogenetically to reference proteins which are already known carry out a property step in other organisms. Proteins which cluster closely together on phylogenetic trees are more likely to posses the same function than proteins found to be an out group.
 
-Previously with the Genome Properties Perl library, the information required to perform the above analyses were kept in four separate file types: property information was kept in \textbf{genomeProperties.txt} files, assignment information was kept in per-organism long-form property assignment files, protein sequences were kept in per-organism FASTA files \cite{pearson19905} and domain annotations were kept per-organism InterProScan TSV files. If one wanted to find proteins or match information that supported the existence of a genome property step that was assigned YES they would have to write a script to parse all four of these file types, combine the data contained within each and perform searches on this data. These scripts would be difficult and time consuming to write as there would be much boiler plate code to be written before analysis. Since above file types are created per-organism, if one wanted to apply such scripts to multiple organisms then these scripts would have to be able to remember which file, and the data held within, belongs to what organism. This tracking would further complicate script development.
+Previously with the Genome Properties Perl library, the information required to perform the above analyses were kept in four separate file types: property information was kept in genomeProperties.txt files, assignment information was kept in per-organism long-form property assignment files, protein sequences were kept in per-organism FASTA files \cite{pearson19905} and domain annotations were kept per-organism InterProScan TSV files. If one wanted to find proteins or match information that supported the existence of a genome property step that was assigned YES they would have to write a script to parse all four of these file types, combine the data contained within each and perform searches on this data. These scripts would be difficult and time consuming to write as they would need much boiler plate code to carry out joining the data before analysis. Since above file types are created per-organism, if one wanted to apply such scripts to multiple organisms then these scripts would have to be able to remember which file, and the data held within, belongs to what organism. This tracking would further complicate script development.
 
 Much of the aforementioned boiler plate code has already been integrated into Micromeda. For example, code for parsing the Genome Properties database and the generation of GenomePropertiesResults objects for comparing the presence/absence of genome properties across organisms. To make it easier for users to access match information for proteins which are annotated to have putative domains which support the existence of genome property steps, Pygenprop contains extend versions of both the AssignmentCache and GenomePropertiesResults classes which contain attributes, properties and methods related to accessing the supporting match information that was orignally contained in InterProScan TSV and FASTA files. These classes are called AssignmentCacheWithMatches and GenomePropertiesResultsWithMatches, respectively.
 
@@ -739,14 +834,144 @@ Note that only retaining match information and sequences which support steps whi
 
 \subsection{The AssignmentCacheWithMatches class}
 
-TODO: This needs a figure.
+The AssignmentCacheWithMatches class extends the AssignmentCache class via class inheritance. In addition to the attributes, properties and methods inherited from the AssignmentCache class, it also possesses new attributes, properties and methods related to storing match information, such as E-value scores and protein sequences, which support the existence of genome property steps. This match information is stored in a pandas DataFrame within each instantiated AssignmentCacheWithMatches object. These objects are generated from parsing a FASTA file \cite{pearson19905} of an organism's proteins and an InterProScan TSV of domain annotations of these proteins (Fig. \ref{fig:cachewithmatchescreation}). Parsing begins with the TSV file being opened by pandas and the protein sequence identifier, InterPro consortium signature accession, E-value score columns being extracted (Fig. \ref{fig:cachewithmatchescreation}). Each row of the resulting pandas DataFrame corresponds to a protein domain annotation: the identifier of a protein in the FASTA file, the identifier of a matched InterPro consortium signature found in this protein, and the E-value score of that match. The FASTA file is then parsed using Scikit-bio's FASTA file parser (Fig. \ref{fig:cachewithmatchescreation})\cite{scikitbio}. Scikit-bio is a Python bioinformatics library which uses NumPy arrays to store sequence data. The use of NumPy arrays allows it to have superior performance, in terms of memory usage and sequence string manipulation, to competing bioinformatics libraries such a Biopython \cite{cock2009biopython}. Once parsed by Scikit-bio, the FASTA sequences are converted to a pandas DataFrame consisting of a column of protein identifiers and a column of corresponding protein sequences from the original FASTA file. This sequence DataFrame is then merged with the above domain annotation DataFrame using their protein identifier columns creating a third unified DataFrame that is added to a instantiating AssignmentCacheWithMatches object (Fig. \ref{fig:cachewithmatchescreation}). This parsing process creates one AssignmentCacheWithMatches object per pair of FASTA file and corresponding InterProScan TSV file. Note that these objects contain all matches and proteins sequences found in the TSV file and FASTA file. A summary of the methods, properties and attributes of AssignmentCacheWithMatches objects can be seem in Table \ref{tab:assignmentcachewithmatches}. 
 
-The AssignmentCacheWithMatches class extends the AssignmentCache class via class inheritance. In addition to the attributes, properties and methods inherited from the AssignmentCache class, it also possesses new attributes, properties and methods related to storing match information, such as E-value scores and protein sequences, which support the existence of genome property steps. This match information is stored in a pandas DataFrame within each instantiated AssignmentCacheWithMatches object. These objects are generated from parsing a FASTA file \cite{pearson19905} of an organism's proteins and an InterProScan TSV of domain annotations of these proteins. Parsing begins with the TSV file being opened by pandas and the protein sequence identifier, InterPro consortium signature accession, E-value score columns being extracted. Each row of the resulting pandas DataFrame corresponds to a protein domain annotation: the identifier of a protein in the FASTA file, the identifier of a matched InterPro consortium signature found in this protein, and the E-value score of that match. The FASTA file is then parsed using Scikit-bio's FASTA file parser \cite{scikitbio}. Scikit-bio is a Python bioinformatics library which uses NumPy arrays to store sequence data. The use of NumPy arrays allows it to have superior performance, in terms of memory usage and sequence string manipulation, to competing bioinformatics libraries such a Biopython \cite{cock2009biopython}. Once parsed by Scikit-bio, the FASTA sequences are converted to a pandas DataFrame consisting of a column of protein identifiers and a column of corresponding protein sequences from the original FASTA file. This sequence DataFrame is then merged with the above domain annotation DataFrame using their protein identifier columns creating a third unified DataFrame that is added to a instantiating AssignmentCacheWithMatches object. This parsing process creates one AssignmentCacheWithMatches object per pair of FASTA file and corresponding InterProScan TSV file. Note that these objects contain all matches and proteins sequences found in the TSV file and FASTA file. A summary of the methods, properties and attributes of AssignmentCacheWithMatches objects can be seem in Table \ref{tab:results-object} and example code below. 
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.70\textwidth]{media/assignmentcachewithmatches_creation.pdf}
+	 \caption{AssignmentCacheWithMatches objects are generated from FASTA files of organism proteins and domain annotations of these proteins held in InterProScan TSV files.}
+	 \label{fig:cachewithmatchescreation}
+\end{figure}
+
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of AssignmentCacheWithMatches objects not possessed by AssignmentCache objects.}
+\label{tab:assignmentcachewithmatches}\\
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description}                                                                                    \\ \hline
+\endfirsthead
+%
+\multicolumn{3}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description}                                                                                    \\ \hline
+\endhead
+%
+matches       & Attribute     & A pandas DataFrame containing domain annotation match information and proteins sequence for an organism \\ \hline
+\end{longtable}
+
+\pagebreak
 
 \subsection{The GenomePropertiesResultsWithMatches class}
 
-The GenomePropertiesResultsWithMatches class extends the GenomePropertiesResults class through class class inheritance. In addition to the attributes, properties and methods inherited from the GenomePropertiesResults class, it also possesses new attributes, properties and methods related to storing match information, such as E-value scores and protein sequences, which support the existence of genome property steps in multiple organisms. GenomePropertiesResultsWithMatches objects are generated by combining a series of AssignmentCacheWithMatches objects generated for different organisms (the same pattern as in Fig. \ref{fig:resultscreation}). Specifically, it combines the \textbf{matches} DataFrame of each input AssignmentCacheWithMatches object into a single DataFrame and indexes this DataFrame by sample name, genome property and step number columns. Having a large combined DataFrame allows for E-value scores and sequences to be compared across organisms. During the creation of this DataFrame, domain matches and proteins sequences which do not support genome property steps are filtered out. The GenomePropertiesResultsWithMatches class provides a variety of convenience functions for accessing match information for proteins which support a step in multiple organisms. It can be also be used to generate FASTA files, using scikit-bio, containing proteins which support the existence of a step in multiple organisms. A summary of the methods, properties and attributes of GenomePropertiesResultsWithMatches objects can be seem in Table \ref{tab:results-object} and example code below. 
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.60\textwidth]{media/assignment_results_with_matches_overview.pdf}
+	 \caption{GenomePropertiesResultsWithMatches objects are created by combining the AssignmentCacheWithMatches objects generate for multiple organisms. These caches are generated from FASTA files of organism proteins and domain annotations of these proteins held in InterProScan TSV files. Property and step assignment DataFrames from  Fig. \ref{fig:resultscreation} are also retained (not shown).}
+	 \label{fig:resultswithmatchescreation}
+\end{figure}
 
-\subsection{GenomePropertiesResultsWithMatches Performance}
+The GenomePropertiesResultsWithMatches class extends the GenomePropertiesResults class through class class inheritance. In addition to the attributes, properties and methods inherited from the GenomePropertiesResults class, it also possesses new attributes, properties and methods related to storing match information, such as E-value scores and protein sequences, which support the existence of genome property steps in multiple organisms. GenomePropertiesResultsWithMatches objects are generated by combining a series of AssignmentCacheWithMatches objects generated for different organisms (Fig. \ref{fig:resultswithmatchescreation}). Specifically, it combines the \textbf{matches} DataFrame of each input AssignmentCacheWithMatches object into a single DataFrame and indexes this DataFrame by sample name, genome property and step number columns. Having a large combined DataFrame allows for E-value scores and sequences to be compared across organisms. During the creation of this DataFrame, domain matches and proteins sequences which do not support genome property steps are filtered out. The GenomePropertiesResultsWithMatches class provides a variety of convenience functions for accessing match information for proteins which support a step in multiple organisms. It can be also be used to generate FASTA files, using scikit-bio, containing proteins which support the existence of a step in multiple organisms. A summary of the methods, properties and attributes of GenomePropertiesResultsWithMatches objects can be seem in Table \ref{tab:genomepropertyresultswithmatches} and example code below. 
+
+
+
+\begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\caption{A list of methods, properties and attributes of GenomePropertiesResultsWithMatches objects not possessed by GenomePropertiesResults objects.}
+\label{tab:genomepropertyresultswithmatches}\\
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+\endfirsthead
+%
+\multicolumn{3}{c}%
+{{\bfseries Table \thetable\ continued from previous page}} \\
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+\endhead
+%
+get\_sample \_matches & Method & Return the step matches DataFrame filtered to include matches from only one sample \\ \hline
+get\_property \_matches & Method & Return the step matches DataFrame filtered to include matches from only one genome property \\ \hline
+get\_step \_matches & Method & Return the step matches DataFrame filtered to include matches from only one genome property step \\ \hline
+get\_supporting \_proteins\_for \_step & Method & Return a list of Scikit-bio sequences objects for proteins which have domain annotations which support a specific property step to a FASTA file \\ \hline
+write \_supporting \_proteins\_for \_step\_fasta & Method & Write the protein sequences which have domain annotations which support a specific property step to a FASTA file \\ \hline
+top\_step \_matches & Property & Return the matches DataFrame with only the matches with the lowest E-value for each sample and property step retained \\ \hline
+step\_matches & Attribute & A pandas DataFrame containing both domain annotations and sequences for proteins which support genome property steps in multiple samples \\ \hline
+\end{longtable}
+
+\subsubsection{Example code for using GenomePropertiesResults objects}
+
+\begin{lstlisting}[language=Python]
+tree = parse_genome_properties_flat_file(properties_file_handle)
+
+cache_one = parse_interproscan_file_and_fasta_file(ipr_file_one,
+                                                   fasta_file_one)
+cache_two = parse_interproscan_file_and_fasta_file(ipr_file_two,
+                                                   fasta_file_two)
+results = GenomePropertiesResultsWithMatches(cache_one, cache_two,          
+                                      properties_tree=property_tree)
+                                      
+results.get_step_matches('GenProp1764', 1)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Sample\_Name} & \textbf{Signature\_Accession} & \textbf{Protein\_Accession} & \textbf{E-value} & \textbf{Sequence} \\ \hline
+C\_chlorochromatii\_CaD3 & PF00994 & NC\_007514.1\_1113 & 7.1e-19 & MITV... \\ \hline
+C\_chlorochromatii\_CaD3 & PF00994 & NC\_007514.1\_151 & 1.3e-31 & MRAV… \\ \hline
+C\_chlorochromatii\_CaD3 & PF00994 & NC\_007514.1\_1114 & 1.6e-29 & MTFT... \\ \hline
+C\_luteolum\_DSM\_273 & PF00994 & NC\_007512.1\_2044 & 2.2e-29 & MPSI... \\ \hline
+C\_luteolum\_DSM\_273 & PF00994 & NC\_007512.1\_147 & 1.3e-28 & MAFT... \\ \hline
+C\_luteolum\_DSM\_273 & PF00994 & NC\_007512.1\_148 & 3.7e-26 & MLTS... \\ \hline
+C\_luteolum\_DSM\_273 & PF01507 & NC\_007512.1\_1607 & 6.1e-38 & MSSA... \\ \hline
+C\_luteolum\_DSM\_273 & PF01507 & NC\_007512.1\_1606 & 5.4e-40 & MSRI... \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\begin{lstlisting}[language=Python]     
+# Get only matches for hits with the lowest E-value
+# for a single step                                   
+results.get_step_matches('GenProp1764', 1, top=True)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Sample\_Name} & \textbf{Signature\_Accession} & \textbf{Protein\_Accession} & \textbf{E-value} & \textbf{Sequence} \\ \hline
+C\_chlorochromatii\_CaD3 & PF00994 & NC\_007514.1\_151 & 1.3e-31 & MRAV… \\ \hline
+C\_luteolum\_DSM\_273 & PF01507 & NC\_007512.1\_1606 & 5.4e-40 & MSRI... \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\pagebreak
+
+\begin{lstlisting}[language=Python]  
+# Get only matches for hits with the lowest E-value 
+# for a single property for only one sample                                     
+results.get_property_matches('GenProp1764', 
+                           sample='C_chlorochromatii_CaD3',
+                           top=True)
+Out:
+\end{lstlisting}
+
+\begin{table}[!ht]
+\centering
+\resizebox{\textwidth}{!}{%
+\begin{tabular}{|l|l|l|l|l|}
+\hline
+\textbf{Step\_Number} & \textbf{Signature\_Accession} & \textbf{Protein\_Accession} & \textbf{E-value} & \textbf{Sequence} \\ \hline
+1 & PF00994 & NC\_007514.1\_151 & 1.300000e-31 & MRAE... \\ \hline
+2 & PF01687 & NC\_007514.1\_1520 & 3.100000e-33 & MRLI... \\ \hline
+\end{tabular}%
+}
+\end{table}
+
+\subsection{AssignmentCacheWithMatches and GenomePropertiesResultsWithMatches Performance}
 
 TODO
