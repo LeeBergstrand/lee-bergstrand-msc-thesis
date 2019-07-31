@@ -171,9 +171,9 @@ Pygenprop's Genome Properties flat file parser can parse both single property \t
 
 Pygenprop's Genome Properties flat file parser was found to be able to parse single \textbf{DESC} files in 415 µs ± 5.59 µs on average and the latest release of the entire Genome Properties database (\textbf{genomeProperties.txt} of release 2.0) in 242 ms ± 4.81 ms (using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor). Since most applications of the parser will involve only parsing the database once, this speed was determined to be sufficient. If a greater speed is required, for example if the genome properties database grows greatly in size, the parser could be sped up by using software such as Cython \cite{behnel2010cython} or Numba \cite{lam2015numba} to transpile the existing Python code to C \cite{kernighan2006c}. Alternatively, the parser could be rewritten in C or C++ \cite{ISO:1998:IIP} from scratch and integrated into the existing Python code via CPython's C extension interface \cite{van1995python}. If the machine that Pygenprop is running on is I/O bound, other solution may be required such as storing the Genome Properties database in a Random-access memory (RAM) disk or on a Solid-state drive (SSD). \\
 
-\section{Development of an object oriented class framework for the representation of the Genome Properties database}
+\section{Development of an Object-Oriented Class Framework for the Representation of the Genome Properties Database}
 
-As discussed in the previous chapter, the Genome Properties database consists of series of interdependent genome properties representing both metabolic and structural features of cells. Some properties are used as evidence of others forming parent child relationships between properties and an overall rooted directed acyclic graph structure (DAG). After parsing the Genome Properties database, Pygenprop instantiates a series of objects representing that information contained within the database (see Table \ref{tab:database-objects}, Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). These objects are connected to each other in linked list fashion where objects point to each othe. These connections are doubly linked facilitating climbing both up and down the genome properties DAG and between genome property, step, functional element and evidence objects (Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). Individual methods and attributes of these objects can be used in software applications or used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail the Genome Properties database classes and how they can be used. 
+As discussed in the previous chapter, the Genome Properties database consists of series of interdependent genome properties representing both metabolic and structural features of cells. Some properties are used as evidence of others forming parent child relationships between properties and an overall rooted directed acyclic graph structure (DAG). Pygenprop follows an object-oriented programming paradigm (cite XXX) and thus after parsing the Genome Properties database, Pygenprop instantiates a series of objects representing that information contained within the database (see Table \ref{tab:database-objects}, Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). These objects are connected to each other in a linked list fashion where objects point to each other. These connections are doubly linked which facilitates climbing both up and down the genome properties DAG and between genome property, step, functional element and evidence objects (Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). Individual methods and attributes of these objects can be used in software applications or used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail the Genome Properties database classes and how they can be used. 
 
 \begin{longtable}{|p{4cm}|p{11cm}|}
 \caption{A summary of the object types used to represent the Genome Properties database.}
@@ -810,7 +810,7 @@ Pygenprop presents property and step assignments as pandas DataFrames inside of 
 
 \subsection{GenomePropertiesResults Performance}
 
-When generated from two assignment caches containing assignments for to bacteria with 4100 and 1877 proteins, respectively, the resulting GenomePropertiesResults object took up 14.4 MB of main memory. Creating the  object took 177 ms ± 10 ms (using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor). Thus, Pygenprop could create a GenomePropertiesResults object from thousands of assignment caches in only a few tens of minutes. This speed was found to be sufficient. The memory usage is likely due to the using indexed pandas DataFrames. Pandas DataFrames uses up more memory than raw Python or NumPy arrays since pandas allows for the creation of indexed columns which take up more memory but allow for faster look ups. Pygenprop uses these types of columns. If one needed lower memory usage they could store assignments as raw unindexed NumPy arrays inside the GenomePropertiesResults objects rather than pandas DataFrames.
+When generated from two assignment caches containing assignments for to bacteria with 4100 and 1877 proteins, respectively, the resulting GenomePropertiesResults object took up 14.4 MB of main memory. Creating the  object took 177 ms ± 10 ms (using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor). Thus, Pygenprop could create a GenomePropertiesResults object from thousands of assignment caches in only a few tens of minutes. This speed was found to be sufficient. The memory usage is likely due to the using indexed pandas DataFrames. Pandas DataFrames uses up more memory than raw Python or NumPy arrays since pandas allows for the creation of indexed columns which take up more memory but allow for faster look ups. Pygenprop uses these types of columns. If one needed lower memory usage they could store assignments as raw unindexed NumPy arrays inside the GenomePropertiesResults objects rather than pandas DataFrames. 
 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to Include Supporting Match Information}
 
@@ -832,7 +832,7 @@ Pygenprop can generate pathway annotation files called Micromeda files (see sect
 
 Note that only retaining match information and sequences which support steps which are assigned YES generates a corner case. This corner case can be found when a step is which is supported by more than one evidence and is ultimately assigned NO support and one of the evidences is assigned YES (Fig. \ref{fig:propertyassignment}). In this case, the match information supporting the step evidence assigned YES is dropped from the Micromeda files and AssignmentCacheWithMatches objects since its parent step has been assigned NO. The choice to not retain supporting informations for all evidence assigned YES was made in order to reduce the complexity and memory requirements of Micromeda files and is based on the assumption that researchers would rarely look at evidence level supporting information for genome property steps assigned NO.
 
-\subsection{The AssignmentCacheWithMatches class}
+\subsection{The AssignmentCacheWithMatches Class}
 
 The AssignmentCacheWithMatches class extends the AssignmentCache class via class inheritance. In addition to the attributes, properties and methods inherited from the AssignmentCache class, it also possesses new attributes, properties and methods related to storing match information, such as E-value scores and protein sequences, which support the existence of genome property steps. This match information is stored in a pandas DataFrame within each instantiated AssignmentCacheWithMatches object. These objects are generated from parsing a FASTA file \cite{pearson19905} of an organism's proteins and an InterProScan TSV of domain annotations of these proteins (Fig. \ref{fig:cachewithmatchescreation}). Parsing begins with the TSV file being opened by pandas and the protein sequence identifier, InterPro consortium signature accession, E-value score columns being extracted (Fig. \ref{fig:cachewithmatchescreation}). Each row of the resulting pandas DataFrame corresponds to a protein domain annotation: the identifier of a protein in the FASTA file, the identifier of a matched InterPro consortium signature found in this protein, and the E-value score of that match. The FASTA file is then parsed using Scikit-bio's FASTA file parser (Fig. \ref{fig:cachewithmatchescreation})\cite{scikitbio}. Scikit-bio is a Python bioinformatics library which uses NumPy arrays to store sequence data. The use of NumPy arrays allows it to have superior performance, in terms of memory usage and sequence string manipulation, to competing bioinformatics libraries such a Biopython \cite{cock2009biopython}. Once parsed by Scikit-bio, the FASTA sequences are converted to a pandas DataFrame consisting of a column of protein identifiers and a column of corresponding protein sequences from the original FASTA file. This sequence DataFrame is then merged with the above domain annotation DataFrame using their protein identifier columns creating a third unified DataFrame that is added to a instantiating AssignmentCacheWithMatches object (Fig. \ref{fig:cachewithmatchescreation}). This parsing process creates one AssignmentCacheWithMatches object per pair of FASTA file and corresponding InterProScan TSV file. Note that these objects contain all matches and proteins sequences found in the TSV file and FASTA file. A summary of the methods, properties and attributes of AssignmentCacheWithMatches objects can be seem in Table \ref{tab:assignmentcachewithmatches}. 
 
@@ -861,7 +861,7 @@ matches       & Attribute     & A pandas DataFrame containing domain annotation 
 
 \pagebreak
 
-\subsection{The GenomePropertiesResultsWithMatches class}
+\subsection{The GenomePropertiesResultsWithMatches Class}
 
 \begin{figure}[!ht]
   \centering
@@ -871,8 +871,6 @@ matches       & Attribute     & A pandas DataFrame containing domain annotation 
 \end{figure}
 
 The GenomePropertiesResultsWithMatches class extends the GenomePropertiesResults class through class class inheritance. In addition to the attributes, properties and methods inherited from the GenomePropertiesResults class, it also possesses new attributes, properties and methods related to storing match information, such as E-value scores and protein sequences, which support the existence of genome property steps in multiple organisms. GenomePropertiesResultsWithMatches objects are generated by combining a series of AssignmentCacheWithMatches objects generated for different organisms (Fig. \ref{fig:resultswithmatchescreation}). Specifically, it combines the \textbf{matches} DataFrame of each input AssignmentCacheWithMatches object into a single DataFrame and indexes this DataFrame by sample name, genome property and step number columns. Having a large combined DataFrame allows for E-value scores and sequences to be compared across organisms. During the creation of this DataFrame, domain matches and proteins sequences which do not support genome property steps are filtered out. The GenomePropertiesResultsWithMatches class provides a variety of convenience functions for accessing match information for proteins which support a step in multiple organisms. It can be also be used to generate FASTA files, using scikit-bio, containing proteins which support the existence of a step in multiple organisms. A summary of the methods, properties and attributes of GenomePropertiesResultsWithMatches objects can be seem in Table \ref{tab:genomepropertyresultswithmatches} and example code below. 
-
-
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \caption{A list of methods, properties and attributes of GenomePropertiesResultsWithMatches objects not possessed by GenomePropertiesResults objects.}
@@ -974,4 +972,162 @@ Out:
 
 \subsection{AssignmentCacheWithMatches and GenomePropertiesResultsWithMatches Performance}
 
-TODO
+For two samples consisting of 1877 and 1774 proteins, respectively, took 80.4 ms ± 1.65 ms and 89.4 ms ± 4.04 ms to parse these samples' FASTA and InterProScan TSVs and generated two AssignmentCacheWithMatches objects. These caches were then combined into a single GenomePropertyResultsWithMatches object in 4.20 s ± 202 ms. Speed tests were performed using a Macbook Pro 13-inch, Late 2013 with an Intel Intel Core i5 2.4 GHz processor. The two assignment caches were found to take 21.26 and 15.31 MB of memory, respectively. The final GenomePropertyResultsWithMatches object was found to take up only 29.8 MB of memory. The size of the objects was determined to be sufficient. A first glance GenomePropertyResultsWithMatches object creation appears to take much time. This time spent is likely due the time taken to join the information found inside each AssignmentCacheWithMatches object. Specifically, the time taken joining pandas DataFrames. At over 4.2 seconds for joining only two caches, scaling analyses to large datasets may become a challenge and opportunities for optimizing this step should be pursued. The GenomePropertyResultsWithMatches object created above was found to be able to be serialized to JSON in 7.08 s ± 1.26 s. This speed was found to be slower than expected and may need to be optimized in the future.
+
+\section{Development of a File Storage Format and Database Interface for Storing Genome Property Assignments and Supporting Match Data}
+
+Once assignments of support are generated for individual genome properties and steps it would be useful to be able to store these assignments for later use or dissemination. With the Genome Properties Perl library, property and step assignments for each organism can be saved to text files written either a custom human readable (see \\ \href{github.com/Micromeda/pygenprop/blob/master/pygenprop/testing/test\_constants/C\_chlorochromatii\_CaD3.txt}{github.com/Micromeda/pygenprop/blob/master/pygenprop/testing/test\_constants/ \\ C\_chlorochromatii\_CaD3.txt}) format or JSON format. Both of these file types are created per-organism and do not contain supporting information such as annotation match scores or proteins sequences. Since these files are created per-organism, a large number of file are required to be tracked or managed if multiple organisms are to be compared. In addition, if users want to retain information about domain annotations and protein sequences which support these assignments, they have to track and manage a series of additional InterProScan TSV and FASTA files for each organism. Tracking, managing and sharing of all these files is  difficult so Pygenprop supports the creation of Micromeda files which combine the information held within these three file types into a single file. This file type can store this information for multiple organisms allowing transfer of entire datasets in a single file between users and computer systems.
+
+\subsection{Selection of a Data Storage Format}
+
+Micromeda's assignment results file format is based off of SQLite3 \cite{owens2006definitive}. During the development several types file types were reviewed before selection of SQLite3 as the preferred format. These formats included, custom text files, binary files, JSON, YAML, and HDF5 files. Custom text or binary files were passed over as they would provide minimal advantage over existing off-the-shelf formats which provide similar performance with little to no development overhead. Javascript Object Notation (JSON) , and Yaml ain't markup language (YAML) \cite{ben2005yaml} were not selected as they are both text encoded files, and, though human readable, take up significantly more space on disk the equivalent binary formats. Hierarchical Data Format 5 (HDF5) \cite{folk2011overview} is a binary format used for storing very large arrays of data. HDF5 lets you define your own data structures inside the the file. It is currently used as the data storage format for Oxford Nanopore sequencers, where it is used to store raw signal information from a sequencing run. The reason for choosing SQLite3 over HDF5 would be the development time required to define Micromeda's own HDF5 data structures (versus SQLite where you have to define these data structures in terms of relational database tables), and SQLite3's compatibility with a broad range of tools and programming languages, and the fact that SQLite3 uses Structured Query Language (SQL) \cite{sql1987guide} for database and access allowing for compatibility with larger server-based database systems such as MySQL \cite{dubois1999mysql} and PostgreSQL \cite{momjian2001postgresql, owens2006definitive}. 
+
+\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity}
+
+Traditional relational databased management systems (DBMS) such as MySQL and PostgreSQL are server processes which continually run on a computer system (i.e. daemons) waiting for input from other programs on the computer or human users \cite{dubois1999mysql, momjian2001postgresql}. They are designed to handle connections from hundreds of programs or users simultaneously, even across computer networks. Users or processes communicate with these DBMS via a domain-specific language (DSL) called SQL \cite{sql1987guide}. SQL is a standard language which can be used to communicate with a verity of database systems. It allows you to define the databases structure, add and remove data, and filter data \cite{sql1987guide}. In contrast to traditional databases, SQLite3 does not run as a server process, but in contrast, is a C library and associated file type which takes SQL strings as input and uses it to manipulate a single file \cite{owens2006definitive}. 
+
+Its important to note that the SQL language has been continually updated since the late 1980s \cite{sql1987guide, ISO9075} and different DBMSs and SQLite itself have each implemented different features of the language and have also added features to their own versions of the language which are only compatible with them (for example new types for database columns). As a result, the SQL written for one DBMS may not be compatible with another. SQLAlchemy \cite{bayer2014sqlalchemy} is a tool which acts as a compatibility layer and allows users to write software which can query from and store data in multiple types of relational DBMSs (Fig. \ref{fig:sqlalchemy}). To preventing incompatibly, SQLAlchemy generates SQL code tailored to each type of DBMS it connects to. It can also allow you to define your relational tables as Python objects and access individual record as Python objects (Fig. \ref{fig:sqlalchemy}). These objects are used by SQLAlchemy to issue SQL commands, a process known as object-relational mapping (see \href{https://en.wikipedia.org/wiki/Object-relational\_mapping}){en.wikipedia.org/wiki/Object-relational\_mapping}) \cite{o2008object}. SQLAlchemy allows you to create, update and delete, and query data from an SQL DBMS without writing a single line in the SQL language.
+
+Pygenprop uses SQLAlchemy to write assignment data and supporting match information to SQLIte3 files. In the context of Pygenprop,we call these files Micromeda files. In addition, due to the use of SQLAlchemy and through the changing of a single line of code, Pygenprop can also write assignments and supporting data to larger, daemon-based, high performance databases such as PostgreSQL or MySQL (Fig. \ref{fig:sqlalchemy}). In addition, the use of SQLAlchemy allows users to write to clustered versions of these databases, such as Postgres-XL (see \href{www.postgres-xl.org}{postgres-xl.org}), allowing the storage of property assignments for hundreds of thousands of organisms.
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.65\textwidth]{media/SQLAlchemy.pdf}
+	 \caption{SQLAlchemy maps a series of objects generated from an GenomePropertiesResultsWithMatches object to relational database tables.}
+	 \label{fig:sqlalchemy}
+\end{figure}
+
+\subsection{The Schema of Micromeda File Format}
+
+One of the core goals of Micromeda files is to maintain genome property assignments,  step assignments and associated supporting domain annotations and protein sequences of multiple organisms in a compact a way as possible. This compactness is important as it allows us to keep files sizes, and thus transfer times, to a minimum allowing quick dissemination of datasets. The optimizations which were chosen to support this goal of are listed below:
+
+\begin{itemize}
+\item Micromeda files only retain the domain annotation match information and protein sequences for step steps which are assigned YES (as discussed in the section on the GenomePropertiesResultsWithMatches class above).
+\item Micromeda files only retain step assignments which are assigned YES. NO assignments are inferred at runtime from properties of a provided GenomePropertiesTree object which are not found in the file.
+\item Property and step assignments of support (YES, NO, PARTIAL) are stored as numbers (0, 1, 2) rather than strings in order to save space.
+\item The database is fully normalized to the 3rd normal form (3NF) (see \\ \href{en.wikipedia.org/wiki/Database\_normalization}{wikipedia.org/wiki/Database\_normalization}), so that information is only retained once. For example, if a protein sequence supports the existence of multiple property steps of once organism it is only retained once. 
+\end{itemize}
+
+Before writing SQLAlchemy classes for relational database tables, SQL schema for Micromeda SQLite3 files was designed visually in the entity-relationship diagramming software called Vertabelo (see \href{www.vertabelo.com}{vertabelo.com}). During the database design the data schema was normalized to the third normal form (3NF). The Micromeda file's final relational table structure can be seen in the schema found in Fig. \ref{fig:micromedaschema}.
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.50\textwidth]{media/micromeda_schema.pdf}
+	 \caption{The SQL schema for Micromeda SQLite3 files contains tables for samples, property assignments, step assignments, a mapping table between step assignments and interpro annotations, interpro annotations and proteins sequences.}
+	 \label{fig:micromedaschema}
+\end{figure}
+
+\subsubsection{SQLAlchemy Classes Used By Micromeda}
+
+Pygenprop maintains five SQLAlchemy classes for representing relational tables and records. These objects represent individual property assignments, step assignments, InterProScan domain annotations and protein sequences. They are used to generate SQL statements for both creating SQL tables and queries through SQLAlchemy's object-relational mapping functionality. Attributes, Properties and Methods of these objects are detailed in Tables \ref{tab:sampleobject}, \ref{tab:propertyassignmentobject}, \ref{tab:stepassignmentobject}, \ref{tab:interproscanannotationobject}, \ref{tab:sequenceobject}.
+
+\begin{table}[!ht]
+\centering
+\caption{A list of methods, properties and attributes of Sample objects.}
+\label{tab:sampleobject}
+\begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+name & Attribute & The name of the sample; for example an organism name \\ \hline
+property \_assignments & Attribute & A list of property assignment objects \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{A list of methods, properties and attributes of PropertyAssignment objects.}
+\label{tab:propertyassignmentobject}
+\begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+assignment & Property & Return the property's assignment as YES, NO or PARTIAL \\ \hline
+identifier & Property & Return the property's identifier (e.g. GenProp0078) \\ \hline
+property \_assignment \_identifier & Attribute & A unique numeric identifier for a property assignment of a single sample \\ \hline
+property \_number & Attribute & The genome property identifier as a number (e.g. the 0078 of GenProp0078) \\ \hline
+numeric \_assignment & Attribute & The property's assignment as the numbers 0, 1, or 2 (equal to YES, NO or PARTIAL) \\ \hline
+sample\_name & Attribute & The name of the sample for which the property assignment belongs to \\ \hline
+sample & Attribute & The sample object for which the property assignment belongs to \\ \hline
+step \_assignments & Attribute & A list of step assignment objects belonging to a single property \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{A list of methods, properties and attributes of StepAssignment objects.}
+\label{tab:stepassignmentobject}
+\begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+step \_assignment \_identifier & Attribute & A unique numeric identifier for a step assignment of a single sample \\ \hline
+property \_assignment \_identifier & Attribute & The genome property identifier for which the step belongs to as a number (e.g. the 0078 of GenProp0078) \\ \hline
+number & Attribute & The step's number \\ \hline
+property \_assignment & Attribute & The property assignment object for which the step assignment belongs to \\ \hline
+interproscan \_matches & Attribute & A list of interproscan match objects which support the existence of property assignment \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{A list of methods, properties and attributes of InterProScanMatch objects.}
+\label{tab:interproscanannotationobject}
+\begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+interproscan \_match \_identifier & Attribute & A unique numeric identifier for an interproscan annotation of a single protein sequence \\ \hline
+sequence \_identifier & Attribute & The identifier of a protein sequence \\ \hline
+interpro \_signiture & Attribute & The InterPro consortium signature accession of a domain found in a protein sequence \\ \hline
+expected\_value & Attribute & The expected value of the match between a motif found in the protein and annotated domain \\ \hline
+step \_assignments & Attribute & A list of step assignment objects which are supported by the InterProScan annotation \\ \hline
+sequence & Attribute & The sequence object which the InterProScan annotation annotates. \\ \hline
+\end{tabular}
+\end{table}
+
+\begin{table}[!ht]
+\centering
+\caption{A list of methods, properties and attributes of Sequence objects.}
+\label{tab:sequenceobject}
+\begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
+\hline
+\textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
+identifer & Attribute & The identifier of a protein sequence \\ \hline
+sequence & Attribute & The protein sequence of the protein \\ \hline
+\end{tabular}
+\end{table}
+
+\subsection{Writing Micromeda Files}
+
+Both GenomePropertiesResults and GenomePropertiesResultsWithMatches objects provide \textbf{to\_assignment\_database} method. This method takes a SQLAlchemy engine object which can be created to point towards a SQLite3 or larger, process-based relational database. Once called this method converts the the results objects, pandas DataFrames to a series of SQLAlchemy objects detailed above and then use SQLAlchemy to write these objects to the database. Code for writing Micromeda files can be found below.
+
+\begin{lstlisting}[language=Python]  
+
+# A SQLAlchemy engine object can be created
+# for a variety of SQL databases
+engine = create_engine('sqlite:///data.micro')
+results.to_assignment_database(engine)
+
+\end{lstlisting}
+
+\subsection{Reading Micromeda Files}
+
+The reading of assignments from Micromeda files or databases is facilitated by the \textbf{load\\ \_assignment\_caches\_from\_database} and \textbf{load\_assignment\_caches\_from\_database \\ \_with\_matches} functions of Pyegenprop's results module. These functions produce lists of AssignmentCache, or AssignmentCacheWithMatches objects , respectively. These lists are then be combined to form GenomePropertiesResults or GenomePropertiesResultsWithMatches objects. Code for reading Micromeda files can be found below.
+
+\begin{lstlisting}[language=Python]  
+tree = parse_genome_properties_flat_file(properties_file_handle)
+engine = create_engine('sqlite:///data.micro')
+
+caches = load_assignment_caches_from_database_with_matches(engine)
+
+results = GenomePropertiesResultsWithMatches(*caches,          
+                                properties_tree=property_tree)
+\end{lstlisting}
+
+\section{Micromeda File Performance}
+
+For two samples consisting of 1877 and 1774 proteins a representative GenomePropertiesResultsWithMatches was generated. This object was found to be able to be serialized to a Micromeda file in 29.4 s ± 829 ms. This Micromeda file was found to be approximately one fifth the size of the original files used to create the GenomePropertiesResultsWithMatches objects (Fig. \ref{fig:micromedafilesize}). This Micromeda file was found to be able to be reconstituted back into GenomePropertiesResultsWithMatches object in 6.28 s ± 1.33 s. Though the speed to read Micromeda files was found to be sufficient, writing performance was found to be poor and should be further optimized. Currently, records for individual assignments, annotations and sequences are inserted one at a time into the micromeda file. Matching these inserts together before writing could further improve Micromeda file writing performance.
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.80\textwidth]{media/micromeda_file_size.pdf}
+	 \caption{Pathway analysis for two samples originally required the tracking of at least three types of files per organism. With Micromeda the information contained within these files is combined and reduced, allowing property assignment relevant information to be stored on one filth the disk space}
+	 \label{fig:micromedafilesize}
+\end{figure}
