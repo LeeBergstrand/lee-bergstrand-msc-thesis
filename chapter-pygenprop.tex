@@ -1,22 +1,32 @@
-\chapter{Development of a Python library for programmatic exploration and comparison of organism genome properties}
+\chapter{Development of a Python library for Programmatic Exploration and Comparison of Organism Genome Properties}
 
-Introduction text..
+During the development of Micromeda's server component, we recognized that it would be useful to have a software library to assist in the programmatic usage of the Genome Properties database. This library would be used to access the database's information, assign levels of support to individual properties and compare these assignments between organisms. A vital component of the thesis work was the development of this library, called Pygenprop \cite{bergstrand2019pygenprop}. Pygenprop is a Python library which provides an object-oriented framework \cite{booch1986object} for representing the Genome Properties database and assessing the property assignments of multiple organisms. It is deeply integrated with the Python data science software stack \cite{scipystack} through its representation of property assignments as pandas DataFrames  \cite{mckinney2010data}. It is also interoperable with modern machine learning frameworks, opening up new use cases for pathway annotation data. In this chapter, we will review the structure and function of Pygenprop's core modules and the design decisions implemented during its creation. Pygenprop was recently published in Oxford Bioinformatics \cite{bergstrand2019pygenprop}.
 
 \section{Parsing the Genome Properties Database}
 
-The Genome Properties database consists of a series of flat files, whose individual property records are not indexed or connected. In all use cases, Pygenprop requires the information found within the Genome Properties database to perform its job. Before this information can be used by the library, it must be loaded into main memory. The intent of Pygenprop's parser is to read the database files from disk, load them into main memory, build connections between records found within and present the information contained to the rest of the library. 
+Before getting to the object-oriented programming aspects of Pygenprop, we must first discuss how it ingests data. In all use cases, Pygenprop requires the information found within the Genome Properties database to perform its job, and before the library can use this information, it must first be loaded into a computer's main memory.  This parsing of the Genome Properties database is the job of Pygenprop's Genome Properties database parser.
 
-\subsection{Overview of the Genome Properties flat file database and associated file formats}
+The Genome Properties database consists of a series of flat files, and the database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed or connected. 
 
-The Genome Properties database currently consists of a series of flat files which are hosted inside a Github Repository (see URL). Information about both public and non-public properties are hosted under this repository's \textbf{data} folder. Each property is assigned a single file folder which contains three files. A \textbf{DESC} file, which contains information about the property; a \textbf{status} file which contains information onto whether the property is public or has been manually curated; and a \textbf{FASTA} file \cite{pearson19905}, for properties whose steps are supported by InterProScan signatures, which contain representative protein sequences for each step of the property. In addition to the per-property folders contained within the repository's \textbf{data} folder, there is also a Genome Properties release file located in the \textbf{flatfiles} folder which also contains Genome Properties information. Specifically, this file, called \textbf{genomeProperties.txt}, is a concatenation of the \textbf{DESC} files for all public properties found in the repositories \textbf{data} folder and is created with each release of the Genome Properties database on Github. Below is simplified a folder structure for the Genome Properties Github repository.
+\subsection{Overview of the Genome Properties Flat File Database and Associated File Formats}
+
+The Genome Properties database (as of version 2.0) consists of a series of flat files which are hosted inside a Github repository (see \href{github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-properties}). Information about individual properties is stored in the repository's \textbf{data} folder, and within this folder, each property is assigned a second internal folder containing three files: 
+\begin{itemize}
+\item A \textbf{DESC} file, which contains information about the property
+\item A \textbf{status} file which contains information onto whether the property is public or has been manually curated
+\item A \textbf{FASTA} \cite{pearson19905} file containing representative protein sequences which carry out the steps a the property
+\end{itemize}
+The \textbf{data} folder contains information about both public and non-public genome properties. 
+
+In addition to the per-property folders, there is also a Genome Properties release file located in the \textbf{flatfiles} folder of the repository which also contains Genome Properties information. Specifically, this file, called \textbf{genomeProperties.txt}, is a concatenation of all the \textbf{DESC} files of all public properties. This file is created with each new release of the Genome Properties database on Github. Below is simplified a folder structure for the Genome Properties Github repository.
 
 \begin{verbatim}
-├── code/ - # Contains the Genome Properties Perl library.
+├── code/ - # The Genome Properties Perl library.
 ├── data/ - # Data about both public and private properties
 │ ├── GenProp0001/
 │ │ ├── DESC - # Detailed property information
-│ │ ├── FASTA - # Example sequences of proteins that carry out each step of the property
-│ │ └── status - # Contains public and manual curation statuses
+│ │ ├── FASTA - # Sequences of proteins that carry out steps
+│ │ └── status - # Public and manual curation status
 │ └── GenProp0002/
 │  ├── DESC
 │  ├── FASTA
@@ -25,7 +35,7 @@ The Genome Properties database currently consists of a series of flat files whic
  └── genomeProperties.txt
 \end{verbatim}
 
-Pygenprop contains a parser for parsing both the \textbf{DESC} files of single singular property folders and the concatenated \textbf{genomeProperties.txt} file. The format of each \textbf{DESC} file is very similar to the Stockholm sequence alignment format used by both the Pfam and Rfam databases \cite{bateman2004pfam, griffiths2003rfam} and as such the format consists of key value pairs. However, since these files use different keys than Stockholm a custom parser had to be developed. It is of note that the Genome Properties database format wraps every eighty characters. Thus, some key types which contain long sentences will be repeated for multiple lines. Below is an example \textbf{DESC} file and a summary of key types can be found in Table \ref{table:property-file-keys}.
+The Genome Properties database parser is capable of parsing both single \textbf{DESC} files of individual properties and the concatenated \textbf{genomeProperties.txt} release file. The format of \textbf{DESC} files is very similar to the Stockholm sequence alignment format used by both the Pfam and Rfam databases \cite{bateman2004pfam, griffiths2003rfam}. Like these file types, \textbf{DESC} files consist of a series of key-value pairs. However, since these files use different keys than Stockholm, and thus a custom parser had to be developed. It is of note that the Genome Properties database format wraps every eighty characters. Thus, some key types which contain long sentences are repeated for multiple lines and the parser has to unwrap these lines to prevent parsing errors. Below is an example \textbf{DESC} file and a summary of key types can be found in Table \ref{table:property-file-keys}.
 
 \begin{verbatim}
 AC GenProp0145
@@ -165,7 +175,7 @@ TG & Gene Ontology (GO) ID \\ \hline
 
 \subsection{Parser Implementation}
 
-Pygenprop's Genome Properties flat file parser can parse both single property \textbf{DESC} files and \textbf{genomeProperties.txt} database release files which contain information about multiple properties. It reads these files one line at a time to decrease memory usage, allowing for compatibility with low memory machines and increases in database size. While loading line by line, lines for each property are loaded into a Python list as they are encountered. Once a list for a single property is full, the key types which can take up multiple lines, such as property descriptions (see Table \ref{table:property-file-keys} and example file above), are collapsed to single key value pairs. These collapsed key-value pairs are then iterated and the data inside are used to create a series of in-memory objects representing the property. As individual property objects are created they are added to a list. Once parsing is completed, the parser places this list in a Genome Property Tree object which represents the connections in the database's DAG structure. This object is then returned from the parser.
+The database parser reads both \textbf{DESC} and \textbf{genomeProperties.txt} files one line at a time to decrease memory usage. This parsing method allows for compatibility with low memory machines and increases in database size that are greater than a computer's main memory. While loading line by line, lines for each property are loaded into a Python list as they are encountered. Once all keys for a single property are found, the key-value pairs of key types which can take up multiple lines, such as property descriptions (see Table \ref{table:property-file-keys} and example file above), are collapsed to single pairs. These collapsed key-value pairs are then iterated, and their values are used to create a series of in-memory objects representing the property. As individual property objects are generated, they are added to a second list. Once parsing is completed, the parser uses this list to create in a GenomePropertiesTree object which represents the database's rooted Directed Acyclic Graph structure. This object is then returned by the parser.
 
 \subsection{Parser Performance}
 
@@ -173,7 +183,7 @@ Pygenprop's Genome Properties flat file parser was found to be able to parse sin
 
 \section{Development of an Object-Oriented Class Framework for the Representation of the Genome Properties Database}
 
-As discussed in the previous chapter, the Genome Properties database consists of series of interdependent genome properties representing both metabolic and structural features of cells. Some properties are used as evidence of others forming parent child relationships between properties and an overall rooted directed acyclic graph structure (DAG). Pygenprop follows an object-oriented programming paradigm (cite XXX) and thus after parsing the Genome Properties database, Pygenprop instantiates a series of objects representing that information contained within the database (see Table \ref{tab:database-objects}, Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). These objects are connected to each other in a linked list fashion where objects point to each other. These connections are doubly linked which facilitates climbing both up and down the genome properties DAG and between genome property, step, functional element and evidence objects (Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). Individual methods and attributes of these objects can be used in software applications or used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail the Genome Properties database classes and how they can be used. 
+As discussed in the previous chapter, the Genome Properties database consists of series of interdependent genome properties representing both metabolic and structural features of cells. Some properties are used as evidence of others forming parent child relationships between properties and an overall rooted directed acyclic graph structure (DAG). Pygenprop follows an object-oriented programming paradigm \cite{booch1986object} (see \href{en.wikipedia.org/wiki/Object-oriented\_programming}{https://en.wikipedia.org/wiki/Object-oriented\_programming}) and thus after parsing the Genome Properties database, Pygenprop instantiates a series of objects representing that information contained within the database (see Table \ref{tab:database-objects}, Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). These objects are connected to each other in a linked list fashion where objects point to each other. These connections are doubly linked which facilitates climbing both up and down the genome properties DAG and between genome property, step, functional element and evidence objects (Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). Individual methods and attributes of these objects can be used in software applications or used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail the Genome Properties database classes and how they can be used. 
 
 \begin{longtable}{|p{4cm}|p{11cm}|}
 \caption{A summary of the object types used to represent the Genome Properties database.}
@@ -1017,7 +1027,7 @@ Before writing SQLAlchemy classes for relational database tables, SQL schema for
 	 \label{fig:micromedaschema}
 \end{figure}
 
-\subsubsection{SQLAlchemy Classes Used By Micromeda}
+\subsection{SQLAlchemy Classes Used By Micromeda}
 
 Pygenprop maintains five SQLAlchemy classes for representing relational tables and records. These objects represent individual property assignments, step assignments, InterProScan domain annotations and protein sequences. They are used to generate SQL statements for both creating SQL tables and queries through SQLAlchemy's object-relational mapping functionality. Attributes, Properties and Methods of these objects are detailed in Tables \ref{tab:sampleobject}, \ref{tab:propertyassignmentobject}, \ref{tab:stepassignmentobject}, \ref{tab:interproscanannotationobject}, \ref{tab:sequenceobject}.
 
@@ -1121,13 +1131,39 @@ results = GenomePropertiesResultsWithMatches(*caches,
                                 properties_tree=property_tree)
 \end{lstlisting}
 
-\section{Micromeda File Performance}
+\subsection{Micromeda File Performance}
 
 For two samples consisting of 1877 and 1774 proteins a representative GenomePropertiesResultsWithMatches was generated. This object was found to be able to be serialized to a Micromeda file in 29.4 s ± 829 ms. This Micromeda file was found to be approximately one fifth the size of the original files used to create the GenomePropertiesResultsWithMatches objects (Fig. \ref{fig:micromedafilesize}). This Micromeda file was found to be able to be reconstituted back into GenomePropertiesResultsWithMatches object in 6.28 s ± 1.33 s. Though the speed to read Micromeda files was found to be sufficient, writing performance was found to be poor and should be further optimized. Currently, records for individual assignments, annotations and sequences are inserted one at a time into the micromeda file. Matching these inserts together before writing could further improve Micromeda file writing performance.
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.80\textwidth]{media/micromeda_file_size.pdf}
-	 \caption{Pathway analysis for two samples originally required the tracking of at least three types of files per organism. With Micromeda the information contained within these files is combined and reduced, allowing property assignment relevant information to be stored on one filth the disk space}
+	 \caption{Pathway analysis for two samples originally required the tracking of at least three types of files per organism. With Micromeda the information contained within these files is combined and reduced, allowing property assignment relevant information to be stored on one filth the disk space.}
 	 \label{fig:micromedafilesize}
 \end{figure}
+
+\section{Development of an In-Memory Transfer Format for Property Assignments and Supporting Match Information}
+
+When writing software for pathway analysis it may be of interest to be able to rapidly transfer datasets between machines via memory-to-memory transfer. For example the transfer of datasets between machines which are part of a same high performance computing cluster. Pygenprop is capable of serializing GenomePropertyResultsWithMatches objects into at format optimized for this use case. In the use case of a format memory-to-memory transfer between machines the key performance metric is the serialization/deserialization speed of GenomePropertyResultsWithMatches to the format and the Message Pack (msgpack) format was selected to support this goal.
+
+\subsection{The Selection of Msgpack}
+
+Several formats were reviewed to support the network transfer of assignment and supporting match information transfer between machines. These included: JSON, Google Protocol Buffers (ProtoBuffs), and msgpack. JSON has been the gold standard for transferring information between computer systems for over a decade. However, JSON it is text format and in the past three years several binary alternatives such as ProtoBuffs and Msgpack have emerged that can store the same amount data in less space, allowing for faster transfers. In addition, these formats provide faster serialization/deserialization speed. JSON was rejected due to its spoor serialization/deserialization speed. Msgpack was selected over ProtoBuffs as it had higher compatibility with pandas. Specially, pandas provides methods, though experimental, for serializing DataFrames to msgpack.
+
+\subsection{Serialization and Deserialization of GenomePropertyResultsWithMatches to Msgpack}
+
+GenomePropertyResultsWithMatches objects have a method called \textbf{to\_msagpack} which supports serializing these objects to a msgpack binary stream. The serialization process simply involves calling pandas \textbf{to\_msgpack} function on the GenomePropertyResultsWithMatches object's pandas DataFrames. For deserialization, the process is run in reverse, using the function \textbf{load\_results\_from\_msgpack} of Pygenprop's results module, converting the msgpack binary stream to a GenomePropertyResultsWithMatches object. Code for serializing and deserializing GenomePropertyResultsWithMatches objects can be found below.
+
+\subsection{Msgpack Serialization and Deserialization Performance}
+
+For two samples consisting of 1877 and 1774 proteins a representative GenomePropertiesResultsWithMatches was generated. This object was found to be able to be serialized to a msgpack binary in 29.5 ms ± 270 µs and and deserialized in 54 ms ± 922 µs. The msgpack binary was found to take up 4.36 MB of memory. Both the speed of serialization and the memory used by message pack objects was determined to be sufficient. If lower memory usage is required the GenomePropertiesResultsWithMatches object's step matches DataFrame (Table \ref{tab:genomepropertyresultswithmatches}) could be normalized into two DataFrames, one for storing annotation information and another for storing sequencing information. The data in each of these DataFrames, even when added together, would be smaller than the previous step matches DataFrame since values such as sequences will only be stored once.
+
+\section{Verification and Automated Testing}
+
+Pygenprop has extensive end-to-end and unit tests for its codebase. There are currently 104 unit test written to test the functionality of the majority of code functions. These tests cover 94\% of lines in the codebase. End-to-end test for the libraries involves the creation JSON representations of a GenomePropertiesResults object created from the InterProScan results of two organisms. This test can be run using different versions of the Genome Properties database ensuring compatibility over time.
+
+\section{Future Improvements}
+
+
+
+\section{Summary}
