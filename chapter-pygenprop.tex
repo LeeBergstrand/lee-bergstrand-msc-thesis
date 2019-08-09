@@ -727,6 +727,7 @@ get\_property \_results & Method & Return a list of assignments of support for a
 get\_step\_results & Method & Return a list of assignments for all samples and for a given property step \\ \hline
 to\_json & Method & Serialize the results object to a JSON property tree with assignment results for each sample annotating each property node \\ \hline
 to\_assignment \_database & Method & Serialize the results object to a Micromeda SQLite database file (.micro) \\ \hline
+to\_msgpack & Method & Serialize the results object to a MessagePack binary string \\ \hline
 sample\_names & Property & Return the names of all organisms used in the creation of the results object. \\ \hline
 differing \_property \_results & Property & Return a pandas DataFrame of property assignments with properties whose assignments are the same across all samples filtered out \\ \hline
 differing\_step \_results & Property & Return a pandas DataFrame of step assignments with steps whose assignments are the same across all samples filtered out \\ \hline
@@ -1061,7 +1062,7 @@ Pygenprop uses SQLAlchemy to write assignment data and supporting match informat
 
 \subsection{The Schema of the Micromeda File Format}
 
-One of the core goals of Micromeda files is to store property assignments, step assignments and associated supporting information compactly as possible. This compactness is important as it allows users to keep files sizes, and thus transfer times, to a minimum allowing for quick dissemination of datasets. The optimizations which were chosen to support this goal of are listed below:
+As with all relational database schemas, Micromeda's schema consists of a series of data tables. These tables were designed in such a way as to store property assignments, step assignments and associated supporting information compactly as possible. This compactness is essential as it allows users to keep files sizes, and thus transfer times, to a minimum allowing for quick dissemination of datasets. The optimizations which were chosen to support this goal of are listed below:
 
 \begin{itemize}
 \item Only retain supporting information for steps which are assigned YES (as discussed in Section \ref{MatchConsiderations})
@@ -1194,26 +1195,32 @@ results = GenomePropertiesResultsWithMatches(*caches,
 
 \subsection{Micromeda File Performance}
 
-For two samples consisting of 1877 and 1774 proteins, a representative GenomePropertiesResultsWithMatches was generated. This object was found to be able to be serialized to a Micromeda file in 29.4 s \textpm 829 ms. This Micromeda file was found to be approximately one fifth the size of the original files used to create the GenomePropertiesResultsWithMatches objects (Fig. \ref{fig:micromedafilesize}). The same Micromeda file was found to be able to be reconstituted back into GenomePropertiesResultsWithMatches object in 6.28 s \textpm 1.33 s. Though the speed to read Micromeda files was found to be sufficient, writing performance was found to be weak and should be further optimized. Currently, records for individual assignments, annotations and sequences are inserted one at a time into the micromeda file. Batching these inserts together before writing could further improve Micromeda file writing performance.
+For two samples consisting of 1877 and 1774 proteins, a representative GenomePropertiesResultsWithMatches was generated. This object was found to be able to be serialized to a Micromeda file in 29.4 s \textpm 829 ms. This Micromeda file was found to be approximately one fifth the size of the original files used to create the GenomePropertiesResultsWithMatches objects (Fig. \ref{fig:micromedafilesize}). The same Micromeda file was found to be able to be reconstituted back into GenomePropertiesResultsWithMatches object in 6.28 s \textpm 1.33 s. Though the speed to read Micromeda files was found to be sufficient, writing performance was found to be weak and should be further optimized. Currently, records for individual assignments, annotations and sequences are inserted one at a time into the Micromeda file. Batching these inserts together before writing could further improve Micromeda file writing performance.
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.80\textwidth]{media/micromeda_file_size.pdf}
-	 \caption{Pathway analysis for two samples originally required the tracking of at least three types of files per organism. With Micromeda the information contained within these files is combined and reduced, allowing property assignment relevant information to be stored on one filth the disk space.}
+	 \caption{Pathway analysis for two samples previously required the tracking of at least six files. With Micromeda the information contained within these files is combined and reduced, allowing for property assignment and supporting information to be stored in a single file and in one filth the disk space.}
 	 \label{fig:micromedafilesize}
 \end{figure}
 
 \section{Development of an In-Memory Transfer Format for Property Assignments and Supporting Match Information}
 
-When writing software for pathway analysis it may be of interest to be able to rapidly transfer datasets between machines via memory-to-memory transfer. For example the transfer of datasets between machines which are part of a same high performance computing cluster. Pygenprop is capable of serializing GenomePropertyResultsWithMatches objects into at format optimized for this use case. In the use case of a format memory-to-memory transfer between machines the key performance metric is the serialization/deserialization speed of GenomePropertyResultsWithMatches to the format and the Message Pack (msgpack) format was selected to support this goal.
+When writing software for pathway analysis on High-Performance Computing (HPC) infrastructure, it may be of interest to be able to transfer pathway datasets between machines via memory-to-memory transfers. It may also be useful to be able to store pathway datasets in an in-memory cache to accelerate bioinformatics web application performance. Micromeda Server uses such a cache (Chapter XXX). GenomePropertyResultsWithMatches objects can be serialized into a format optimized for these use cases. A key performance metric for both of these use cases is serialization/deserialization speed of GenomePropertyResultsWithMatches objects to and from the format. The memory space taken up by the format is less of a concern. The format that we ultimately chose was MessagePack  \cite{furuhashi2013messagepack}(see \href{msgpack.org}{msgpack.org}).
 
-\subsection{Selection of Msgpack}
+\subsection{Selection of MessagePack}
 
-Several formats were reviewed to support the network transfer of assignment and supporting match information transfer between machines. These included: JSON, Google Protocol Buffers (ProtoBuffs), and msgpack. JSON has been the gold standard for transferring information between computer systems for over a decade. However, JSON it is text format and in the past three years several binary alternatives such as ProtoBuffs and Msgpack have emerged that can store the same amount data in less space, allowing for faster transfers. In addition, these formats provide faster serialization/deserialization speed. JSON was rejected due to its spoor serialization/deserialization speed. Msgpack was selected over ProtoBuffs as it had higher compatibility with pandas. Specially, pandas provides methods, though experimental, for serializing DataFrames to msgpack.
+Several formats were reviewed to support memory-to-memory transfer and in-memory caching of GenomePropertyResultsWithMatches objects. These included: JSON, Google Protocol Buffers \cite{varda2008protocol}, and MessagePack. JSON has been the gold standard for transferring information between computer systems, especially over the internet, for over a decade \cite{d4_softwareltd_2017}. However, JSON is a text format, and in the past decade, several binary alternatives such as ProtoBuffs and Msgpack have emerged that can store the same amount data in less space, allowing for faster transfers \cite{furuhashi2013messagepack,varda2008protocol,krebs_2017,cooper_2010,bengtsson_24AD}. These formats also have much better serialization performance than JSON \cite{krebs_2017,cooper_2010,bengtsson_24AD}. For Pygenprop, MessagePack was selected over Protocol Buffers since pandas provide built-in methods, though currently experimental, for serializing DataFrames directly to MessagePack. MessagePack also serializes four times faster than Protocol Buffers \cite{cooper_2010}.
 
 \subsection{Serialization and Deserialization of GenomePropertyResultsWithMatches to Msgpack}
 
-GenomePropertyResultsWithMatches objects have a method called \textbf{to\_msagpack} which supports serializing these objects to a msgpack binary stream. The serialization process simply involves calling pandas \textbf{to\_msgpack} function on the GenomePropertyResultsWithMatches object's pandas DataFrames. For deserialization, the process is run in reverse, using the function \textbf{load\_results\_from\_msgpack} of Pygenprop's results module, converting the msgpack binary stream to a GenomePropertyResultsWithMatches object. Code for serializing and deserializing GenomePropertyResultsWithMatches objects can be found below.
+GenomePropertyResults and GenomePropertyResultsWithMatches objects have a method called \textbf{to\_msgpack} which supports serialization of these objects to a MessagePack binary string. Internally, this function calls pandas' \textbf{to\_msgpack} function on a list of the object's pandas DataFrames (Tables \ref{tab:results-object} and \ref{tab:genomepropertyresultswithmatches}), returning a MessagePack binary. For deserialization, the process is run in reverse, using the function \textbf{load\_results\_from\_msgpack} of Pygenprop's results module, converting the MessagePack binary stream back to a GenomePropertyResultsWithMatches object. Code for serializing and deserializing GenomePropertyResultsWithMatches objects can be found below.
+
+\begin{lstlisting}[language=Python]  
+message = results.to_msgpack()
+
+new_results = load_results_from_msgpack(message)
+\end{lstlisting}
 
 \subsection{Msgpack Serialization and Deserialization Performance}
 
@@ -1221,11 +1228,17 @@ For two samples consisting of 1877 and 1774 proteins a representative GenomeProp
 
 \section{Verification and Automated Testing}
 
-Pygenprop has extensive end-to-end and unit tests for its codebase. There are currently 104 unit test written to test the functionality of the majority of code functions. These tests cover 94\% of lines in the codebase. End-to-end test for the libraries involves the creation JSON representations of a GenomePropertiesResults object created from the InterProScan results of two organisms. This test can be run using different versions of the Genome Properties database ensuring compatibility over time.
+To validate that property and step assignments of support were calculated correctly, the property and step assignments generated by Pygenprop were compared to those produced by the original Genome Properties Perl library. It was found that, based on a test proteome of 3,000 proteins, property assignments differed from those of the original Perl library by approximately 2.9\%, due to an error that we corrected Pygenprop (\href{https://github.com/ebi-pf-team/genome-properties/issues/30}{https://github.com/ebi-pf-team/genome-properties/issues/30}).
+
+The same test proteome, along with a second of similar size, were used to validate that assignments and supporting information did not change before and after serialization of GenomePropertiesResults and GenomePropertiesResultsWithMatches objects. We found that Pygenprop could correctly reconstitute these objects from both SQLite3 files and MessagPack binary strings.
+
+Pygenprop has extensive end-to-end and unit tests for its codebase. There are currently 104 unit tests which validate the functionality of the majority of code functions. These tests cover 94\% of lines in the Pygenprop's codebase. Pygenprop's end-to-end test involves the making of a JSON serialization of a GenomePropertiesResults object created from the InterProScan results of two organisms. This test can be run against newly released versions of the Genome Properties database to ensure compatibility over time. 
 
 \section{Future Improvements}
 
-TODO
+\subsection{}
+
+\subsection{Evaluation}
 
 \section{Summary}
 
