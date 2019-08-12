@@ -134,6 +134,13 @@
     urlcolor=black}
 }{} % end of ifthenelse (no else)
 
+ \usepackage{longtable}
+ \usepackage{listings}
+ \usepackage{lscape}
+ \usepackage{subcaption}
+ \usepackage{graphicx}
+ \usepackage{textcomp}
+
 \usepackage[automake,toc,abbreviations]{glossaries-extra} % Exception to the rule of hyperref being the last add-on package
 % If glossaries-extra is not in your LaTeX distribution, get it from CTAN (http://ctan.org/pkg/glossaries-extra), 
 % although it's supposed to be in both the TeX Live and MikTeX distributions. There are also documentation and 
@@ -240,6 +247,7 @@ description={Random vector: a location in n-dimensional Cartesian space, where e
 % Tip 4: Putting each sentence on a new line is a way to simplify later editing.
 %----------------------------------------------------------------------
 \input{chapter-introduction.tex}
+\input{chapter-pygenprop.tex}
 \input{chapter-observations.tex}
 
 %----------------------------------------------------------------------
