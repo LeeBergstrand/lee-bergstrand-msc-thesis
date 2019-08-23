@@ -1,4 +1,4 @@
-\chapter{Development of a Python library for Programmatic Exploration and Comparison of Organism Genome Properties}
+\chapter{Development of a Python library for Programmatic Exploration and Comparison of Organism Genome Properties} \label{Pygenprop}
 
 During the development of Micromeda's server component, we recognized that it would be useful to have a software library to assist in the programmatic usage of the Genome Properties database. This library would be used to access the database's information, assign levels of support to individual properties and compare these assignments between organisms. A vital component of the thesis work was the development of this library, called Pygenprop \cite{bergstrand2019pygenprop}. Pygenprop is a Python library that provides an object-oriented framework \cite{booch1986object} for representing the Genome Properties database and assessing the property assignments of multiple organisms. It is deeply integrated with the Python data science software stack \cite{scipystack} through its representation of property assignments as pandas DataFrames  \cite{mckinney2010data}. It is also interoperable with modern machine learning frameworks, opening up new use cases for pathway annotation data. Pygenprop additionally provides automation features for tracking the data used to generate property assignments and storing assignments for later use. Pygenprop was recently published in Oxford Bioinformatics \cite{bergstrand2019pygenprop}. In this chapter, we will review the structure and function of Pygenprop's core modules and the design decisions implemented during its creation.
 
@@ -8,7 +8,7 @@ Before getting to the object-oriented programming aspects of Pygenprop, we must 
 
 The Genome Properties database consists of a series of flat files, and the database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed or connected. 
 
-\subsection{Overview of the Genome Properties Flat File Database and Associated File Formats} \label{Genome-Properties-Files}
+\subsection{Overview of the Genome Properties Flat File Database and Associated File Formats} \label{Genome-Properties-Files} \label{genome-properties-files}
 
 The Genome Properties database (as of version 2.0) consists of a series of flat files that are hosted inside a Github repository (see \href{github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-properties}). Information about individual properties is stored in the repository's \textbf{data} folder, and within this folder, each property is assigned a second internal folder containing three files: 
 \begin{itemize}
@@ -1192,7 +1192,7 @@ results = GenomePropertiesResultsWithMatches(*caches,
                                 properties_tree=property_tree)
 \end{lstlisting}
 
-\subsection{Micromeda File Performance}
+\subsection{Micromeda File Performance} \label{micromeda-file-performance}
 
 For two samples consisting of 1877 and 1774 proteins, a representative GenomePropertiesResultsWithMatches was generated. This object was found to be able to be serialized to a Micromeda file in 29.4 s \textpm 829 ms. This Micromeda file was found to be approximately one fifth the size of the original files used to create the GenomePropertiesResultsWithMatches objects (Fig. \ref{fig:micromedafilesize}). The same Micromeda file was found to be able to be reconstituted back into GenomePropertiesResultsWithMatches object in 6.28 s \textpm 1.33 s. Though the speed to read Micromeda files was found to be sufficient, writing performance was found to be weak and should be further optimized. Currently, records for individual assignments, annotations and sequences are inserted one at a time into the Micromeda file. Batching these inserts together before writing could further improve Micromeda file writing performance.
 
@@ -1245,7 +1245,7 @@ GenomeProperty objects and their related child objects (see Section \ref{genomep
 
 Throughout this chapter, the performance of different components of Pygenprop has been reviewed. Three of these performance numbers were found to be quite weak and should be addressed. These are the time taken the reading and writing Micromeda files and the time taken serializing GenomePropertiesResultsWithMatches objects to JSON. Micromeda's server component uses all three of these functions extensively, and they are a significant source of lag in Micromeda's web interface. Thus they should be optimized. Potential options for optimizing the above functionalities are detailed below.
 
-\subsubsection{Increasing the Speed of Reading and Writing Micromeda Files}
+\subsubsection{Increasing the Speed of Reading and Writing Micromeda Files} \label{micromeda-file-improvements}
 
 Currently, when writing Micromeda files, the pandas DataFrames inside of GenomePropertiesResultsWithMatches and GenomePropertiesResults objects are converted to a series of SQLAlchemy objects before writing (Section \ref{Genome-Properties-Files}). These objects are then used to write to the Micromeda file. There is some overhead to this conversion, and it may be the source of Pygenprop's poor writing performance. Further investigation will be required to determine if this is true. However, if it is found that there are no good options for speeding up this process, there are a few alternatives. These alternatives can be found below.
 
@@ -1255,7 +1255,7 @@ Another way get around the current poor read and write performance of Micromeda 
 
 Even if SQLite3 is ultimately not used for Micromeda's file format, the SQLAlchemy (Subsection \ref{sqlalchemy-classes}) classes developed for it are still useful. They provide a way to store large numbers of property assignments and supporting information in a process-based relational database such as PostgreSQL and can also be used to query such databases for particular pieces of data, such as individual protein sequence, without needing to reconstitute an entire GenomePropertiesResultsWithMatches object. This querying capability would be useful for analyzing massive datasets.
 
-\subsubsection{Increasing the Speed of JSON Serialization of GenomePropertiesResultsWithMatches}
+\subsubsection{Increasing the Speed of JSON Serialization of GenomePropertiesResultsWithMatches} \label{pygenprop-json-serialization}
 
 GenomePropertiesResultsWithMatches and GenomePropertiesResults objects can be serialized to JSON using these object's \textbf{to\_json} method (Table \ref{tab:results-object}). This method produces a JSON string with a tree of genome property nodes, one node for each property in the Genome Properties tree. Each of these genome property nodes is tagged with a list of assignment results (YES, NO, and PARTIAL) for each organism used to create the original Results object. In the current implementation of \textbf{to\_json}, the Results object's \textbf{get\_property\_result} (Table Table \ref{tab:results-object}) method is called during each node's creation. It turns out that this function is quite slow due to a limitation in pandas. During the execution of the  \textbf{to\_json} method, this method is called over a thousand times, once for each genome property in the database, slowing down JSON creation drastically. The speed of \textbf{to\_json}  could be increased in two ways, that are detailed below.
 
