@@ -285,7 +285,7 @@ Out: List of literature reference objects
 
 \subsection{The DatabaseReference Class}
 
-The DatabaseReference class allows for the creation of objects that link a property to equivalent records in other pathway databases such as KEGG \cite{kanehisa2000kegg} and MetaCyc \cite{karp2002MetaCyc}. These objects are children of GenomeProperty objects (Fig. \ref{fig:propertytree}). For example, in the case of GenProp0145 (Histidine degradation to glutamate), the GenomeProperty object would have two child DatabaseReference objects. One for the equivalent KEGG pathway (map00340) and another for the equivalent MetaCyc pathway (PWY-5028). DatabaseReference objects can be used to build software that needs to provide links between pathways across multiple databases. A summary of the attributes of DatabaseReference objects can be seen in Table \ref{tab:database-reference-object} and example code below.
+The DatabaseReference class allows for the creation of objects that link a property to equivalent records in other pathway databases such as KEGG \cite{kanehisa2000kegg} and MetaCyc \cite{karp2002metacyc}. These objects are children of GenomeProperty objects (Fig. \ref{fig:propertytree}). For example, in the case of GenProp0145 (Histidine degradation to glutamate), the GenomeProperty object would have two child DatabaseReference objects. One for the equivalent KEGG pathway (map00340) and another for the equivalent MetaCyc pathway (PWY-5028). DatabaseReference objects can be used to build software that needs to provide links between pathways across multiple databases. A summary of the attributes of DatabaseReference objects can be seen in Table \ref{tab:database-reference-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \caption{The attributes of DatabaseReference objects.}
@@ -1043,7 +1043,7 @@ Micromeda's assignment results file format is based on SQLite3 \cite{owens2006de
 \item The fact that SQLite3 uses Structured Query Language (SQL) allowing for compatibility with larger server-based database systems such as MySQL \cite{dubois1999mysql} and PostgreSQL \cite{momjian2001postgresql, owens2006definitive}
 \end{itemize}
 
-\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity}
+\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity} \label{SQLAlchemy}l
 
 Traditional relational database management systems (DBMS) such as MySQL and PostgreSQL are server processes that continually run on a computer system (i.e. daemons \cite{martin2006computer}) waiting for input from other programs on the computer or human users \cite{dubois1999mysql, momjian2001postgresql}. They are designed to handle connections from hundreds of applications or users simultaneously, even across computer networks. Users or processes communicate with these DBMSs via a domain-specific language (DSL) called Structured Query Language (SQL) \cite{sql1987guide}. SQL is a standard language that can be used to interact with a verity of DBMS. It allows you to define the structure of a database, add and remove data, and query data \cite{sql1987guide}. In contrast to traditional databases, SQLite3 does not run as a server process, but in contrast, is a C library and associated file type that takes SQL strings as input and uses it to manipulate a single small file on disk \cite{owens2006definitive}.
 
