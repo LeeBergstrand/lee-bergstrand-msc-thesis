@@ -1,10 +1,24 @@
-\chapter{Development of a Web-Based Visualization Tool for the Comparison of Organism Genome Properties}
+\chapter{Development of a Web-Based Visualization Tool for the Comparison of Organism Genome Properties} \label{micromeda-client}
 
-As discussed in Chapter XXX, Micromeda's web visualizations interface consists of a web client backed by a separate server process. This server provides a series of web API endpoints (Section XXX) from which the client can acquire data about the genome properties possessed by multiple organisms. The role of the client is to visualize this data and provide a user interface for exploring it. The client is capable of visualizing data from uploaded Micromeda files. As discussed in Section XXX, these file contain not only property and step assignments for multiple organisms but also the protein sequences and domain annotations used to make these assignments. The client provides a way to upload these files to the server in addition to its visualization capability. In this chapter we will discuss the client web application in detail.
+As discussed in Chapter \ref{micromeda-server}, Micromeda's web visualizations interface consists of a web client backed by a separate server process. This server provides a series of web API endpoints (Section \ref{endpoints}) from which the client can acquire data about the genome properties possessed by multiple organisms. The role of the client is to visualize this data and provide a user interface for exploring it. The client is capable of visualizing data from uploaded Micromeda files. As discussed in Section \ref{MicromedaFiles}, these file contain not only property and step assignments for multiple organisms but also the protein sequences and domain annotations used to make these assignments. The client provides a way to upload these files to the server in addition to its visualization capability. In this chapter we will discuss the client web application in detail. This client is called called Micromeda-Client.
 
-\section{Visual Analysis and Design}
+\section{Visualization Design}
 
+\subsection{An Overview of Genome Properties Data}
 
+The data to be presented by Micromeda-Client consists of two types: assignment data and property hierarchy data. Both of these datasets differ in their basal data types and are discussed individually below. Future versions of the Micromeda-Client may also add a third data type, InterProScan domain annotation E-value scores, as discussed in Section \ref{client-improvements}.
+
+\subsubsection{Property Hierarchy Data}
+
+Individual genome properties are linked together through parent-child relationships \cite{richardson2018genome}. Such relationships are hierarchical in nature. In addition, step are children of properties, adding another layer of hierarchical data. Both of these data are provided to the Micromeda-Client, via Micromeda-Server, from a \textbf{genomeProperties.txt} file (see Subsection \ref{Genome-Properties-Files}) containing a release of the Genome Properties database.
+
+\subsubsection{Assignment Data}
+
+Micromeda-Client, through Micromeda-Server, has access to both the assignments of support for both genome properties and property steps across multiple organisms. Such assignments provided by user uploaded Micromeda files (Section \ref{MicromedaFiles}). Such assignments are ordinal data \cite{richardson2018genome,agresti2010analysis}, as assignments YES, PARTIAL and NO are ordered. An assignment of YES lends more support than an assignment of PARTIAL and an assignment of PARTIAL lends more support than an assignment of NO. Together such assignments provide informations about the presence and absence of genome properties across organisms.
+
+\subsection{The Use Cases for the Genome Properties Visualization}
+
+\subsection{How Should Genome Properties Data Be Visualized}
 
 \section{Delivery Methodology}
 
@@ -16,6 +30,6 @@ As discussed in Chapter XXX, Micromeda's web visualizations interface consists o
 
 \section{Deployment}
 
-\section{Future Improvements}
+\section{Future Improvements} \label{client-improvements}
 
 \section{Summary} 
