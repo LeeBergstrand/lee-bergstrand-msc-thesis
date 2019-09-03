@@ -4,9 +4,11 @@ As discussed in Chapter \ref{micromeda-server}, Micromeda's web visualizations i
 
 \section{Visualization Design}
 
+The core goal of Micromeda-Client is to provide visualization of Genome Properties assignments, allowing users to compare and contrast both property and step assignments across multiple organisms.
+
 \subsection{An Overview of Genome Properties Data}
 
-The data to be presented by Micromeda-Client consists of two types: assignment data and property hierarchy data. Both of these datasets differ in their basal data types and are discussed individually below. Future versions of the Micromeda-Client may also add a third data type, InterProScan domain annotation E-value scores, as discussed in Section \ref{client-improvements}.
+The core data presented by Micromeda-Client consists of two types: assignment data and property hierarchy data. Both of these datasets differ in their basal data types and are discussed individually below. Future versions of the Micromeda-Client may also add a third data type, InterProScan domain annotation E-value scores, as discussed in Section \ref{client-improvements}.
 
 \subsubsection{Property Hierarchy Data}
 
@@ -34,21 +36,38 @@ When properties and step assignments are compared across organisms, a variety of
 	 \label{fig:client-analysis-types}
 \end{figure}
 
-\subsection{How Should Genome Properties Data Be Visualized?}
-
-To support the above use cases Micromeda-Client's visualization components must be able to allow perform operations below.
+To support the above use cases Micromeda-Client's visualization components must be able to allow users to perform the following tasks.
 
 \begin{itemize}
-\item Allow users to track assignments across organisms.
-\item Allow users assess the magnitude of given assignments.
-\item Allow users to aggregate step and property assignments into summaries.
-\item Allow users to explore how these aggregate assignments are derived.
-\item Allow users to quickly find assignments of interest.
+\item Track assignments across organisms.
+\item Assess the magnitude of given assignments.
+\item Aggregate step and property assignments into summaries.
+\item Explore how these aggregate assignments are derived.
+\item Quickly find assignments of interest.
 \end{itemize}
 
-A very apt visualization for Genome Properties assignments is a heat map (Fig. \ref{fig:client-analysis-types}). In such a visualization, cell position is used to indicate what assignment belongs to which property or step and which organism in a dataset. The magnitude of each assignment is encoded using color. Since assignments are ordinal data it makes sense to encode assignments using colour saturation, rather than hue. For Micromeda-Client we chose to use such a heat map. A heat map was chosen over competing visualization techniques such as bubble plots, circular maps or tree maps due to the number of variables in and nature of the data that needed to be plotted and the superior space utilization that heat maps have. Hear maps have superior space utilisation as compared to circular plots since the mimic the square dimensions of the computer monitors they are displayed on.
+\subsection{How Assignment Data Is Visualized By Micromeda-Server}
 
-When using The Genome Properties database is very large database and consists of 1296 properties and 6525 steps.
+A very apt visualization for Genome Properties assignments is a heat map (Fig. \ref{fig:client-analysis-types}) and this is the visualization technique used by Micromeda-Client. In such a visualization, cell position is used to indicate what assignment belongs to which property or step and which organism in a dataset. The magnitude of each assignment is encoded using color. Since assignments are ordinal data it makes sense to encode assignments using colour saturation, rather than hue. A heat map was chosen over competing visualization techniques such as bubble plots, circular maps or tree maps due to the number of variables and nature of the data that needed to be plotted and the superior space utilization properties of heat maps. Heat maps have superior space utilisation as compared to circular plots since the mimic the square dimensions of the computer monitors they are displayed on.
+
+The Genome Properties database is very large database consisting of 1296 properties and 6525 steps. If a single heat map was generated for all properties, with each cell being one 5 mm tall such a heat map would be approximately 6.5 meters tall (e.i., fifteen vertical pages on a 24" monitor). If the same heat map was made for property steps it would be over 32.6 meters tall (e.i, seventy-five vertical pages on a 24" monitor). If both property and step assignments were added to the same heat map it would even be larger. The shear size of such heat maps would users to quickly find assignments of interest or track assignments across organisms. Micromeda-Client's visualization addressee both of these issues by reducing the size of its assignment heat maps via interactive aggregation.
+
+Because the Genome Properties database's individual properties are arranged hierarchically, the assignments of properties closer to the root of the Genome Properties DAG (ref XXX) can be used can be used to summarize the assignments of properties closer to the leafs of the DAG. In the context of a heat map, this means that a row of assignments for a parent property could be used to summarize multiple rows of assignments for child properties. In addition, an assignment row of a leaf genome property can be used to summarize the assignment rows of its steps. Such summations aggregate assignment data allowing a shorter overall heat map. Micromeda-Client uses interactivity to allow users to create or remove such summations from its heat map. It also allows users to search the heat map for specific properties and, if these properties are not found (i.e., they are being summarized), change the heat map to allow these missing properties to be visualized.
+
+\section{Put Assignments in Context}
+
+In addition to raw property assignments, it may be useful 
+
+\section{The User Interface Design of Micromeda-Client}
+
+Micromeda-Client's user interface allows users to manipulate the contents of its assignment heat map, search for assignments for specific properties, learn more about genome properties for which assignments belong and download protein sequences which support property assignments. 
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=\textwidth]{media/visualization_design_philosphy.pdf}
+	 \caption{Micromeda-Client's user interface uses a clickable icicle diagram to change the state of an adjacent heat map of property and step assignments. Clicking nodes in the diagram changes the shape of the heat map by adding and removing rows from the diagram.}
+	 \label{fig:visualization-philosphy}
+\end{figure}
 
 \section{Delivery Methodology}
 
