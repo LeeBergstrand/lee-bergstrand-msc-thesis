@@ -106,7 +106,7 @@ The \textbf{get\_tree} endpoint provides the client with a JSON tree representin
 \end{figure}
 
 
-\subsection{The Get\_Single\_Genome\_Property\_Info Endpoint}
+\subsection{The Get\_Single\_Genome\_Property\_Info Endpoint} \label{get-property-info-endpoint}
 
 The \textbf{get\_single\_genome\_property\_info} endpoint takes a genome property identifier as a URL parameter (Table \ref{tab:endpoints}). This genome property identifier is used query for a matching GenomeProperty object (Section \ref{genome-property-class}), representing the property whose identifier is specified, from a global GenomePropertiesTree object (Section \ref{GenomePropertiesTree-Class}) created on Micromeda-Server's start up (Section \ref{server-workflow}). If found, this GenomeProperty object's \textbf{to\_json} method (Table \ref{tab:genome-property-object}) is called to create a JSON document containing property information that is returned by the endpoint. This JSON document includes the property name, property description, and a list of equivalent records from other databases (Table \ref{tab:genome-property-object}).
 
@@ -137,7 +137,7 @@ If a user wishes to install and run Micromeda-Server on their desktop or laptop 
 	 \label{fig:micromeda-small-deploy}
 \end{figure}
 
-\subsection{Single Server Deployment}
+\subsection{Single Server Deployment} \label{single-server-micromeda-deployment}
 
 If a user requires Micromeda-Server to handle multiple users simultaneously, such as would be the case if it was installed on a server computer system, a larger deployment must be used (Fig. \ref{fig:micromeda-medium-deploy}). This deployment type adds additional software layers that increase Micromeda-Server's scalability. As discussed in previous sections, multiple copies of Micromeda-Server's Python code must be run simultaneously to handle multiple client requests. This technique is done by putting the Micromeda-Server under the command of a master HTTP server that can route traffic to multiple copies of the code in separate processes (Fig. \ref{fig:micromeda-medium-deploy}). Such master HTTP servers include the Apache \cite{fielding1997apache} and NGINX \cite{reese2008nginx} HTTP servers. This master server handles the parsing of HTTP requests. In addition to the master server, a middleware component must also be used and handles the spawning of multiple copies of Micromeda-Server processes (Fig. \ref{fig:micromeda-medium-deploy}). Examples of software that can be used as middleware are uWSGI \cite{2019uwsgi} and gunicorn \cite{chesneau_2018}. All three components (i.e., HTTP server, middleware server and Micromeda-Server) communicate via Web Server Gateway Interface (WSGI) protocol \cite{gardner2009web}. As noted in Section \ref{redis-caching}, in this deployment type, Redis has to be used to cache GenomePropertiesResultsWithMatches objects between requests. All components of the above server are deployed on the same server computer system (Fig. \ref{fig:micromeda-medium-deploy}).
 
