@@ -188,7 +188,7 @@ One of the optimization suggestions in Subsubsection \ref{pygenprop-json-seriali
 	 \label{fig:new_endpoints}
 \end{figure}
 
-\subsection{Creation of an Endpoint for Returning Domain Annotation Supporting Property Steps}
+\subsection{Creation of an Endpoint for Returning Domain Annotation Supporting Property Steps} \label{e-value-endpoint}
 
 Micromeda files not only contain property and step assignments for a set of organisms but also contain additional information such as domain annotations and proteins sequences which support the existence of property steps. Micromeda-Server currently provides an endpoint for accessing protein sequences that support steps (see Subsection \ref{get-fasta-endpoint}). However, there are no endpoints for accessing the stored InterProScan annotations of these proteins. Specifically, these annotations contain E-value scores representing how closely the domain in the protein matches to a model of a representative domain in a protein database (see Section XXX). The E-value scores for these domains may be useful for client visualizations that compare not only the presence and absence of proteins which support property steps but also compare how close these matches are to existing domain models. Thus, it may be useful to create a new endpoint which returns domain annotation E-value scores for domains which support property steps (Fig. \ref{fig:new_endpoints}). This endpoint could generated its data from the \textbf{step\_matches} DataFrame of reconstituted GenomePropertiesResultsWithMatches objects.
 
