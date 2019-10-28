@@ -98,19 +98,19 @@ The bioinformatics system presented within this thesis, called Micromeda, is des
 
 \begin{figure}[!ht]
   \centering
+	\includegraphics[width=\textwidth]{media/micromeda-file-generation.pdf}
+	 \caption{Micromeda splits its computation into two components: a data generation step that creates Micromeda files and a visualisation step that involves the upload of this file to a remote server. The most computationally complex steps are not performed on the same computer as the visualisation.}
+	 \label{fig:micromeda-file-generation}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
 	\includegraphics[width=0.8\textwidth]{media/how-micromeda-files-are-built.pdf}
 	 \caption{Micromeda files are ultimately derived from InterProScan annotations of an organism's predicted proteins. The files contain both pathway annotations derived from these InterProScan proteins annotations as well as protein sequences. These files are uploaded to a remote server for visualization.}
 	 \label{fig:micromeda-file-building-and-use}
 \end{figure}
 
 The above Micromeda platform can be subdivided into two core components: a toolchain for generating Micromeda files (labelled Micromeda Annotator in Fig. \ref{fig:micromeda-file-generation}) and a web application for visualizing the data they contain (labelled Micromeda Visualizer in Fig. \ref{fig:micromeda-file-generation}). The individual steps for generating Micromeda files can be done manually using only three command-line tools (Fig. \ref{fig:micromeda-levels} and Fig. \ref{fig:micromeda-file-building-and-use}). For example, with prokaryotic genomes, Prodigal could be used to predict protein sequences from an organism's genome sequence, and InterProScan5 could be used to scan these proteins to identify enzymes that support the existence of specific pathways (Fig. \ref{fig:micromeda-file-building-and-use}). Afterwards, a Python script that uses the Pygenprop library could be used to convert the output from InterProScan and Prodigal into Micromeda files. This script would use both Pygenprop and a copy of the Genome Properties database (Fig. \ref{fig:micromeda-file-building-and-use}). An example of such a script can be found within Pygenprop's Github repository. An explicit automated software pipeline for generating Micromeda files does not currently exist. However, its potential implementation is discussed in Section XXX.
-
-\begin{figure}[!ht]
-  \centering
-	\includegraphics[width=\textwidth]{media/micromeda-file-generation.pdf}
-	 \caption{Micromeda splits its computation into two components: a data generation step that creates Micromeda files and a visualisation step that involves the upload of this file to a remote server. The most computationally complex steps are not performed on the same computer as the visualisation.}
-	 \label{fig:micromeda-file-generation}
-\end{figure}
 
 \subsection{Software Architecture Overview}
 
