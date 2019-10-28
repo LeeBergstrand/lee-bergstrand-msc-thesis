@@ -85,11 +85,11 @@ Leaf property steps have a different glyph at the bottom of their nodes that is 
 
 Micromeda-Client's interface also includes a reset button. This button resets the heat map and icicle diagram back to their starting configuration where only the top-level properties are shown (i.e., one level below the root of the Genome Properties DAG) to the user. Users can click this button to reset the diagram to allow them to search for other properties.
 
-\section{Delivery Methodology}
+\section{Delivery Methodology} \label{client-delivery-method}
 
 Micromeda-Client is delivered as a client web browser application. The method was chosen due to its relative ease of deployment. End users only need open the web address in order for the client to be loaded into their web browser and ran. Because the application is web browser-based, it will work on any operating systems with a modern web browser, including mobile devices such as tablet computers and cell phones.
 
-\section{Implementation}
+\section{Implementation} \label{client-implementation}
 
 Micromeda-Client's interface consists of two web pages that were structured using Hypertext Markup Language 5 (HTML5) \cite{HTML5}, styled using Cascading Style Sheets 3 (CSS3) \cite{CSS3}, and scripted via JavaScript (ECMAScript 6) \cite{flanagan2006javascript}. Users access one page for uploading user-generated Micromeda files, and another for presenting the visualizations of the file's data. To use Micromeda-Client, users must first navigate to the upload page and upload a Micromeda file. After the upload is complete, their browser will automatically redirect to the visualization page. Both pages are styled using the Bootstrap 3.0 CSS framework \cite{spurlock2013bootstrap}. Bootstrap is used to set up page elements such as header navigation bars and drop-down menus. Bootstrap also makes each page compatible with tablet computers and phones as it will automatically restyle non-visualization page elements fit on these smaller screens.
 
@@ -196,7 +196,7 @@ During end-user testing, users requested a way to identify assignments that diff
 
 Users also asked to be able to re-root the icicle diagram based on the assignments and child assignments of a specific property. For example, having the visualization show the property for iron metabolism and its children. This feature could be implemented by having a glyph on each node of the icicle diagram that, when clicked, allows for the diagram to be re-rooted at the node. In the future, this feature could be expanded for users to select multiple properties to display, for example by clicking three of the above glyphs and an interface button. Being able to perform selections in this way would allow users only to compare the assignments of two or more properties that are distant in the Genome Properties DAG.
 
-\section{Summary} 
+\section{Summary} \label{micromeda-client-summary}
 
 The web client of Micromeda allows users to visually explore and compare assignments for genome properties and their steps across organisms. It also provides information about these properties and steps and provides links between them and equivalent records in other databases. Due to the use of Micromeda files, it also allows users to download protein sequences that support the displayed assignments. These functionalities directly support the required tasks listed in Section \ref{visualization-design}.
 
