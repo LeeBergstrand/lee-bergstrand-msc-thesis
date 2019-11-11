@@ -6,172 +6,7 @@ During the development of Micromeda's server component, we recognized that it wo
 
 Before addressing the object-oriented programming aspects of Pygenprop, it is important to first discuss how it ingests data. In all use cases, Pygenprop requires the information found within the Genome Properties database and before the library can use this information, it must first be loaded into a computer's main memory (random-access memory or RAM). This parsing of the Genome Properties database is the job of Pygenprop's Genome Properties database parser.
 
-The Genome Properties database consists of a series of flat files. The database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed nor connected. 
-
-\subsection{Overview of the Genome Properties Flat File Database and Associated File Formats} \label{Genome-Properties-Files} \label{genome-properties-files}
-
-The Genome Properties database (as of version 2.0) consists of a series of flat files that are hosted inside a Github repository (see \href{github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-properties}). Information about individual properties is stored in the repository's \textbf{data} folder, and within this folder, each property is assigned a second internal folder containing three files: 
-\begin{itemize}
-\item A \textbf{DESC} file, that contains information about the property
-\item A \textbf{status} file that contains information onto whether the property is public or has been manually curated
-\item A \textbf{FASTA} \cite{pearson19905} file containing representative protein sequences that carry out the steps a the property
-\end{itemize}
-The \textbf{data} folder contains information about both public and non-public genome properties. 
-
-In addition to the per-property folders, there is also a Genome Properties release file located in the \textbf{flatfiles} folder of the repository that also contains Genome Properties information. Specifically, this file, called \textbf{genomeProperties.txt}, is a concatenation of all the \textbf{DESC} files of all public properties. This file is created with each new release of the Genome Properties database on Github. Below is simplified a folder structure for the Genome Properties Github repository.
-
-\begin{verbatim}
-├── code/ - # The Genome Properties Perl library.
-├── data/ - # Data about both public and private properties
-│ ├── GenProp0001/
-│ │ ├── DESC - # Detailed property information
-│ │ ├── FASTA - # Sequences of proteins that carry out steps
-│ │ └── status - # Public and manual curation status
-│ └── GenProp0002/
-│  ├── DESC
-│  ├── FASTA
-│  └── status
-└── flatfiles/
- └── genomeProperties.txt
-\end{verbatim}
-
-The Genome Properties database parser is capable of parsing both single \textbf{DESC} files of individual properties and the concatenated \textbf{genomeProperties.txt} release file. The format of \textbf{DESC} files is very similar to the Stockholm sequence alignment format used by both the Pfam and Rfam databases \cite{bateman2004pfam, griffiths2003rfam}. Like these file types, \textbf{DESC} files consist of a series of key-value pairs. Because these files use different keys than Stockholm, a custom parser had to be developed. It is of note that the Genome Properties database format wraps every eighty characters. Thus, some key types that contain long sentences are repeated for multiple lines and the parser must unwrap these lines to prevent parsing errors. Below is an example \textbf{DESC} file and a summary of key types can be found in Table \ref{table:property-file-keys}.
-
-\begin{verbatim}
-AC GenProp0145
-DE Histidine degradation to glutamate
-TP PATHWAY
-AU Haft DH
-TH 2
-RN [1]
-RM 2203753
-RT Nucleotide sequence of the gene encoding the repressor for the
-RT histidine utilization genes of Pseudomonas putida.
-RA Allison SL, Phillips AT;
-RL J Bacteriol. 1990;172:5470-5476.
-RN [2]
-RM 25559274
-RT Structure of N-formimino-L-glutamate iminohydrolase from Pseudomonas 
-RT aeruginosa.
-RA Fedorov AA, Martí-Arbona R, Nemmara VV, Hitchcock D, Fedorov EV, Almo SC, 
-RA Raushel FM;
-RL Biochemistry. 2015;54(3):890-7.
-DC Histidine Catabolism
-DR IUBMB; AminoAcid; His3;
-DC Histidine Metabolism
-DR KEGG; map00340;
-DC L-histidine degradation II
-DR MetaCyc; PWY-5028;
-CC This pathway is involved in histidine utilization system (hut). HutP is
-CC the first gene in the hut operon encoding the hutHUIG operator and a
-CC positive regulator of the operon, activated allostatically in the
-CC presence of L-histidine. HutC represses histidine utilization by binding 
-CC the regulatory sites for hutHUIG and hutF [1]. There are multiple
-CC variations in the histidine degradation pathway, including two possible 
-CC routes for the first step (either via histidine transaminase, or as in 
-CC this pathway, via histidine ammonia-lyase/histidase). L-histidine is 
-CC first converted to urocanate by hutH (histidine ammonia-lyase), that is 
-CC then converted to 4-imidazolone-5-propionate by hutU (urocanate 
-CC hydratase), and finally hydrolysed to N-formimino-L-glutamate by hutI 
-CC (imidazolonepropionate amidohydrolase). From here there are three 
-CC potential paths to glutamate. This property refers to the two-step 
-CC process found in some bacteria where N-formimino-L-glutamate is first 
-CC converted to N-formyl-l-glutamate by hutF (formimidoylglutamate 
-CC deiminase) and then hydrolyzed to L-glutamate by hutG 
-CC (N-formyl-l-glutamate deformylase)[2].
-** Evidence for steps 4 and 5 is the same.
---
-SN 1
-ID Histidine ammonia-lyase (hutH)
-DN Histidine ammonia-lyase/hutH (EC 4.3.1.3)
-RQ 1
-EV IPR005921; TIGR01225; sufficient;
-TG GO:0006548;
---
-SN 2
-ID Urocanate hydratase (hutU)
-DN Urocanate hydratase/hutU (EC 4.2.1.49)
-RQ 1
-EV IPR023637; TIGR01228; sufficient;
-TG GO:0006548;
---
-SN 3
-ID Imidazolonepropionase (hutI)
-DN Imidazolonepropionase/hutI (EC 3.5.2.7)
-RQ 1
-EV IPR005920; TIGR01224; sufficient;
-TG GO:0006548;
---
-SN 4
-ID Formimidoylglutamate deiminase/formiminoglutamase/glu-formyltransferase
-DN Formimidoylglutamate deiminase/hutF (EC 3.5.3.13)
-RQ 1
-EV IPR005923; TIGR01227; sufficient;
-TG GO:0006548;
-EV IPR010252; TIGR02022; sufficient;
-TG GO:0006548;
-EV IPR004227; TIGR02024; sufficient;
-TG GO:0006548;
---
-SN 5
-ID Formylglutamate deformylase/formiminoglutamase/glu-formyltransferase
-DN N-formylglutamate deformylase/hutG (EC 3.5.1.68)
-RQ 1
-EV IPR005923; TIGR01227; sufficient;
-TG GO:0006548;
-EV IPR010247; TIGR02017; sufficient;
-TG GO:0006548;
-EV IPR004227; TIGR02024; sufficient;
-TG GO:0006548;
---
-SN 6
-ID Histidine utilization repressor (hutC)
-DN Histidine utilization repressor/hutC
-RQ 0
-EV IPR010248; TIGR02018; sufficient;
-//
-\end{verbatim}
-
-% Please add the following required packages to your document preamble:
-% \usepackage{longtable}
-% Note: It may be necessary to compile the document several times to get a multi-page table to line up properly
-\begin{longtable}{|l|l|}
-\caption{Genome Properties \textbf{DESC} files use a variety of keys to provide information about a single property. The below table is copied from the Genome Properties database \href{genome-properties.readthedocs.io/en/latest/flatfile.html\#desc-file}{documentation}.}
-\label{table:property-file-keys}\\
-\hline
-\textbf{Key} & \textbf{Information Type} \\ \hline
-\endfirsthead
-%
-\multicolumn{2}{c}%
-{{\bfseries Table \thetable\ continued from previous page}} \\
-\hline
-\textbf{Key} & \textbf{Information Type} \\ \hline
-\endhead
-%
-AC & Accession ID \\ \hline
-DE & Description/name of Genome Property \\ \hline
-TP & Type \\ \hline
-AU & Author \\ \hline
-TH & Threshold \\ \hline
-RN & Reference number \\ \hline
-RM & PMID of reference \\ \hline
-RT & Reference title \\ \hline
-RA & Reference author \\ \hline
-RL & Reference citation \\ \hline
-DC & Database title \\ \hline
-DR & Database link \\ \hline
-PN & Parent accession ID \\ \hline
-CC & Property description \\ \hline
-** & Private notes \\ \hline
-– & Separator \\ \hline
-SN & Step number \\ \hline
-ID & Step ID \\ \hline
-DN & Step display name (includes EC number if available) \\ \hline
-RQ & Required step \\ \hline
-EV & Evidence (includes whether sufficient) \\ \hline
-TG & Gene Ontology (GO) ID \\ \hline
-// & End \\ \hline
-\end{longtable}
+The Genome Properties database consists of a series of flat files (see Section \ref{Genome-Properties-Files}). The database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed nor connected. 
 
 \subsection{Parser Implementation}
 
@@ -844,13 +679,7 @@ When generated from two AssignmentCache objects containing assignments for two b
 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to Include Supporting Match Information}
 
-Motifs are discrete patterns in a protein's sequence, that are often associated with the existence of a protein domain. A protein domain is conserved part of a protein's sequence that carries out a specific function for the protein and is evolutionarily conserved. These domains often generate discrete three-dimensional structures during folding of their parent protein. Domain annotation is the process of predicting the placement and function of domains in protein sequences. During the genomic analysis, it is common practice to perform domain annotation on an organism's predicted proteins.
-
-Domain annotations of an organism's proteins are created by finding similarities between motifs in an organism's proteins and previously seen motifs of domains from other proteins found in a protein database. If an organism and database motif are highly similar in protein sequence, they are said to form a match. The quality of this match can be quantified by metrics such as expected value (E-value) score. A match's E-value score captures how likely it is that the match is real given the chance of finding an equivalent match randomly in one of the organism's other proteins. If we determine that a match is of high quality, the motif in the organism's protein can be assigned the same name and function as the original domain motif the protein database.
-
-One tool for performing domain annotation of an organism's proteins is InterProScan, which predicts both the type and placement of domains in an organism's proteins and also provides supporting match information to justify its predictions. This supporting information includes E-value scores for matches and predicted domain start and stop points on the annotated protein. InterProScan takes a FASTA file \cite{pearson19905} containing an organism's predicted proteins as input and writes domain annotations and match data to tab-separated value (TSV) files.
-
-As mentioned in previous sections, Genome properties are assigned based on the presence of InterPro domains that can be used, either singly or in combination, to uniquely identify enzymes or protein structures that act as evidence for property steps. It may be the case that domains used as step evidences will be found in more than one protein of an organism. It may also be the case that some of these proteins may be false positives that may posses the identifying domain, or a similar domain, but do not carry out a genome property step. To filter out these false positives, researchers often want direct access to match information, such as E-value scores, held within an InterProScan file, so they can use it to filter matches further. Alternatively, users may want access to the entire sequence of proteins containing predicted domains so they can be analyzed more deeply. For example, the proteins that are predicted to possess a motif that supports the existence of a property step could be compared phylogenetically to reference proteins that are already known carry out this step in other organisms. Proteins that cluster tightly together on phylogenetic trees are more likely to possess the same function than proteins found to be an outgroup.
+As discussed in Chapter \ref{genome-properties}, Genome properties are assigned based on the presence of InterPro domains that can be used, either singly or in combination, to uniquely identify enzymes or protein structures that act as evidence for property steps. It may be the case that domains used as step evidences will be found in more than one protein of an organism. It may also be the case that some of these proteins may be false positives that may posses the identifying domain, or a similar domain, but do not carry out a genome property step. To filter out these false positives, researchers often want direct access to match information, such as E-value scores, held within an InterProScan file, so they can use it to filter matches further. Alternatively, users may want access to the entire sequence of proteins containing predicted domains so they can be analyzed more deeply. For example, the proteins that are predicted to possess a motif that supports the existence of a property step could be compared phylogenetically to reference proteins that are already known carry out this step in other organisms. Proteins that cluster tightly together on phylogenetic trees are more likely to possess the same function than proteins found to be an outgroup.
 
 Previously, with the Genome Properties Perl library, the information required to perform the above analyses were kept in four separate file types: 
 \begin{itemize}
@@ -879,7 +708,7 @@ AssignmentCacheWithMatches objects are generated by parsing a FASTA file \cite{p
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.80\textwidth]{media/assignmentcachewithmatches_creation.pdf}
+	\includegraphics[width=0.70\textwidth]{media/assignmentcachewithmatches_creation.pdf}
 	 \caption{AssignmentCacheWithMatches objects are generated from a FASTA file of an organism's proteins and and InterProScan TSV file of domain annotations of these proteins.}
 	 \label{fig:cachewithmatchescreation}
 \end{figure}
@@ -899,6 +728,8 @@ AssignmentCacheWithMatches objects are generated by parsing a FASTA file \cite{p
 %
 matches       & Attribute     & A pandas DataFrame containing domain annotation information and protein sequences for an organism \\ \hline
 \end{longtable}
+
+\pagebreak
 
 \subsection{The GenomePropertiesResultsWithMatches Class} \label{PropertyResultsWithMatches}
 
@@ -1042,7 +873,7 @@ Micromeda's assignment results file format is based on SQLite3 \cite{owens2006de
 \item SQLite3 uses Structured Query Language (SQL) allowing for compatibility with larger server-based database systems such as MySQL \cite{dubois1999mysql} and PostgreSQL \cite{momjian2001postgresql, owens2006definitive}
 \end{itemize}
 
-\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity} \label{SQLAlchemy}l
+\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity} \label{SQLAlchemy}
 
 Traditional relational database management systems (DBMS), such as MySQL and PostgreSQL, are server processes that continually run on a computer system (i.e., daemons \cite{martin2006computer}) waiting for input from other programs on the computer or human users \cite{dubois1999mysql, momjian2001postgresql}. They are designed to handle connections from hundreds of applications or users simultaneously, even across computer networks. Users or processes communicate with these DBMSs via a domain-specific language (DSL) called Structured Query Language (SQL) \cite{sql1987guide}. SQL is a standard language that can be used to interact with a verity of DBMSs. It allows a user to define the structure of a database, add and remove data and query data \cite{sql1987guide}. In contrast to traditional databases, SQLite3 does not run as a server process. In contrast, it is a C library and associated file type that takes SQL strings as input and uses it to manipulate a single small file on disk \cite{owens2006definitive}.
 
