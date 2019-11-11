@@ -6,7 +6,7 @@ During the development of Micromeda's server component, we recognized that it wo
 
 Before addressing the object-oriented programming aspects of Pygenprop, it is important to first discuss how it ingests data. In all use cases, Pygenprop requires the information found within the Genome Properties database and before the library can use this information, it must first be loaded into a computer's main memory (random-access memory or RAM). This parsing of the Genome Properties database is the job of Pygenprop's Genome Properties database parser.
 
-The Genome Properties database consists of a series of flat files. The database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed nor connected. 
+The Genome Properties database consists of a series of flat files (see Section \ref{Genome-Properties-Files}). The database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed nor connected. 
 
 \subsection{Parser Implementation}
 
@@ -679,13 +679,7 @@ When generated from two AssignmentCache objects containing assignments for two b
 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to Include Supporting Match Information}
 
-Motifs are discrete patterns in a protein's sequence, that are often associated with the existence of a protein domain. A protein domain is conserved part of a protein's sequence that carries out a specific function for the protein and is evolutionarily conserved. These domains often generate discrete three-dimensional structures during folding of their parent protein. Domain annotation is the process of predicting the placement and function of domains in protein sequences. During the genomic analysis, it is common practice to perform domain annotation on an organism's predicted proteins.
-
-Domain annotations of an organism's proteins are created by finding similarities between motifs in an organism's proteins and previously seen motifs of domains from other proteins found in a protein database. If an organism and database motif are highly similar in protein sequence, they are said to form a match. The quality of this match can be quantified by metrics such as expected value (E-value) score. A match's E-value score captures how likely it is that the match is real given the chance of finding an equivalent match randomly in one of the organism's other proteins. If we determine that a match is of high quality, the motif in the organism's protein can be assigned the same name and function as the original domain motif the protein database.
-
-One tool for performing domain annotation of an organism's proteins is InterProScan, which predicts both the type and placement of domains in an organism's proteins and also provides supporting match information to justify its predictions. This supporting information includes E-value scores for matches and predicted domain start and stop points on the annotated protein. InterProScan takes a FASTA file \cite{pearson19905} containing an organism's predicted proteins as input and writes domain annotations and match data to tab-separated value (TSV) files.
-
-As mentioned in previous sections, Genome properties are assigned based on the presence of InterPro domains that can be used, either singly or in combination, to uniquely identify enzymes or protein structures that act as evidence for property steps. It may be the case that domains used as step evidences will be found in more than one protein of an organism. It may also be the case that some of these proteins may be false positives that may posses the identifying domain, or a similar domain, but do not carry out a genome property step. To filter out these false positives, researchers often want direct access to match information, such as E-value scores, held within an InterProScan file, so they can use it to filter matches further. Alternatively, users may want access to the entire sequence of proteins containing predicted domains so they can be analyzed more deeply. For example, the proteins that are predicted to possess a motif that supports the existence of a property step could be compared phylogenetically to reference proteins that are already known carry out this step in other organisms. Proteins that cluster tightly together on phylogenetic trees are more likely to possess the same function than proteins found to be an outgroup.
+As discussed in Chapter \ref{genome-properties}, Genome properties are assigned based on the presence of InterPro domains that can be used, either singly or in combination, to uniquely identify enzymes or protein structures that act as evidence for property steps. It may be the case that domains used as step evidences will be found in more than one protein of an organism. It may also be the case that some of these proteins may be false positives that may posses the identifying domain, or a similar domain, but do not carry out a genome property step. To filter out these false positives, researchers often want direct access to match information, such as E-value scores, held within an InterProScan file, so they can use it to filter matches further. Alternatively, users may want access to the entire sequence of proteins containing predicted domains so they can be analyzed more deeply. For example, the proteins that are predicted to possess a motif that supports the existence of a property step could be compared phylogenetically to reference proteins that are already known carry out this step in other organisms. Proteins that cluster tightly together on phylogenetic trees are more likely to possess the same function than proteins found to be an outgroup.
 
 Previously, with the Genome Properties Perl library, the information required to perform the above analyses were kept in four separate file types: 
 \begin{itemize}
@@ -714,7 +708,7 @@ AssignmentCacheWithMatches objects are generated by parsing a FASTA file \cite{p
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.80\textwidth]{media/assignmentcachewithmatches_creation.pdf}
+	\includegraphics[width=0.70\textwidth]{media/assignmentcachewithmatches_creation.pdf}
 	 \caption{AssignmentCacheWithMatches objects are generated from a FASTA file of an organism's proteins and and InterProScan TSV file of domain annotations of these proteins.}
 	 \label{fig:cachewithmatchescreation}
 \end{figure}
@@ -734,6 +728,8 @@ AssignmentCacheWithMatches objects are generated by parsing a FASTA file \cite{p
 %
 matches       & Attribute     & A pandas DataFrame containing domain annotation information and protein sequences for an organism \\ \hline
 \end{longtable}
+
+\pagebreak
 
 \subsection{The GenomePropertiesResultsWithMatches Class} \label{PropertyResultsWithMatches}
 
@@ -877,7 +873,7 @@ Micromeda's assignment results file format is based on SQLite3 \cite{owens2006de
 \item SQLite3 uses Structured Query Language (SQL) allowing for compatibility with larger server-based database systems such as MySQL \cite{dubois1999mysql} and PostgreSQL \cite{momjian2001postgresql, owens2006definitive}
 \end{itemize}
 
-\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity} \label{SQLAlchemy}l
+\subsection{The Usage of SQLAlchemy to Provide Expanded Database Connectivity} \label{SQLAlchemy}
 
 Traditional relational database management systems (DBMS), such as MySQL and PostgreSQL, are server processes that continually run on a computer system (i.e., daemons \cite{martin2006computer}) waiting for input from other programs on the computer or human users \cite{dubois1999mysql, momjian2001postgresql}. They are designed to handle connections from hundreds of applications or users simultaneously, even across computer networks. Users or processes communicate with these DBMSs via a domain-specific language (DSL) called Structured Query Language (SQL) \cite{sql1987guide}. SQL is a standard language that can be used to interact with a verity of DBMSs. It allows a user to define the structure of a database, add and remove data and query data \cite{sql1987guide}. In contrast to traditional databases, SQLite3 does not run as a server process. In contrast, it is a C library and associated file type that takes SQL strings as input and uses it to manipulate a single small file on disk \cite{owens2006definitive}.
 
