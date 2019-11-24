@@ -13,7 +13,7 @@
         \vspace*{1.0cm}
 
         \Huge
-        {\bf University of Waterloo E-Thesis Template for \LaTeX }
+        {\bf Micromeda: a pathway prediction pipeline and web visualization tool for functional comparisons of microbial genomes and metagenomes}
 
         \vspace*{1.0cm}
 
@@ -23,7 +23,7 @@
         \vspace*{1.0cm}
 
         \Large
-        Pat Neugraad \\
+        Lee Bergstrand \\
 
         \vspace*{3.0cm}
 
@@ -32,17 +32,17 @@
         presented to the University of Waterloo \\ 
         in fulfillment of the \\
         thesis requirement for the degree of \\
-        Doctor of Philosophy \\
+        Master of Science in \\
         in \\
-        Zoology \\
+        Biology \\
 
         \vspace*{2.0cm}
 
-        Waterloo, Ontario, Canada, 2017 \\
+        Waterloo, Ontario, Canada, 2020 \\
 
         \vspace*{1.0cm}
 
-        \copyright\ Pat Neugraad 2017 \\
+        \copyright\ Lee Bergstrand 2020 \\
         \end{center}
 \end{titlepage}
 
@@ -54,55 +54,7 @@
 % In a two-sided printing style, it also makes the next page a right-hand (odd-numbered) page, producing a blank page if necessary.
 
  
-% E X A M I N I N G   C O M M I T T E E (Required for Ph.D. theses only)
-% Remove or comment out the lines below to remove this page
-\begin{center}\textbf{Examining Committee Membership}\end{center}
-  \noindent
-The following served on the Examining Committee for this thesis. The decision of the Examining Committee is by majority vote.
-  \bigskip
-  
-  \noindent
-\begin{tabbing}
-Internal-External Member: \=  \kill % using longest text to define tab length
-External Examiner: \>  Bruce Bruce \\ 
-\> Professor, Dept. of Philosophy of Zoology, University of Wallamaloo \\
-\end{tabbing} 
-  \bigskip
-  
-  \noindent
-\begin{tabbing}
-Internal-External Member: \=  \kill % using longest text to define tab length
-Supervisor(s): \> Doris Johnson \\
-\> Professor, Dept. of Zoology, University of Waterloo \\
-\> Andrea Anaconda \\
-\> Professor Emeritus, Dept. of Zoology, University of Waterloo \\
-\end{tabbing}
-  \bigskip
-  
-  \noindent
-  \begin{tabbing}
-Internal-External Member: \=  \kill % using longest text to define tab length
-Internal Member: \> Pamela Python \\
-\> Professor, Dept. of Zoology, University of Waterloo \\
-\end{tabbing}
-  \bigskip
-  
-  \noindent
-\begin{tabbing}
-Internal-External Member: \=  \kill % using longest text to define tab length
-Internal-External Member: \> Deepa Thotta \\
-\> Professor, Dept. of Philosophy, University of Waterloo \\
-\end{tabbing}
-  \bigskip
-  
-  \noindent
-\begin{tabbing}
-Internal-External Member: \=  \kill % using longest text to define tab length
-Other Member(s): \> Leeping Fang \\
-\> Professor, Dept. of Fine Art, University of Waterloo \\
-\end{tabbing}
 
-\cleardoublepage
 
 % D E C L A R A T I O N   P A G E
 % -------------------------------
@@ -123,21 +75,19 @@ I understand that my thesis may be made electronically available to the public.
 
 \begin{center}\textbf{Abstract}\end{center}
 
-This is the abstract.
+Understanding the distribution of biochemical pathways across microorganisms is critical to understanding their evolution, ecology and industrial applicability. Advances in genome sequencing and pathway databases have made genomically predicting what pathways an organism possesses a common technique. Researchers are moving on to scaling such analyses towards comparing the presence and absence of pathways across multiple microbes from the same environment or lineage. However, performing such analyses at scale is currently bottlenecked by the sheer number of pathways per organism and the lack of powerful tools to facilitate such comparisons. 
 
-Vulputate minim vel consequat praesent at vel iusto et, ex delenit, esse euismod luptatum augue ut sit et eu vel augue autem feugiat, quis ad dolore. Nulla vel, laoreet lobortis te commodo elit qui aliquam enim ex iriure ea ullamcorper nostrud lorem, lorem laoreet eu ex ut vel in zzril wisi quis. Nisl in autem praesent dignissim, sit vel aliquam at te, vero dolor molestie consequat.
+This thesis presents a new set of tools, called Micromeda, that will assist users in making such extensive comparisons. Micromeda consists of three core components. These are Micromeda-Client, which generates interactive heat maps that allow users to perform visual pathway comparisons; Micromeda-Server, which provides data to Micromeda-Client; and Pygenprop, which allows users to perform programmatic comparisons of thousands of organisms pathways. Micromeda uses the Genome Properties database as its pathway information source. It is unique from other pathway databases because it maps directly between protein domains and pathway steps. The domains that the database uses are those from the InterPro consortium of protein databases. 
 
-Tation iriure sed wisi feugait odio dolore illum duis in accumsan velit illum consequat consequat ipsum molestie duis duis ut ullamcorper. Duis exerci odio blandit vero dolore eros odio amet et nisl in nostrud consequat iusto eum suscipit autem vero. Iusto dolore exerci, ut erat ex, magna in facilisis duis amet feugait augue accumsan zzril delenit aliquip dignissim at. Nisl molestie nibh, vulputate feugait nibh luptatum ea delenit nostrud dolore minim veniam odio volutpat delenit nulla accumsan eum vero ullamcorper eum. Augue velit veniam, dolor, exerci ea feugiat nulla molestie, veniam nonummy nulla dolore tincidunt, consectetuer dolore nulla ipsum commodo.
+With Micromeda, the process of discovering an organism's pathways begins with the domain annotation of an organism's proteins by InterProScan. These domain annotations are then combined with information from the Genome Properties database and are used to predict the organism pathways. This prediction of pathways from domain data is carried out by Pygenprop and results in the creation of a Micromeda file. This novel file type carries both pathway annotations for multiple organisms and the sequences of the proteins that support these annotations. In the context of the Genome Properties database, such pathways are referred to as genome properties, and pathway annotations are referred to as property assignments. The newly created Micromeda file can later be uploaded to Micromeda-Client and Server for heat map visualization.
 
-At nostrud lorem, lorem laoreet eu ex ut vel in zzril wisi. Suscipit consequat in autem praesent dignissim, sit vel aliquam at te, vero dolor molestie consequat eros tation facilisi diam dolor. Odio luptatum dolor in facilisis et facilisi et adipiscing suscipit eu iusto praesent enim, euismod consectetuer feugait duis. Odio veniam et iriure ad qui nonummy aliquip at qui augue quis vel diam, nulla. Autem exerci tation iusto, hendrerit et, tation esse consequat ut velit te dignissim eu esse eros facilisis lobortis, lobortis hendrerit esse dignissim nisl. Nibh nulla minim vel consequat praesent at vel iusto et, ex delenit, esse euismod luptatum.
+Pygenprop uses object orient programming techniques to represent the Genome Properties as a series of in-memory objects. These objects are used extensively within the property assignment process and to provide data that is transferred to Micromeda-Client via Micromeda-Server. The library is written in Python and also allows the programmatic comparison of pathways across organisms. Pygenprop's tight integration with the Python data science ecosystem, which results in it being compatible with many emerging data science and machine learning tools, lays the foundation for it becoming the backbone of a new generation of automated pathway analysis tools.
 
-Ut eum vero ullamcorper eum ad velit veniam, dolor, exerci ea feugiat nulla molestie, veniam nonummy nulla. Elit tincidunt, consectetuer dolore nulla ipsum commodo, ut, at qui blandit suscipit accumsan feugiat vel praesent. In dolor, ea elit suscipit nisl blandit hendrerit zzril. Sit enim, et dolore blandit illum enim duis feugiat velit consequat iriure sed wisi feugait odio dolore illum duis. Et accumsan velit illum consequat consequat ipsum molestie duis duis ut ullamcorper nulla exerci odio blandit vero dolore eros odio amet et.
+Micromeda-Server is a Python web server application that provides data from uploaded Micromeda files to Micromeda-Client. This data is presented in the form of a web Application Programming Interface (API). This API provides clients, such as Micromeda-Client, with access to property assignments and proteins sequences found within uploaded Micromeda files. The API can also provide information about individual pathways and the overall structure of the Genome Properties database.
 
-In augue quis vel diam, nulla dolore exerci tation iusto, hendrerit et, tation esse consequat ut velit. Duis dignissim eu esse eros facilisis lobortis, lobortis hendrerit esse dignissim nisl illum nulla minim vel consequat praesent at vel iusto et, ex delenit, esse euismod. Nulla augue ut sit et eu vel augue autem feugiat, quis ad dolore te vel, laoreet lobortis te commodo elit qui aliquam enim ex iriure. Ut ullamcorper nostrud lorem, lorem laoreet eu ex ut vel in zzril wisi quis consequat in autem praesent dignissim, sit vel. Dolore at te, vero dolor molestie consequat eros tation facilisi diam. Feugait augue luptatum dolor in facilisis et facilisi et adipiscing suscipit eu iusto praesent enim, euismod consectetuer feugait duis vulputate veniam et.
+Micromeda-Client is a web client application whose purpose is to provide interactive heat maps to users. These heat maps are used to compare pathways across organisms within a dataset. The interactivity of these heat maps allows for pathway annotations to be aggregated into summaries of multiple pathways or be disaggregated down to a step level. At a step level, users can see differences in the presence of pathways steps. Individual pathways of interested can also be looked up via text search. The heat map interface also allows for the download of protein sequences that support individual pathway steps across multiple organisms.
 
-Ad eros odio amet et nisl in nostrud consequat iusto eum suscipit autem vero enim dolore exerci, ut. Esse ex, magna in facilisis duis amet feugait augue accumsan zzril. Lobortis aliquip dignissim at, in molestie nibh, vulputate feugait nibh luptatum ea delenit nostrud dolore minim veniam odio. Euismod delenit nulla accumsan eum vero ullamcorper eum ad velit veniam. Quis, exerci ea feugiat nulla molestie, veniam nonummy nulla. Elit tincidunt, consectetuer dolore nulla ipsum commodo, ut, at qui blandit suscipit accumsan feugiat vel praesent.
-
-Dolor zzril wisi quis consequat in autem praesent dignissim, sit vel aliquam at te, vero. Duis molestie consequat eros tation facilisi diam dolor augue. Dolore dolor in facilisis et facilisi et adipiscing suscipit eu iusto praesent enim, euismod consectetuer feugait duis vulputate.
+Rather than having to spend time reviewing spreadsheets of pathway annotations or using existing ineffectual pathway annotation visualization software, researchers can now perform their analyses using Micromeda's streamlined and efficient heat maps. For enormous datasets, Pygenprop can be used to compare the predict pathways of thousands of organisms. Micromeda has the potential for shaping the way that future researchers perform pathway analysis.
 
 \cleardoublepage
 
@@ -147,14 +97,6 @@ Dolor zzril wisi quis consequat in autem praesent dignissim, sit vel aliquam at 
 \begin{center}\textbf{Acknowledgements}\end{center}
 
 I would like to thank all the little people who made this thesis possible.
-\cleardoublepage
-
-% D E D I C A T I O N
-% -------------------
-
-\begin{center}\textbf{Dedication}\end{center}
-
-This is dedicated to the one I love.
 \cleardoublepage
 
 % T A B L E   O F   C O N T E N T S
