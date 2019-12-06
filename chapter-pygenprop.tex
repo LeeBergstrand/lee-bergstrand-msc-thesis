@@ -1,58 +1,58 @@
 \chapter{Development of a Python library for Programmatic Exploration and Comparison of Organism Genome Properties} \label{Pygenprop}
 
-During the development of Micromeda's server component, it was recognized that it would be useful to have a software library to assist with programmatic usage of the Genome Properties database. This library would be used to access the database's information, assign levels of support to individual properties and compare these assignments between organisms. A vital component of the thesis work was the development of this library, called Pygenprop \cite{bergstrand2019pygenprop}. Pygenprop is a Python library that provides an object-oriented framework \cite{booch1986object} for representing the Genome Properties database and assessing the property assignments of multiple organisms. It is deeply integrated with the Python data science software stack \cite{scipystack} through its representation of property assignments as pandas DataFrames \cite{mckinney2010data}. It is also interoperable with modern machine learning frameworks, opening up new use cases for pathway annotation data. Pygenprop additionally provides automation features for tracking the data used to generate property assignments and storing assignments for later use. Pygenprop was recently published in Oxford Bioinformatics \cite{bergstrand2019pygenprop}. This chapter will review the structure and function of Pygenprop's core modules and the design decisions implemented during its creation.
+During the development of Micromeda's server component, it was recognized that it would be useful to have a software library to assist with programmatic usage of the Genome Properties database. This library would be used to access the database's information, assign levels of support to individual properties and compare these assignments among organisms. A vital component of the thesis work was the development of this library, called Pygenprop. Pygenprop is a Python library that provides an object-oriented framework \cite{booch1986object} for representing the Genome Properties database and assessing the property assignments of multiple genomes. It is deeply integrated with the Python data science software stack \cite{scipystack} through its representation of property assignments as pandas DataFrames \cite{mckinney2010data}. It is also interoperable with modern machine learning frameworks, opening up new use cases for pathway annotation data. Pygenprop additionally provides automation features for tracking the data used to generate property assignments and storing assignments for later use. This chapter will review the structure and function of Pygenprop's core modules and the design decisions implemented during its creation.
 
 \section{Parsing the Genome Properties Database} \label{genome-properties-parser}
 
-Before addressing the object-oriented programming aspects of Pygenprop, it is important to first discuss how it ingests data. In all use cases, Pygenprop requires the information found within the Genome Properties database and before the library can use this information, it must first be loaded into a computer's \gls{ram}. This parsing of the Genome Properties database is the job of Pygenprop's Genome Properties database parser.
+Before addressing the object-oriented programming aspects of Pygenprop, it is important to first discuss how it imports data. In all use cases, Pygenprop requires the information found within the Genome Properties database and before the library can use this information, it must first be loaded into a computer's main memory (i.e., \gls{ram}). This parsing of the Genome Properties database is the job of Pygenprop's Genome Properties database parser.
 
 The Genome Properties database consists of a series of flat files (see Section \ref{Genome-Properties-Files}). The database parser module loads these files from disk and encodes the information contained within them in a tree-like data structure. The layout of this data structure is detailed in the next section. A secondary goal of the parser is to build connections between individual properties as the database consists of a series of flat files, whose individual property records are not indexed nor connected. 
 
 \subsection{Parser Implementation}
 
-The database parser reads both \textbf{DESC} and \textbf{genomeProperties.txt} files one line at a time to decrease memory usage. While loading line by line, lines are split into key-value pairs and loaded into a Python list as they are encountered. Once all keys for a single property are found, the key-value pairs are used to create a series of in-memory Python objects representing the property. In the case of \textbf{genomeProperties.txt} release files, Pygenprop repeats this process for all property records in the file, placing each in a Python list. \footnote{Note that capital letters are used to differentiate objects and classes from the concepts they represent. For example \textbf{GenomeProperty} objects represent individual genome properties and \textbf{Step} objects represent individual property steps.} Once parsing is completed, this list is used to create a \textbf{GenomePropertiesTree} object that represents the database's rooted Directed Acyclic Graph structure. The parser then returns this final object.
+The database parser reads both \textbf{DESC} and \textbf{genomeProperties.txt} files one line at a time to decrease memory usage. While loading line by line, lines are split into key-value pairs and loaded into a Python list as they are encountered. Once all keys for a single property are found, the key-value pairs are used to create a series of in-memory Python objects representing the property. In the case of \textbf{genomeProperties.txt} release files, Pygenprop repeats this process for all property records in the file, placing each in a Python list. \footnote{Note that capital letters are used to differentiate objects and classes from the concepts they represent. For example \textbf{GenomeProperty} objects represent individual genome properties and \textbf{Step} objects represent individual property steps.} Once parsing is completed, this list is used to create a \textbf{GenomePropertiesTree} object that represents the database's rooted \gls{dag} structure. The parser then returns this final object.
 
 \subsection{Parser Performance}
 
-Pygenprop's Genome Properties flat file parser processes a single \textbf{DESC} file in 415 µs \textpm 5.59 µs on average and the latest release of the entire Genome Properties database (the \textbf{genomeProperties.txt} of release 2.0) in 242 ms \textpm 4.81 ms \footnote{Note that for the remainder of the document, unless otherwise noted, all performance tests were done on a Macbook Pro 13-inch, Late 2013 with an Intel Core i5-4258U 2.4 \gls{ghz} processor (2 \gls{cpu} cores, 4 threads, 3 \gls{mb} L3 cache), 16 \gls{gb} of \gls{ram} and a 256 \gls{gb}  PCIe SSD.}.
+Pygenprop's Genome Properties flat file parser processes a single \textbf{DESC} file in 415 µs \textpm 5.59 µs on average and the latest release of the entire Genome Properties database (the \textbf{genomeProperties.txt} of release 2.0) in 242 ms \textpm 4.81 ms \footnote{Note that for the remainder of the thesis, unless otherwise noted, all performance tests were done on a Macbook Pro (model A1502), with an Intel Core i5-4258U 2.4 \gls{ghz} processor (2 \gls{cpu} cores, 4 threads, 3 \gls{mb} L3 cache), 16 \gls{gb} of \gls{ram} and a 256 \gls{gb}  \gls{pcie} \gls{ssd}.}.
 
 \section{Development of an Object-Oriented Class Framework for the Representation of the Genome Properties Database} \label{genomeprop-oop}
 
 As discussed in the previous chapter, the Genome Properties database consists of a series of interdependent genome properties representing both metabolic and structural features of cells. Several properties are used as evidence of others, forming parent-child relationships between properties and an overall rooted \gls{dag} structure across the database. Pygenprop follows an object-oriented programming paradigm \cite{booch1986object} (see \href{en.wikipedia.org/wiki/Object-oriented\_programming}{en.wikipedia.org/wiki/Object-oriented\_programming}) and thus after parsing the Genome Properties database, Pygenprop represents the database as a series of in-memory objects (see Table \ref{tab:database-objects}, and Fig. \ref{fig:propertytree}) that contain information about individual properties (Fig. \ref{fig:property}). These objects are connected in a linked list fashion \cite{newell1957programming} (see \href{en.wikipedia.org/wiki/Linked\_list}{en.wikipedia.org/wiki/ Linked\_list}), where objects point to each other. These connections are doubly linked, which enables climbing both up and down the \gls{dag} and between GenomeProperty, Step, FunctionalElement and Evidence objects (Fig. \ref{fig:property} and Fig. \ref{fig:propertytree}). Methods and attributes of these objects can be used in software applications or explored interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. The below subsections detail Pygenprop's Genome Properties database classes and how they can be used. 
 
 \begin{longtable}{|p{4cm}|p{11cm}|}
-\caption{A summary of the object types used to represent the Genome Properties database.}
+\caption{Summary of the object types used to represent the Genome Properties database.}
 \label{tab:database-objects}\\
 \hline
-\textbf{Object Type} & \textbf{Description}                   \\ \hline
+\textbf{Object Type} & \textbf{What the Object Represents}                   \\ \hline
 \endfirsthead
 %
 \multicolumn{2}{c}%
 {{\bfseries Table \thetable\ continued from previous page}} \\
 \hline
-\textbf{Object Type} & \textbf{Description}                   \\ \hline
+\textbf{Object Type} & \textbf{What the Object Represents}                   \\ \hline
 \endhead
 %
-Tree     & Encapsulates a \gls{dag} of genome property objects             \\ \hline
-Genome Property  & Represents an individual genome property              \\ \hline
-Literature Reference & Represents an article discussing a genome property           \\ \hline
-Database Reference & Represents a record in an external pathway database that is equivalent to a genome property \\ \hline
-Step     & Represents a step supporting the existence of a genome property        \\ \hline
-Functional Element & Represents a functional element supporting the existence of a step       \\ \hline
-Evidence    & Represents an evidence supporting the existence of a functional element      \\ \hline
+Tree     &  Genome Properties \gls{dag}             \\ \hline
+Genome Property  & Single genome property              \\ \hline
+Literature Reference & Article discussing a genome property           \\ \hline
+Database Reference & Record in an external pathway database that is equivalent to a genome property \\ \hline
+Step     & Step supporting the existence of a genome property        \\ \hline
+Functional Element & Functional element supporting the existence of a step       \\ \hline
+Evidence    & Evidence supporting the existence of a functional element      \\ \hline
 \end{longtable}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.70\textwidth]{media/Figure_1A.eps}
-	 \caption{Several property objects are the children of others. Database reference, literature reference and step objects are children of property objects. Figure is from \cite{bergstrand2019pygenprop}.}
+	 \caption{Several property objects are the children of others. Database reference, literature reference and step objects are children of property objects.}
 	 \label{fig:propertytree}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.90\textwidth]{media/Figure_1B.eps}
-	 \caption{Each property is supported by step, functional element, and evidence objects. Figure is from \cite{bergstrand2019pygenprop}.}
+	 \caption{Each property is supported by step, functional element, and evidence objects.}
 	 \label{fig:property}
 \end{figure}
 
@@ -61,7 +61,7 @@ Evidence    & Represents an evidence supporting the existence of a functional el
 The GenomeProperty class creates a blueprint for objects that represent individual genome properties. Once instantiated, these objects possess properties (i.e., attributes whose return value is generated by a function) and attributes that represent data about the property. This information mirrors that provided in the genome property's \textbf{DESC} file before parsing. Information about property steps, database references and literature references have been abstracted into separate classes. A summary of the methods, properties, and attributes of GenomeProperty objects can be seen in Table \ref{tab:genome-property-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The methods, properties, and attributes of GenomeProperty objects.}
+\caption{Methods, properties, and attributes of GenomeProperty objects.}
 \label{tab:genome-property-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
@@ -96,10 +96,10 @@ parents & Attribute & A list of parent genome properties objects representing pr
 \begin{lstlisting}[language=Python]
 
 property.id
-Out: 'GenProp0144'
+Out: GenProp0144
 	
 property.name
-Out: 'Chlorophyllide a biosynthesis from protoporphyrin IX'
+Out: Chlorophyllide a biosynthesis from protoporphyrin IX
 
 property.parents
 Out: List of parent property objects
@@ -120,10 +120,10 @@ Out: List of literature reference objects
 
 \subsection{The DatabaseReference Class}
 
-The DatabaseReference class allows for the creation of objects that link a property to equivalent records in other pathway databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc \cite{karp2002metacyc}. These objects are children of GenomeProperty objects (Fig. \ref{fig:propertytree}). For example, in the case of GenProp0145 (Histidine degradation to glutamate), the GenomeProperty object would have two child DatabaseReference objects. One for signifying the equivalent \gls{kegg} pathway (e.g., map00340) and another for the equivalent MetaCyc pathway (e.g., PWY-5028). DatabaseReference objects can be used to build software that needs to provide links between pathways across multiple databases. A summary of the attributes of DatabaseReference objects can be seen in Table \ref{tab:database-reference-object} and example code below.
+The DatabaseReference class allows for the creation of objects that link a property to equivalent records in other pathway databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc \cite{karp2002metacyc}. These objects are children of GenomeProperty objects (Fig. \ref{fig:propertytree}). For example, in the case of GenProp0145 (histidine degradation to glutamate), the GenomeProperty object would have two child DatabaseReference objects. One is for signifying the equivalent \gls{kegg} pathway (e.g., map00340) and another for the equivalent MetaCyc pathway (e.g., PWY-5028). DatabaseReference objects can be used to build software that needs to provide links between pathways across multiple databases. A summary of the attributes of DatabaseReference objects can be seen in Table \ref{tab:database-reference-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The attributes of DatabaseReference objects.}
+\caption{Attributes of DatabaseReference objects.}
 \label{tab:database-reference-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description}                  \\ \hline
@@ -147,14 +147,14 @@ record\_ids & Attribute  & The identifier of the record in the external database
 reference = property.databases[0]
 	
 reference.database_name
-Out: 'MetaCyc'
+Out: MetaCyc
 
 reference.record_title
-Out: 'Pathway: 3,8-divinyl-chlorophyllide a biosynthesis III'
+Out: Pathway: 3,8-divinyl-chlorophyllide a biosynthesis III
 
 # Returns a list to handle cases where there are multiple identifiers.
 reference.record_ids[0] 
-Out: 'PWY-7159'
+Out: PWY-7159
 
 \end{lstlisting}
 
@@ -163,7 +163,7 @@ Out: 'PWY-7159'
 The LiteratureReference class lays out the foundation for objects that represent scientific articles that support the existence of a property, such as a review summarizing current knowledge of a metabolic pathway. Once instantiated, LiteratureReference objects are children of GenomeProperty objects (Fig. \ref{fig:propertytree}). A summary of the attributes of LiteratureReference objects can be seen in Table \ref{tab:literature-reference-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The attributes of LiteratureReference objects.}
+\caption{Attributes of LiteratureReference objects.}
 \label{tab:literature-reference-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description}     \\ \hline
@@ -189,13 +189,13 @@ citation  & Attribute  & A citation for the literature reference for the propert
 reference = property.references[0]
 	
 reference.pubmed_id
-Out: '17370354'
+Out: 17370354
 
 reference.title
-Out: 'Recent advances in chlorophyll biosynthesis.'
+Out: Recent advances in chlorophyll biosynthesis.
 
 reference.citation
-Out: 'Photosynth Res. 2006;90(2):173-194.'
+Out: Photosynth Res. 2006;90(2):173-194.
 
 \end{lstlisting}
 
@@ -204,7 +204,7 @@ Out: 'Photosynth Res. 2006;90(2):173-194.'
 The Step class is used to generate objects representing individual genome property steps. They are children of parent GenomeProperty objects and have FunctionalElements objects as children (Fig. \ref{fig:property}). A summary of the properties and attributes of Step objects can be seen in Table \ref{tab:step-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The properties and attributes of Step objects.}
+\caption{Properties and attributes of Step objects.}
 \label{tab:step-object}\\
 \hline
 \textbf{Name}   & \textbf{Type} & \textbf{Description}                             \\ \hline
@@ -234,31 +234,31 @@ functional \_elements & Attribute  & A list of FunctionalElement objects that ar
 step = property.steps[0]
 	
 step.number
-Out: '1'
+Out: 1
 
 step.name
-Out: 'Magnesium-chelatase subunit ChlD (EC 6.6.1.1)'
+Out: Magnesium-chelatase subunit ChlD (EC 6.6.1.1)
 
 step.required
-Out: 'True'
+Out: True
 
 step.interpro_identifiers
-Out: 'A list of InterPro identifiers (e.g. IPR011776)'
+Out: A list of InterPro identifiers (e.g. IPR011776)
 
 step.consortium_identifiers 
-Out: 'A list of consortium signature identifiers (e.g. TIGR02031)'
+Out: A list of consortium signature identifiers (e.g. TIGR02031)
 
 step.functional_elements
-Out: 'A list of functional element objects'
+Out: A list of functional element objects
 
 \end{lstlisting}
 
 \subsection{The FunctionalElement Class}
 
-The FunctionalElement class allows for the instantiation of objects that are placed between Step and Evidence objects during parsing (Fig. \ref{fig:property}). Functional elements are not part of the original Genome Properties database schema and were added by Pygenprop to account for property steps that can be catalyzed by multiple enzyme families. This issue of having multiple types of enzymes capable of catalyzing a step is an open issue on the Genome Properties database Github repository (see \href{github.com/ebi-pf-team/genome-properties/issues/29}{github.com/ebi-pf-team/genome-properties/issues/29}). The addition of FunctionalElements object addresses this issue. A summary of the attributes of FunctionalElement objects can be seen in Table \ref{tab:element-object} and example code below.
+The FunctionalElement class allows for the instantiation of objects that are placed between Step and Evidence objects during parsing (Fig. \ref{fig:property}). Functional elements are not part of the original Genome Properties database schema and were added by Pygenprop to account for property steps that can be catalyzed by multiple enzyme families. This issue of having multiple types of enzymes capable of catalyzing a step is an open issue on the Genome Properties database GitHub repository (see \href{github.com/ebi-pf-team/genome-properties/issues/29}{github.com/ebi-pf-team/genome-properties/issues/29}). The addition of FunctionalElements object addresses this issue. A summary of the attributes of FunctionalElement objects can be seen in Table \ref{tab:element-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The attributes of FunctionalElement objects.}
+\caption{Attributes of FunctionalElement objects.}
 \label{tab:element-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description}                 \\ \hline
@@ -284,16 +284,16 @@ required  & Attribute  & True if the functional element is required for assignme
 element = step.functional_elements[0]
 	
 element.id
-Out: 'element.id'
+Out: element.id
 
 element.name
-Out: 'Magnesium-chelatase subunit ChlD (EC 6.6.1.1)'
+Out: Magnesium-chelatase subunit ChlD (EC 6.6.1.1)
 
 element.required
-Out: 'True'
+Out: True
 
 element.evidence
-Out: 'A list of evidence objects'
+Out: A list of evidence objects
 
 \end{lstlisting}
 
@@ -302,7 +302,7 @@ Out: 'A list of evidence objects'
 The Evidence class allows for the generation of objects that represent individual pieces of evidence that support the existence of functional elements and, in turn, genome property steps. Pieces of evidence include the presence of InterPro consortium signatures \cite{hunter2008interpro} or support for the existence of other genome properties found in an organism's genome. A summary of the properties and attributes of Evidence objects can be seen in Table \ref{tab:evidence-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The properties and attributes of Evidence objects.}
+\caption{Properties and attributes of Evidence objects.}
 \label{tab:evidence-object}\\
 \hline
 \textbf{Name}   & \textbf{Type} & \textbf{Description}                                \\ \hline
@@ -332,25 +332,25 @@ sufficient    & Attribute  & True if the evidence alone can prove the existence 
 evidence = element.evidence[0]
 	
 evidence.has_genome_property
-Out: 'false'
+Out: false
 
 evidence.sufficient
-Out: 'true'
+Out: true
 
 evidence.interpro_identifiers
-Out: 'A list of InterPro identifiers (e.g. IPR011776)'
+Out: A list of InterPro identifiers (e.g. IPR011776)
 
 evidence.consortium_identifiers 
-Out: 'A list of consortium signature identifiers (e.g. TIGR02031)'
+Out: A list of consortium signature identifiers (e.g. TIGR02031)
 
 \end{lstlisting}
 
 \subsection{The GenomePropertiesTree Class} \label{GenomePropertiesTree-Class}
 
-GenomePropertiesTree objects, as instantiated from the GenomePropertiesTree class, are used to represent the rooted \gls{dag} structure of the entire Genome Properties database. \footnote{Even though the Genome Properties database structure is a rooted \gls{dag}, the name ``tree" is used in the class name, and tree terminology is used in the object's methods as a means of end-user convenience.} These objects contain a Python dictionary (i.e., a key-value mapping) of GenomeProperty objects indexed by their property identifiers. Also, individual property objects point to each other using their parent/child attributes (Fig. \ref{fig:propertytree} and Table \ref{tab:genome-property-object}), allowing for climbing up and down the \gls{dag}. These parent-child relationships between GenomeProperty objects are built during a GenomePropertiesTree object's instantiation. The GenomePropertiesTree class provides its objects with methods that allow users to search for specific GenomeProperty objects, and acquire lists of the root (i.e., no parent property) and leaf (i.e., no child properties) GenomeProperty objects. A summary of the methods, properties, and attributes of GenomePropertiesTree objects can be seen in Table \ref{tab:tree-object} and example code below.
+GenomePropertiesTree\footnote{The word ``tree", which refers to a different data structure from a \gls{dag} (branches of trees do not merge), is used in the name of the class that represents the Genome Properties database. The class's methods also use tree terminology. This naming was done as a means of convenience as most bioinformatics users are more familiar with trees.}  objects, as instantiated from the GenomePropertiesTree class, are used to represent the rooted \gls{dag} structure of the entire Genome Properties database.  These objects contain a Python dictionary (i.e., a key-value mapping) of GenomeProperty objects indexed by their property identifiers. Also, individual property objects point to each other using their parent/child attributes (Fig. \ref{fig:propertytree} and Table \ref{tab:genome-property-object}), allowing for climbing up and down the \gls{dag}. These parent-child relationships between GenomeProperty objects are built during a GenomePropertiesTree object's instantiation. The GenomePropertiesTree class provides its objects with methods that allow users to search for specific GenomeProperty objects, and acquire lists of the root (i.e., no parent property) and leaf (i.e., no child properties) GenomeProperty objects. A summary of the methods, properties, and attributes of GenomePropertiesTree objects can be seen in Table \ref{tab:tree-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The methods, properties, and attributes of GenomePropertiesTree objects.}
+\caption{Methods, properties, and attributes of GenomePropertiesTree objects.}
 \label{tab:tree-object}\\
 \hline
 \textbf{Name}        & \textbf{Type} & \textbf{Description}                                                               \\ \hline
@@ -382,23 +382,23 @@ tree = GenomePropertyTree(*property_object_list)
 tree_two = parse_genome_properties_flat_file(properties_file_handle)
 	
 len(tree) # number of properties in the database
-Out: 'false'
+Out: false
 
 tree.root
-Out: 'The root FenomeProperty object'
+Out: The root FenomeProperty object
 
 tree.leafs
-Out: 'A list of leaf GenomeProperty objects 
-     (those with no child properties)'
+Out: A list of leaf GenomeProperty objects 
+     (those with no child properties)
 
 # Properties in the tree can be iterated.
 for genome_property in tree: 
 	print(genome_property.id)
-Out: 'Prints all genome property identifiers'
+Out: Prints all genome property identifiers
 
 # The tree can be rapidly searched
 tree['GenProp1127'] 
-Out: 'The GenomeProperty object representing GenProp1127.'
+Out: The GenomeProperty object representing GenProp1127.
 
 \end{lstlisting}
 
@@ -408,7 +408,7 @@ Pygenprop's representation of the Genome Properties database as a GenomeProperti
 
 \section{Assignment of Genome Properties to Organism Genomes}
 
-Information contained within the Genome Properties database can be used to assign YES, NO or PARTIAL support for an organism possessing a genetically derived property, such as a biochemical pathway. These assignments of YES, NO or PARTIAL support are generated in two ways. One way is from on the presence of InterPro consortium database signatures (e.g., \gls{pfam}s, \gls{tigr}s  and others) in the domain annotations of an organism's proteins. These domain annotations are generated by running InterProScan \cite{jones2014interproscan} on an organism's predicted proteins. The second is from the presence of YES or PARTIAL support for other Genome Properties in the organism's genome (Fig. \ref{fig:propertyassignment}). Pygenprop's code for assigning genome properties is based on that of the Genome Properties Perl library (see \href{github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-propertie}) that ships alongside the Genome Properties database. It replicates the Perl library's support assignment functionality. Pygenprop evaluates properties' support, from \gls{dag} leaf to \gls{dag} root, using a recursive algorithm (Fig. \ref{fig:propertyassignment}). For each property, assignment starts by assigning each step evidence with YES or NO support and then recursively flowing this assignment up through functional elements, steps and eventually back to the property itself (Fig. \ref{fig:propertyassignment}). This flowing of assignments is done recursively through a series of assignment algorithms for evidence, functional elements, and steps and properties (Fig. \ref{fig:propertyassignment}). The rules used for assigning support at different levels is detailed in the subsections below. For each organism that needs to be to have properties assigned, an AssignmentCache object is generated. This object contains all data required for property assignment and methods for assigning support using this data. A detailed description of this class is also found in the subsections below.
+Information contained within the Genome Properties database can be used to assign YES, NO, or PARTIAL support for an organism possessing a genetically derived property, such as a biochemical pathway. These assignments of YES, NO, or PARTIAL support are generated in two ways. One way is from on the presence of InterPro consortium database signatures (e.g., \gls{pfam}s, \gls{tigr}s,  and others) in the domain annotations of an organism's proteins. These domain annotations are generated by running InterProScan \cite{jones2014interproscan} on an organism's predicted proteins. The second is from the presence of YES or PARTIAL support for other Genome Properties in the organism's genome (Fig. \ref{fig:propertyassignment}). Pygenprop's code for assigning genome properties is based on that of the Genome Properties Perl library (see \href{github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-propertie}) that ships alongside the Genome Properties database. It replicates the Perl library's support assignment functionality. Pygenprop evaluates properties' support, from \gls{dag} leaf to \gls{dag} root, using a recursive algorithm (Fig. \ref{fig:propertyassignment}). For each property, assignment starts by assigning each step evidence with YES or NO support and then recursively flowing this assignment up through functional elements, steps, and eventually back to the property itself (Fig. \ref{fig:propertyassignment}). This flowing of assignments is done recursively through a series of assignment algorithms for evidence, functional elements, and steps and properties (Fig. \ref{fig:propertyassignment}). The rules used for assigning support at different levels is detailed in the subsections below. For each genome that needs to have properties assigned, an AssignmentCache object is generated. This object contains all data required for property assignment and methods for assigning support using this data. A detailed description of this class is also found in the subsections below.
 
 \begin{figure}[!ht]
   \centering
@@ -430,7 +430,7 @@ Pygenprop contains parsers for both InterProScan \gls{tsv} files and Genome Prop
 AssignmentCache objects contain two Python dictionaries (i.e., key-value mappings) for storing previously calculated property and step assignments, respectively. It also contains a Python set that is designed to store all unique InterPro consortium signature identifiers found in an organism's protein domain annotations. The AssignmentCache has a method called \textbf{bootstrap\_assignments} that uses a GenomePropertyTree (Subsection \ref{GenomePropertiesTree-Class}) object and data stored within itself to calculate levels of support for all properties. This function also calculates levels of support for steps. AssignmentCaches from multiple organisms can later be combined during the creation of GenomePropertiesResults objects (as discussed in Section \ref{GenomePropertiesResults} below) that allow comparison of property assignments across organisms. As mentioned above these caches can be from different sources. Unlike Pygenprop, the Genome Properties Perl library does not maintain the concept of an assignment cache and can only calculate property support for a single organism from a single InterProScan \gls{tsv} file. A summary of the methods, properties, and attributes of AssignmentCache objects can be seen in Table \ref{tab:assignment-cache-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The methods, properties, and attributes of AssignmentCache objects.}
+\caption{Methods, properties, and attributes of AssignmentCache objects.}
 \label{tab:assignment-cache-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
@@ -445,7 +445,7 @@ AssignmentCache objects contain two Python dictionaries (i.e., key-value mapping
 cache\_property \_assignment & Method & Add a property assignment to the cache \\ \hline
 get\_property \_assignment & Method & Return a property assignment from the cache \\ \hline
 cache\_step \_assignment & Method & Add a step assignment to the cache \\ \hline
-get\_step \_assignment & Method & Retrun a step assignment from the cache \\ \hline
+get\_step \_assignment & Method & Return a step assignment from the cache \\ \hline
 flush\_property \_from\_cache & Method & Remove a property assignment and its associated step assignments from the cache \\ \hline
 synchronize \_with\_tree & Method & If a property whose assignment is cached is not found in the tree, remove its assignment and associated step assignments. This method allows for compatibility between different versions of the Genome Properties database and pre-calculated assignment files. \\ \hline
 bootstrap \_assignments & Method & Recursively assign support for properties from leaf to root using an internal set pre-calculated assignments and a InterPro consortium signature identifiers. \\ \hline
@@ -469,13 +469,13 @@ cache3 = AssignmentCache(sample_name='E_coli',
 interpro_signature_accessions=identifier_list)
 
 cache2.sample_name
-Out: 'C_benthia_SPR155'
+Out: C_benthia_SPR155
 
 cache2.get_property_assignment('GenProp1065')
-Out: 'PARTIAL'
+Out: PARTIAL
 
 cache2.get_step_assignment('GenProp1067', 2) 
-Out: 'YES'
+Out: YES
 
 # Set GenProp2536 to YES
 cache2.cache_property_assignment('GenProp2536', 'YES')
@@ -499,7 +499,7 @@ step_table = tables[1]
 
 \subsection{Implemented Assignment Algorithms} \label{AssignmentCachingAlgorithm}
 
-As mentioned above, Pygenprop uses recursion, the process of program functions repeatedly calling themselves internally, to assign YES, NO or PARTIAL support for individual properties found within the Genome Properties database. During assignment recursion, Pygenprop uses a GenomePropertiesTree object (Subsection \ref{GenomePropertiesTree-Class}) to provide itself with information about assignment requirements for each property and relevant connections between properties. In the context of AssignmentCache objects, the process of generating of assignments is referred to as bootstrapping. Bootstrapping is the term used to describe this process because properties are assigned from pre-existing information stored within the cache, such as pre-calculated property and step assignments, and InterPro consortium signature accessions. This information grows as more properties are assigned. Pygenprop's recursive assignment algorithms, like those in the Genome Properties Perl library, assign support to both properties and property steps (Fig. \ref{fig:propertyassignment}). Assignments of support for steps are used to assign support for parent properties (Fig. \ref{fig:propertyassignment}).
+As mentioned above, Pygenprop uses recursion, the process of program functions repeatedly calling themselves internally, to assign YES, NO, or PARTIAL support for individual properties found within the Genome Properties database. During assignment recursion, Pygenprop uses a GenomePropertiesTree object (Subsection \ref{GenomePropertiesTree-Class}) to provide itself with information about assignment requirements for each property and relevant connections between properties. In the context of AssignmentCache objects, the process of generating of assignments is referred to as bootstrapping. Bootstrapping is the term used to describe this process because properties are assigned from pre-existing information stored within the cache, such as pre-calculated property and step assignments, and InterPro consortium signature accessions. This information grows as more properties are assigned. Pygenprop's recursive assignment algorithms, like those in the Genome Properties Perl library, assign support to both properties and property steps (Fig. \ref{fig:propertyassignment}). Assignments of support for steps are used to assign support for parent properties (Fig. \ref{fig:propertyassignment}).
 
 During the recursion process, the newly calculated step and property assignments are added continually to the AssignmentCache object's step and property assignment dictionaries (Table \ref{tab:assignment-cache-object}). During successive recursive assignment calculations, these dictionaries are checked first, using the AssignmentCache's \textbf{get\_property\_assignment} and \textbf{get\_step\_assignment} methods (Table \ref{tab:assignment-cache-object}), to find step and property assignments that have already been calculated in previous recursive cycles. If these assignments are found, recursion is stopped, and these cached assignment values are used. Because the above dictionaries are used as a cache, the rate of the assignment process will increase exponentially in speed as more properties are calculated, vastly reducing overall assignment time (as discussed in Subsection \ref{AssignmentCache-Performance} below). Recursion also stops when step assignments are calculated for steps that are supported by InterPro domains \ref{fig:propertyassignment}).
 
@@ -530,7 +530,7 @@ Categorical properties, such as GenProp0065 (metabolism), do not have any requir
 
 \subsection{AssignmentCache and Assignment Algorithm Performance} \label{AssignmentCache-Performance}
 
-For a 2.93 MB InterProScan \gls{tsv} file containing domain annotations for 4100 \textit{Escherichia coli} K12 proteins (\gls{ncbitaxa}: 1010810), the resulting AssignmentCache object was found to take up 1.16 \gls{mb} of \gls{ram} before bootstrapping assignments and 1.71 \gls{mb} after. Assignment bootstrapping was found to take 76.7 \textpm 15.41 ms for K12. Thus, Pygenprop could calculate property assignments for thousands of genomes in only a few minutes.
+For a 2.93 MB InterProScan \gls{tsv} file containing domain annotations for 4100 \textit{Escherichia coli} K12 proteins (\gls{ncbitaxa}: 1010810), the resulting AssignmentCache object was found to take up 1.16 \gls{mb} of \gls{ram} before bootstrapping assignments and 1.71 \gls{mb} after. Assignment bootstrapping was found to take 76.7 \textpm 15.4 ms for K12. Thus, Pygenprop could calculate property assignments for thousands of genomes in only a few minutes.
 
 \section{Development of a Framework for Comparing Genome Property Assignments Across Multiple Organisms} \label{GenomePropertiesResults}
 
@@ -538,7 +538,7 @@ One of the main goals of Pygenprop was to facilitate programmatic comparisons of
 
 \subsection{The GenomePropertiesResults Class}
 
-Objects of the GenomePropertiesResults class take a series of AssignmentCache objects (Subsection \ref{AssignmentCache}), potentially from disparate sources, as input during their instantiation (Fig. \ref{fig:resultscreation}). During this process, the per-sample assignments found within these input caches are transformed into two indexed pandas DataFrames \cite{mckinney2010data} that hold data for multiple samples, one for property assignments and another for step assignments (Fig. \ref{fig:resultswithmatchescreation}). The GenomePropertiesResults class also contains a series of methods that return versions of these DataFrames with filtered down step and property assignments. A summary of the methods, properties, and attributes of GenomePropertiesResults objects can be seen in Table \ref{tab:results-object} and example code below. GenomePropertiesResults objects become quite useful when used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. See \href{github.com/Micromeda/pygenprop/blob/master/docs/source/\_static/tutorial/tutorial.ipynb}{github.com/Micromeda/pygenprop /blob/master/docs/source/\_static/tutorial/tutorial.ipynb} for an example notebook workflow using Pygenprop to compare virulence genome properties of \textit{E. coli} K12 (\gls{ncbitaxa}: 1010810) and O157:H7 (\gls{ncbitaxa}: 83334).
+Objects of the GenomePropertiesResults class take a series of AssignmentCache objects (Subsection \ref{AssignmentCache}), potentially from disparate sources, as input during their instantiation (Fig. \ref{fig:resultscreation}). During this process, the per-sample assignments found within these input caches are transformed into two indexed pandas DataFrames \cite{mckinney2010data} that hold data for multiple samples, one for property assignments and another for step assignments (Fig. \ref{fig:resultswithmatchescreation}). The GenomePropertiesResults class also contains a series of methods that return versions of these DataFrames with filtered down step and property assignments. A summary of the methods, properties, and attributes of GenomePropertiesResults objects can be seen in Table \ref{tab:results-object} and example code below. GenomePropertiesResults objects become useful when used interactively in Jupyter Notebooks \cite{kluyver2016jupyter}. See \href{github.com/Micromeda/pygenprop/blob/master/docs/source/\_static/tutorial/tutorial.ipynb}{github.com/Micromeda/pygenprop /blob/master/docs/source/\_static/tutorial/tutorial.ipynb} for an example notebook workflow using Pygenprop to compare virulence genome properties of \textit{E. coli} K12 (\gls{ncbitaxa}: 1010810) and O157:H7 (\gls{ncbitaxa}: 83334).
 
 \begin{figure}[!ht]
   \centering
@@ -548,7 +548,7 @@ Objects of the GenomePropertiesResults class take a series of AssignmentCache ob
 \end{figure}
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The methods, properties, and attributes of GenomePropertiesResults objects.}
+\caption{Methods, properties, and attributes of GenomePropertiesResults objects.}
 \label{tab:results-object}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
@@ -670,13 +670,13 @@ YES & 28.571429 & 14.285714 \\ \hline
 
 \subsection{The use of Pandas for Compatibility With the Python Data Science and Machine Learning Software Stack}
 
-Pandas is a Python library for cleaning, filtering and reshaping data. Pygenprop's GenomePropertiesResults object presents property and step assignments as pandas DataFrames, which are a two-dimensional data matrices with both column and row names. These DataFrames allow users to quickly query and filter assignments and join them to pre-existing metadata. For example, gene expression data (microarray or transcriptomic), culture optimal growth conditions or even host environmental conditions could be merged with genome property assignment results in only a few lines of pandas code.
+Pandas is a Python library for cleaning, filtering, and reshaping data. Pygenprop's GenomePropertiesResults object presents property and step assignments as pandas DataFrames, which are a two-dimensional data matrices with both column and row names. These DataFrames allow users to quickly query and filter assignments and join them to pre-existing metadata. For example, gene expression data (microarray or transcriptomic), culture optimal growth conditions, or even host environmental conditions could be merged with genome property assignment results in only a few lines of pandas code.
 
 These joined datasets provide great potential as a source of data for data mining or as training sets for machine learning algorithms. Pandas DataFrame objects are built on top of NumPy arrays \cite{mckinney2010data}, which are used extensively across the entire Python data science ecosystem \cite{scipystack}. They allow for the transfer of data between algorithms, for example, to those found in machine learning libraries such as Scikit-learn \cite{pedregosa2011scikit}, PyTorch \cite{Paszke2017} or Tensorflow \cite{abadi2016tensorflow}.  When trained on pathway assignment data from Pygenprop's Dataframes, such algorithms could be used to build a new generation of bioinformatics classifiers that facilitate the prediction of high-level organism phenotypes or preferred environmental conditions.
 
 \subsection{GenomePropertiesResults Performance}
 
-When generated from two AssignmentCache objects containing assignments built from the proteomes of \textit{Escherichia coli} K12 (\gls{ncbitaxa}: 1010810) and \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), the resulting GenomePropertiesResults object took up 14.4 \gls{mb} of \gls{ram} after instantiation. Creating the object took 177 ms \textpm 10 ms. Thus, Pygenprop could create a GenomePropertiesResults object from thousands of assignment caches in only a few tens of minutes and only a few \gls{gb}  of \gls{ram}. 
+When generated from two AssignmentCache objects containing assignments built from the proteomes of \textit{Escherichia coli} K12 (\gls{ncbitaxa}: 1010810) and \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), the resulting GenomePropertiesResults object took up 14.4 \gls{mb} of \gls{ram} after instantiation. Creating the object took 180 ms \textpm 10 ms. Thus, Pygenprop could create a GenomePropertiesResults object from thousands of assignment caches in only a few tens of minutes and only a few \gls{gb}  of \gls{ram}. 
 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to Include Supporting Match Information}
 
@@ -709,7 +709,7 @@ AssignmentCacheWithMatches objects are generated by parsing a FASTA file \cite{p
 \end{figure}
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The attributes of AssignmentCacheWithMatches objects that are not possessed by AssignmentCache objects.}
+\caption{Attributes of AssignmentCacheWithMatches objects that are not possessed by AssignmentCache objects.}
 \label{tab:assignmentcachewithmatches}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description}                                                                                    \\ \hline
@@ -741,7 +741,7 @@ GenomePropertiesResultsWithMatches objects are generated by combining a series o
 \end{figure} 
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
-\caption{The methods, properties, and attributes of GenomePropertiesResultsWithMatches objects not possessed by GenomePropertiesResults objects.}
+\caption{Methods, properties, and attributes of GenomePropertiesResultsWithMatches objects not possessed by GenomePropertiesResults objects.}
 \label{tab:genomepropertyresultswithmatches}\\
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
@@ -854,7 +854,7 @@ with open('proteins.fasta', 'w') as fasta_file:
 
 \subsection{AssignmentCacheWithMatches and GenomePropertiesResultsWithMatches Performance} \label{matches-performance}
 
-For 1877 proteins from \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}: 319225) and 1774 proteins from \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), it took 80.4 ms \textpm 1.65 ms and 89.4 ms \textpm 4.04 ms to parse the FASTA and InterProScan \gls{tsv} files and generate two AssignmentCacheWithMatches objects. These caches were then combined into a single GenomePropertyResultsWithMatches object in 4.20 s \textpm 202 ms. The two assignment caches were found to take 21.3 and 15.3 MB of memory, respectively. The final GenomePropertyResultsWithMatches object was found to take up only 29.8 \gls{mb} of memory. At over 4.2 seconds for joining only two caches, scaling analyses to large datasets may become a challenge and opportunities for optimizing this step should be pursued. The GenomePropertyResultsWithMatches object created above was serialized to \gls{json} in 7.1 s \textpm 1.3 s. This speed may need to be optimized in the future. The proteins most likely to carry out GenProp1757 step number two in each sample were written to a FASTA file in 21.7 ms \textpm 793 µs using the above GenomePropertyResultsWithMatches's \textbf{write\_supporting\_proteins\_for\_step\_fasta} method (Table \ref{tab:genomepropertyresultswithmatches}).
+For 1877 proteins from \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}: 319225) and 1774 proteins from \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), it took 80.4 ms \textpm 1.7 ms and 89.4 ms \textpm 4.0 ms to parse the FASTA and InterProScan \gls{tsv} files and generate two AssignmentCacheWithMatches objects. These caches were then combined into a single GenomePropertyResultsWithMatches object in 4.20 s \textpm 0.2 s. The two assignment caches were found to take 21.3 and 15.3 MB of memory, respectively. The final GenomePropertyResultsWithMatches object required only 29.8 \gls{mb} of memory. At over 4.2 seconds for joining only two caches, scaling analyses to large datasets may become a challenge and opportunities for optimizing this step should be pursued. The GenomePropertyResultsWithMatches object created above was serialized to \gls{json} in 7.1 s \textpm 1.3 s. This speed may need to be optimized in the future. The proteins most likely to carry out GenProp1757 step number two in each sample were written to a FASTA file in 21.7 ms \textpm 793 µs using the above GenomePropertyResultsWithMatches's \textbf{write\_supporting\_proteins\_for\_step\_fasta} method (Table \ref{tab:genomepropertyresultswithmatches}).
 
 \section{Development of a File Storage Format and Database Interface for Storing Genome Property Assignments and Supporting Information} \label{MicromedaFiles}
 
@@ -911,7 +911,7 @@ Pygenprop maintains five SQLAlchemy classes for representing relational tables a
 
 \begin{table}[!ht]
 \centering
-\caption{The attributes of Sample objects.}
+\caption{Attributes of Sample objects.}
 \label{tab:sampleobject}
 \begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \hline
@@ -923,16 +923,16 @@ property \_assignments & Attribute & A list of property assignment objects \\ \h
 
 \begin{table}[!ht]
 \centering
-\caption{The properties and attributes of PropertyAssignment objects.}
+\caption{Properties and attributes of PropertyAssignment objects.}
 \label{tab:propertyassignmentobject}
 \begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \hline
 \textbf{Name} & \textbf{Type} & \textbf{Description} \\ \hline
-assignment & Property & Return the property's assignment as YES, NO or PARTIAL \\ \hline
+assignment & Property & Return the property's assignment as YES, NO, or PARTIAL \\ \hline
 identifier & Property & Return the property's identifier (e.g. GenProp0078) \\ \hline
 property \_assignment \_identifier & Attribute & A unique numeric identifier for a property assignment of a single sample \\ \hline
 property \_number & Attribute & The genome property identifier as a number (e.g. the 0078 of GenProp0078) \\ \hline
-numeric \_assignment & Attribute & The property's assignment as the numbers 0, 1, or 2 (equal to YES, NO or PARTIAL) \\ \hline
+numeric \_assignment & Attribute & The property's assignment as the numbers 0, 1, or 2 (equal to YES, NO, or PARTIAL) \\ \hline
 sample\_name & Attribute & The name of the sample for that the property assignment belongs to \\ \hline
 sample & Attribute & The sample object for that the property assignment belongs to \\ \hline
 step \_assignments & Attribute & A list of step assignment objects belonging to a single property \\ \hline
@@ -941,7 +941,7 @@ step \_assignments & Attribute & A list of step assignment objects belonging to 
 
 \begin{table}[!ht]
 \centering
-\caption{The attributes of StepAssignment objects.}
+\caption{Attributes of StepAssignment objects.}
 \label{tab:stepassignmentobject}
 \begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \hline
@@ -956,7 +956,7 @@ interproscan \_matches & Attribute & A list of interproscan match objects that s
 
 \begin{table}[!ht]
 \centering
-\caption{The attributes of InterProScanMatch objects.}
+\caption{Attributes of InterProScanMatch objects.}
 \label{tab:interproscanannotationobject}
 \begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \hline
@@ -972,7 +972,7 @@ sequence & Attribute & The sequence object that the InterProScan annotation anno
 
 \begin{table}[!ht]
 \centering
-\caption{The attributes of Sequence objects.}
+\caption{Attributes of Sequence objects.}
 \label{tab:sequenceobject}
 \begin{tabular}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \hline
@@ -1004,7 +1004,7 @@ results.to_assignment_database(engine2)
 
 \subsection{Reading Micromeda Files}
 
-The reading of assignments from Micromeda files or databases is facilitated by the \textbf{load\\ \_assignment\_caches\_from\_database} and \textbf{load\_assignment\_caches\_from\_database \\ \_with\_matches} functions of Pyegenprop's results module. These functions produce lists of AssignmentCache, or AssignmentCacheWithMatches objects, respectively. These lists can the be combined into GenomePropertiesResults or GenomePropertiesResultsWithMatches objects. Code for reading Micromeda files can be found below.
+The reading of assignments from Micromeda files or databases is facilitated by the \textbf{load\\ \_assignment\_caches\_from\_database} and \textbf{load\_assignment\_caches\_from\_database \\ \_with\_matches} functions of Pyegenprop's results module. These functions produce lists of AssignmentCache or AssignmentCacheWithMatches objects, respectively. These lists can the be combined into GenomePropertiesResults or GenomePropertiesResultsWithMatches objects. Code for reading Micromeda files can be found below.
 
 \begin{lstlisting}[language=Python]  
 tree = parse_genome_properties_flat_file(properties_file_handle)
@@ -1033,9 +1033,9 @@ When writing software for pathway analysis on \gls{hpc} infrastructure, it may b
 
 \subsection{Selection of MessagePack}
 
-Several formats were reviewed to support memory-to-memory transfer and in-memory caching of GenomePropertyResultsWithMatches objects. These included: \gls{json}, Google Protocol Buffers \cite{varda2008protocol}, and MessagePack. \gls{json} has been the gold standard for transferring information between computer systems, especially over the internet, for over a decade \cite{d4_softwareltd_2017}. Because \gls{json} is a text format, several binary alternatives such as ProtoBuffs and Msgpack have emerged that can store the same amount data in less space, allowing for faster transfers \cite{furuhashi2013messagepack,varda2008protocol,krebs_2017,cooper_2010,bengtsson_24AD}. These formats also have much better serialization performance than \gls{json} \cite{krebs_2017,cooper_2010,bengtsson_24AD}. For Pygenprop, MessagePack was selected over Protocol Buffers because pandas provide built-in methods, though currently experimental, for serializing DataFrames directly to MessagePack. MessagePack also serializes four times faster than Protocol Buffers \cite{cooper_2010}.
+Several formats were reviewed to support memory-to-memory transfer and in-memory caching of GenomePropertyResultsWithMatches objects. These included: \gls{json}, Google Protocol Buffers \cite{varda2008protocol}, and MessagePack. \gls{json} has been the gold standard for transferring information between computer systems, especially over the internet, for over a decade \cite{d4_softwareltd_2017}. Because \gls{json} is a text format, several binary alternatives such as ProtoBuffs and MessagePack have emerged that can store the same amount data in less space, allowing for faster transfers \cite{furuhashi2013messagepack,varda2008protocol,krebs_2017,cooper_2010,bengtsson_24AD}. These formats also have much better serialization performance than \gls{json} \cite{krebs_2017,cooper_2010,bengtsson_24AD}. For Pygenprop, MessagePack was selected over Protocol Buffers because pandas provide built-in methods, though currently experimental, for serializing DataFrames directly to MessagePack. MessagePack also serializes four times faster than Protocol Buffers \cite{cooper_2010}.
 
-\subsection{Serialization and Deserialization of GenomePropertyResultsWithMatches to Msgpack}
+\subsection{Serialization and Deserialization of GenomePropertyResultsWithMatches to MessagePack}
 
 GenomePropertyResults and GenomePropertyResultsWithMatches objects have a method called \textbf{to\_msgpack} that supports serialization of these objects to a MessagePack binary string. Internally, this function calls pandas' \textbf{to\_msgpack} function on a list of the object's pandas DataFrames (Tables \ref{tab:results-object} and \ref{tab:genomepropertyresultswithmatches}), returning a MessagePack binary. For deserialization, the process is run in reverse, using the function \textbf{load\_results\_from\_msgpack} of Pygenprop's results module, converting the MessagePack binary stream back to a GenomePropertyResultsWithMatches object. Code for serializing and deserializing GenomePropertyResultsWithMatches objects can be found below.
 
@@ -1045,15 +1045,15 @@ message = results.to_msgpack()
 new_results = load_results_from_msgpack(message)
 \end{lstlisting}
 
-\subsection{Msgpack Serialization and Deserialization Performance} \label{messagepack-performance}
+\subsection{MessagePack Serialization and Deserialization Performance} \label{messagepack-performance}
 
-For 1877 proteins from \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225) and 1774 proteins from \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), a representative GenomePropertiesResultsWithMatches was generated. This object serialized to a msgpack binary in 29.5 ms \textpm 270 µs and deserialized in 54 ms \textpm 922 µs. The msgpack binary required 4.36 \gls{mb} of memory.
+For 1877 proteins from \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225) and 1774 proteins from \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), a representative GenomePropertiesResultsWithMatches was generated. This object serialized to a MessagePack binary in 29.5 ms \textpm 270 µs and deserialized in 54 ms \textpm 922 µs. The MessagePack binary required 4.36 \gls{mb} of memory.
 
 \section{Verification and Automated Testing}
 
-To validate that property and step assignments of support were calculated correctly, the property and step assignments generated by Pygenprop were compared to those produced by the original Genome Properties Perl library. Based on a test proteome of 3,000 proteins, property assignments differed from those of the original Perl library by approximately 2.9\%, due to an error corrected Pygenprop (\href{github.com/ebi-pf-team/genome-properties/issues/30}{github.com/ebi-pf-team/genome-properties/issues/30}).
+To validate that property and step assignments of support were calculated correctly, the property and step assignments generated by Pygenprop were compared to those produced by the original Genome Properties Perl library. Based on a test proteome of 3,000 proteins, property assignments differed from those of the original Perl library by 2.9\%, due to an error corrected Pygenprop (\href{github.com/ebi-pf-team/genome-properties/issues/30}{github.com/ebi-pf-team/genome-properties/issues/30}).
 
-The proteomes of \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225) and \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177) were used to validate that assignments and supporting information did not change before and after serialization of GenomePropertiesResults and GenomePropertiesResultsWithMatches objects. It was found that Pygenprop could correctly reconstitute these objects (i.e., they had the same checksum has value before and after) from both SQLite3 files and MessagPack binary strings.
+The proteomes of \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225) and \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177) were used to validate that assignments and supporting information did not change before and after serialization of GenomePropertiesResults and GenomePropertiesResultsWithMatches objects. It was found that Pygenprop could correctly reconstitute these objects (i.e., they had the same checksum has value before and after) from both SQLite3 files and MessagePack binary strings.
 
 Pygenprop has extensive end-to-end and unit tests for its codebase. There are currently 104 unit tests that validate the functionality of the majority of code functions. These tests cover 94\% of lines in the Pygenprop's codebase. Pygenprop's end-to-end test involves the making of a \gls{json} serialization of a GenomePropertiesResults object created from the InterProScan results of two organisms. This test can be run against newly released versions of the Genome Properties database to ensure compatibility over time. 
 
@@ -1071,7 +1071,7 @@ The GenomePropertyResults class currently possesses a method called \textbf{get\
 
 \subsection{Improving Pygenprop's Memory and Time Performance} \label{improving-pygenprop-performance}
 
-Throughout this chapter, the performances of different components of Pygenprop have been reviewed. Three of these performance numbers were found to be quite weak and should be addressed. These are the time taken the reading and writing Micromeda files and the time required for serializing GenomePropertiesResultsWithMatches objects to \gls{json}. Micromeda's server component uses all three of these functions extensively, and they are a significant source of lag in Micromeda's current web interface.
+Throughout this chapter, the performances of different components of Pygenprop have been reviewed. Two of these performance numbers were found to be quite weak and should be addressed. These are the time taken the reading and writing Micromeda files and the time required for serializing GenomePropertiesResultsWithMatches objects to \gls{json}. Micromeda's server component uses all three of these functions extensively, and they are a significant source of lag in Micromeda's current web interface.
 
 The performance of reading and writing Micromeda files could be improved by reconfiguring how these files are written (i.e., not writing assignments one at a time) or using an alternative faster file format such as MessagePack binary files. The creation of such MessagePack files would be facilitated by GenomePropertiesResultsWithMatches \textbf{to\_msgpack} method. 
  
@@ -1081,6 +1081,6 @@ The suggested improvements to Micromeda-Server discussed in Subsection \ref{assi
 
 Pygenprop is a Python library for the programmatic utilization of Genome Properties data. It has methods for both the exploration of the Genome Properties database and the property and step assignments of multiple organisms. It also provides ways of accessing the domain annotations and protein sequences that were used to calculate these assignments. Micromeda files can be used to store and transfer entire pathway analysis datasets allowing for increased reproducibility.
 
-When compared to existing pathway analysis libraries, Pygenprop is unique. It is currently the only Genome Properties library written for Python. The previous Genome Properties library was written in Perl. Unlike this library, Pygenprop provides numerous methods for comparing property assignments across multiple organisms. Also, it allows for the creation of Micromeda files, greatly reducing the number of files required for pathway analysis. There are a variety of pathway analysis software libraries written to support either the \gls{pfam} \cite{zhang2009kegggraph,posma2013metabonetworks,yu2012clusterprofiler,cock2009biopython} and Metacyc \cite{international} databases. However, the goals of these libraries are either for downloading \gls{pfam} information via its web \gls{api} \cite{cock2009biopython} (see \href{en.wikipedia.org/wiki/Application\_programming\_interface}{en.wikipedia.org/wiki/Application\_programming\_interface}) or graph visualization of metabolic networks \cite{posma2013metabonetworks}. In terms of analysis functionality, Pygenprop is closest to clusterProfiler \cite{yu2012clusterprofiler}. However, this package is made for the R programming language \cite{rprogman}, whereas Pygenprop is built for Python. None of the above libraries are integrated with Python's Scipy \cite{scipystack} or machine learning ecosystems in the same way as Pygenprop is, nor do they have its automation enabling features such as the tracking of supporting information or the serialization of entire datasets to files, databases or in-memory transfer formats. This level of automation leaves Pygenprop in a unique position to be used for the development of future integrated pathway analysis tools, such as Micromeda.
+When compared to existing pathway analysis libraries, Pygenprop is unique. It is currently the only Genome Properties library written for Python. The previous Genome Properties library was written in Perl. Unlike this library, Pygenprop provides numerous methods for comparing property assignments across multiple organisms. Also, it allows for the creation of Micromeda files, greatly reducing the number of files required for pathway analysis. There are a variety of pathway analysis software libraries written to support either the \gls{pfam} \cite{zhang2009kegggraph,posma2013metabonetworks,yu2012clusterprofiler,cock2009biopython} and Metacyc \cite{international} databases. However, the goals of these libraries are either for downloading \gls{pfam} information via its web \gls{api} \cite{cock2009biopython} (see \href{en.wikipedia.org/wiki/Application\_programming\_interface}{en.wikipedia.org/wiki/Application\_programming\_interface}) or graph visualization of metabolic networks \cite{posma2013metabonetworks}. In terms of analysis functionality, Pygenprop is closest to clusterProfiler \cite{yu2012clusterprofiler}. However, this package is made for the R programming language \cite{rprogman}, whereas Pygenprop is built for Python. None of the above libraries are integrated with Python's Scipy \cite{scipystack} or machine learning ecosystems in the same way as Pygenprop is, nor do they have its automation enabling features such as the tracking of supporting information or the serialization of entire datasets to files, databases, or in-memory transfer formats. This level of automation leaves Pygenprop in a unique position to be used for the development of future integrated pathway analysis tools, such as Micromeda.
 
 With regards to Micromeda, Pygenprop provides the backbone to its server component. In this role, it gives Micromeda's pathway visualization application \gls{json} trees of properties and their assignments, \gls{json} strings containing information about individual properties and FASTA files of protein sequences that support the existence property steps across multiple organisms.
