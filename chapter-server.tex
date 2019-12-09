@@ -65,14 +65,17 @@ Micromeda-Server provides several endpoints for supplying web clients with infor
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=\textwidth]{media/Coloured-Endpoint.pdf}
+	\includegraphics[width=0.9\textwidth]{media/Coloured-Endpoint.pdf}
 	 \caption{The URL above is used to download a FASTA file for containing the top proteins (i.e., those with lowest E-value domains) that support GenProp0526 step one for dataset FXDABADS. The URL path variables are in blue and the HTTP GET parameters are in green.}
 	 \label{fig:endpoint-url}
 \end{figure}
 
+\cleardoublepage
+
 \begin{longtable}{|p{1.6cm}|p{2.5cm}|p{1.4cm}|p{2.2cm}|p{2.2cm}|p{4cm}|}
 \caption{Micromeda's server component provides web applications with five endpoints where they can request data about individual genome properties, upload Micromeda files, and request information about stored assignment databases.}
 \label{tab:endpoints}\\
+
 \hline
 \textbf{Python Function Name} & \textbf{Endpoint URL} & \textbf{HTTP Request Types} & \textbf{URL Path Variables} & \textbf{GET Parameter Variables} & \textbf{Return Value} \\ \hline
 \endfirsthead
@@ -84,10 +87,10 @@ Micromeda-Server provides several endpoints for supplying web clients with infor
 \endhead
 %
 upload & /upload & GET, POST & None & None & \gls{json} containing a dataset key that can be used by future \gls{api} requests to access information from the uploaded Micromeda file \\ \hline
-get\_tree & /genome \_properties \_tree & GET & None & dataset\_key (optional) & A \gls{json} tree representing all properties in the current Genome Properties database with each node annotated with a list of YES, NO, PARTIAL assignments for each organism in a dataset. \\ \hline
-get\_single \_genome \_property \_info & /genome \_properties/ \textless{}string: property\_id\textgreater{} & GET & property\_id & None & \gls{json} containing information about a genome property such as a description of it and a list of equivalent records from other databases (e.g. \gls{kegg} \cite{kawashima2003kegg}, MetaCyc \cite{karp2002metacyc}) \\ \hline
-get \_multiple \_genome \_property \_info & /genome \_properties & GET & None & None & A \gls{json} array containing information about all genome properties in the database. Each property is given a description and a list of equivalent records from other databases (e.g. \gls{kegg}, MetaCyc) \\ \hline
-get\_fasta & /fasta/ \textless{}string: property\_id\textgreater{}/ \textless{}int:step \_number\textgreater{} & GET & property\_id, step\_number & dataset\_key (optional), all (optional) & A FASTA file containing either all or the top proteins (i.e., those with the lowest \gls{eval} domain annotations) supporting the existence of a given property step. A dataset key can be provided to specify a dataset. \\ \hline
+get\_tree & /genome \_properties \_tree & GET & None & dataset\_key (optional) & \gls{json} tree representing all properties in the current Genome Properties database with each node annotated with a list of YES, NO, PARTIAL assignments for each organism in a dataset. \\ \hline
+get\_single \_genome \_property \_info & /genome \_properties/ \textless{}string: property\_id\textgreater{} & GET & property\_id & None & \gls{json} containing information about a genome property such as a description of it and a list of equivalent records from other databases (e.g., \gls{kegg} \cite{kawashima2003kegg}, MetaCyc \cite{karp2002metacyc}) \\ \hline
+get \_multiple \_genome \_property \_info & /genome \_properties & GET & None & None & \gls{json} array containing information about all genome properties in the database. Each property is given a description and a list of equivalent records from other databases (e.g., \gls{kegg}, MetaCyc) \\ \hline
+get\_fasta & /fasta/ \textless{}string: property\_id\textgreater{}/ \textless{}int:step \_number\textgreater{} & GET & property\_id, step\_number & dataset\_key (optional), all (optional) & FASTA file containing either all or the top proteins (i.e., those with the lowest \gls{eval} domain annotations) supporting the existence of a given property step. A dataset key can be provided to specify a dataset. \\ \hline
 \end{longtable}
 
 \subsection{The Upload Endpoint} \label{endpoint-upload}
@@ -120,7 +123,7 @@ The \textbf{get\_gasta} endpoint is used to send the client a FASTA file contain
 
 \section{Micromeda Server Performance} \label{micromeda-server-performance}
 
-The performance of Micromeda's endpoints was tested using a Micromeda file generated from the protein sequences and InterProScan annotations of \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177) and \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225). When this file was sent to the \textbf{upload} endpoint of Micromeda-Server, it was parsed and added to the Redis cache in 11.3 \textpm 2 s. The \textbf{get\_tree} endpoint could create a genome property tree from this cached Micromeda file in 9.4 \textpm 4 s. The \textbf{get\_fasta} endpoint could generate a FASTA file with the top supporting proteins for GenProp0633 step number two in 33 \textpm 4 ms. The property information \gls{json} file could be generated for GenProp0633 by the \textbf{get\_single\_genome\_property\_info} endpoint in 7 \textpm 2 ms. The \textbf{get\_multiple\_genome\_property\_info} can generated \gls{json} files for all properties in 23 \textpm 5 ms. The slow execution time of the \textbf{upload} and \textbf{get\_tree} endpoints was a result of latency in client applications. For example, there was a noticeable delay in the rendering of visualizations in Micromeda's client application. Thus the performance of these endpoints should be optimized and potential optimizations are discussed in Section \ref{micromeda-server-improvements}.
+The performance of Micromeda's endpoints was tested using a Micromeda file generated from the protein sequences and InterProScan annotations of \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177) and \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225). \textbf{Performance numbers for this section were recorded using Safari's (version 13; \href{apple.com/safari}{apple.com/safari}) Web Inspector.} When this file was sent to the \textbf{upload} endpoint of Micromeda-Server, it was parsed and added to the Redis cache in 11.3 s \textpm 2.0 s (\gls{n} = 3). The \textbf{get\_tree} endpoint could create a genome property tree from this cached Micromeda file in 9.4 s \textpm 4.0 s (\gls{n} = 3). The \textbf{get\_fasta} endpoint could generate a FASTA file with the top supporting proteins for GenProp0633 step number two in 33.0 ms \textpm 4.0 ms (\gls{n} = 10). The property information \gls{json} file could be generated for GenProp0633 by the \textbf{get\_single\_genome\_property\_info} endpoint in 7.0 ms \textpm 2.0 ms (\gls{n} = 10). The \textbf{get\_multiple\_genome\_property\_info} can generated \gls{json} files for all properties in 23.0 ms \textpm 5.0 ms (\gls{n} = 10). The slow execution time of the \textbf{upload} and \textbf{get\_tree} endpoints was a result of latency in client applications. For example, there was a noticeable delay in the rendering of visualizations in Micromeda's client application. Thus the performance of these endpoints should be optimized and potential optimizations are discussed in Section \ref{micromeda-server-improvements}.
 
 \section{Micromeda Server Deployments} \label{micromeda-server-deployments}
 
