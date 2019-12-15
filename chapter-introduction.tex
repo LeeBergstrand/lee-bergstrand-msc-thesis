@@ -29,15 +29,15 @@ As the breadth of the information within pathway databases increases, it is incr
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.8\textwidth]{media/pathway_analysis_steps.pdf}
-	 \caption{Several steps are required to go from an organism's genome sequence to a prediction of its metabolic capabilities.}
+	\includegraphics[width=0.9\textwidth]{media/pathway_analysis_steps.pdf}
+	 \caption[The glyoxylate shunt is an example of a short biochemical pathway that can be genomically predicted.]{T\textbf{he glyoxylate shunt is an example of a short biochemical pathway that can be genomically predicted.} If a microorganism is to be classified as possessing this type of metabolism, then it should have highly similar proteins to those previously known to carry out the pathway. Several steps are required to go from an organism's genome sequence to a prediction of its metabolic capabilities. The enzymes that carry out pathway steps must be identified (e.g., protein annotation). If found, they indicate the presence of pathway steps. Finally, if all or many steps are present, then the biochemical pathway can be said to be present.}
 	 \label{fig:pathway-analysis-steps}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/pathway_bioinformatics.pdf}
-	 \caption{Predicting an organism's biochemical pathways involves joining together two distinct data sets. One is a prediction of what genes are possessed by an organism. The other is a database containing the knowledge of what genes are involved in previously known biochemical pathways. When these previously cataloged genes are found within an organism's genome, pathway prediction can be made.}
+	 \caption[Predicting an organism's biochemical pathways involves joining together two distinct data sets.]{\textbf{Predicting an organism's biochemical pathways involves joining together two distinct data sets.} One is a prediction of what genes are possessed by an organism. The other is a database containing the knowledge of what genes are involved in previously known biochemical pathways. When these previously cataloged genes are found within an organism's genome, pathway prediction can be made.}
 	 \label{fig:pathway-analysis-overview}
 \end{figure}
 
@@ -49,15 +49,15 @@ Due to the current plethora of tools for genome annotation and pathway determina
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.6\textwidth]{media/compare-phylogenetically.pdf}
-	 \caption{The pathways possessed by a novel organism (black) can be compared to those of closely related species to find out how this organism differs from its sister taxa.}
+	\includegraphics[width=0.7\textwidth]{media/compare-phylogenetically.pdf}
+	 \caption[When a new microorganism is discovered it is useful to compare its metabolism to those of closely related taxa.]{\textbf{When a new microorganism is discovered it is useful to compare its metabolism to those of closely related taxa.} A novel organism (black) placed within a phylogenetic tree, represented here by a dendrogram, to identify its sister taxa. Both pathway prediction and phylogeny can be predicted from an organism's genome.}
 	 \label{fig:phylogenetic-comparison}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/metagenomics.pdf}
-	 \caption{Metagenomics involves comparisons of multiple organism genomes found within the same environmental sample. Bioinformatics techniques can be used to separate individual genomes from a metagenomic sample. Pathway annotation can be performed on these genomes and used to compare the pathways possessed by different organisms from the same environment. Such comparisons can be used to evaluate each organism's potential role in an environment.}
+	 \caption[Metagenomics can be used to compare the predicted pathways of multiple organisms found within the same environmental sample.]{\textbf{Metagenomics can be used to compare the predicted pathways of multiple organisms found within the same environmental sample.} Bioinformatics techniques can be used to separate individual genomes from a metagenomic sample. Pathway annotation can be performed on these genomes and used to compare the pathways possessed by different organisms from the same environment. Such comparisons can be used to evaluate each organism's potential role in an environment.}
 	 \label{fig:metagenomics}
 \end{figure}
 
@@ -69,13 +69,13 @@ The bioinformatics system presented within this thesis, called Micromeda, is des
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.8\textwidth]{media/Micromeda-Simple-Overview.png}
-	 \caption{The genome properties database generates an interactive heat map of pathway rows by organism columns. A further explanation of the interface can be seen in Chapter \ref{micromeda-client}.}
+	\includegraphics[width=0.9\textwidth]{media/Micromeda-Simple-Overview.png}
+	 \caption[Micromeda's user interface generates a pathway heat map visualization.]{\textbf{Micromeda's user interface generates a pathway heat map visualization.} This heat map consists of pathway rows by organism columns and allows the comparison of pathway presence and absence across organisms. All other components of Micromeda were built to support this interface by providing it with data. Further explanation of the interface's design can be found in Chapter \ref{micromeda-client}.}
 	 \label{fig:basic-heatmap-overview}
 \end{figure}
 
 \begin{itemize}
-\item A client web application that runs in the user's browser. This web application allows users to upload files to a server. These files contain precalculated data about an organism's predicted pathways and the protein sequences that support these predictions. This application draws the pathway heat maps mentioned above based on the data uploaded (Fig. \ref{fig:basic-heatmap-overview}). These heat maps allow users to make comparisons across pathways and organisms. This component is called \textbf{Micromeda-Client} and is detailed in Chapter \ref{micromeda-client}.
+\item A client web application that runs in the user's browser. This web application allows users to upload files to a server. These files contain precalculated data about an organism's predicted pathways and the protein sequences that support these predictions. This application draws the pathway heat maps mentioned above based on the data uploaded (Fig. \ref{fig:basic-heatmap-overview}). These heat maps allow users to make comparisons across pathways and organisms. This component is called \textbf{Micromeda-Client} and is detailed in Chapter \ref{micromeda-client}. Links to a demonstration of the client interface can be found in Section \ref{client-demo}.
 \item A server web application that runs on a remote computer system and in support of the client application. This server application accepts the above file upload and provides the client with easy access to the data held within the file. This component is called \textbf{Micromeda-Server} and is discussed in Chapter \ref{micromeda-server}.
 \item A file format that allows users to easily transfer an assessment of what pathways are possessed by multiple organisms and the protein sequences used to support this assessment. These files, called \textbf{Micromeda files}, are the files uploaded to Micromeda-Server and use a custom format that is discussed in Section \ref{MicromedaFiles}. The format allows for the storage of the above information in the most compact way possible.
 \item A software library that supports the generation of pathway annotations, rapid programmatic comparisons between organism pathway annotations and the generation of the above Micromeda files. The library is compatible with many emerging machine learning tools and opens up new avenues to their application to pathway analysis. This library is called \textbf{Pygenprop} and is discussed in Chapter \ref{Pygenprop}.
@@ -87,21 +87,21 @@ The bioinformatics system presented within this thesis, called Micromeda, is des
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/micromeda-pipeline.pdf}
-	 \caption{For prokaryotes, the process of generating pathway visualizations involves producing predicted proteins via Prodigal, scanning these proteins using InterProScan5, and then using the results to predict pathways using Pygenprop and a copy of the Genome Properties database.}
+	 \caption[Micromeda carries out several steps that allow it to map from an organism's genome to predictions of what pathways are possessed by the organism.]{\textbf{Micromeda carries out several steps that allow it to map from an organism's genome to predictions of what pathways are possessed by the organism.} For prokaryotes,  proteins must firsts be predicted via Prodigal. These proteins are then scanned using InterProScan5. The results of InterProScan are then combined with the Genome Properties database to predict pathways steps. These predictions are carried out by Pygenprop, which also predicts the overall presence and absence of pathways.}
 	 \label{fig:micromeda-levels}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/micromeda-file-generation.pdf}
-	 \caption{Micromeda splits its computation into two components: a data generation step that creates Micromeda files and a visualisation step that involves the upload of this file to a remote server. The most computationally complex steps are not performed on the same computer as the visualisation.}
+	 \caption[With Micromeda, the computation that generates pathway visualizations is split across two different computer systems.]{\textbf{With Micromeda, the computation that generates pathway visualizations is split across two different computer systems.} One local computer system executes a data generation step that creates a Micromeda file. Users then uploaded this file to a second remote computer system that helps generate heat map visualizations. The most computationally complex step, Micromeda file generation, is not performed on the same server that generates the data visualizations.}
 	 \label{fig:micromeda-file-generation}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/how-micromeda-files-are-built.pdf}
-	 \caption{Micromeda files are ultimately derived from InterProScan annotations of an organism's predicted proteins. The files contain both pathway annotations derived from these InterProScan proteins annotations as well as protein sequences. These files are uploaded to a remote server for visualization.}
+	 \caption[Micromeda files are built from InterProScan annotations of an organism's predicted proteins.]{\textbf{Micromeda files are built from InterProScan annotations of an organism's predicted proteins.} They possess not only pathway annotations but also the protein sequences that support them. Thus they allow for the transfer complete pathway datasets. Micromeda files are uploaded to a remote server for visualization.}
 	 \label{fig:micromeda-file-building-and-use}
 \end{figure}
 

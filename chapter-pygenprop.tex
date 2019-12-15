@@ -45,14 +45,14 @@ Evidence    & Evidence supporting the existence of a functional element      \\ 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.70\textwidth]{media/Figure_1A.eps}
-	 \caption{Several property objects are the children of others. Database reference, literature reference, and step objects are children of property objects.}
+	 \caption[Pygenprop represents the Genome Properties \gls{dag} as a series of interconnected in-memory objects.]{\textbf{Pygenprop represents the Genome Properties \gls{dag} as a series of interconnected in-memory objects.} Parent property objects are connected to child property objects. Database references, literature references, and property steps are also present in the object model and are connected as children of individual property objects. The objects presented by Pygenprop can be used to build software that queries the Genome Properties database.}
 	 \label{fig:propertytree}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.90\textwidth]{media/Figure_1B.eps}
-	 \caption{Each property is supported by step, functional element, and evidence objects.}
+	 \caption[With Pygenprop, each property object is supported by a series objects that represent its property's steps and lines of evidence.]{\textbf{With Pygenprop, each property object is supported by a series objects that represent its property's steps and lines of evidence.} Functional element objects form links between steps and evidence. Property objects can be supported by multiple step, functional element, and evidence objects.}
 	 \label{fig:property}
 \end{figure}
 
@@ -413,7 +413,7 @@ Information contained within the Genome Properties database can be used to assig
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.90\textwidth]{media/Pygenprop_Assignment.pdf}
-	 \caption{An overview of the genome property assignment process used by Pygenprop.}
+	 \caption[An overview of the genome property assignment process used by Pygenprop.]{\textbf{An overview of the genome property assignment process used by Pygenprop.}}
 	 \label{fig:propertyassignment}
 \end{figure}
 
