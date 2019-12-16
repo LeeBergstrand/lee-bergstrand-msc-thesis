@@ -16,7 +16,7 @@ One of the core uses of Genome Properties assignment data is to mine it for biol
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=\textwidth]{media/analysis_types.pdf}
-	 \caption{Visualizations of Genome Properties data can be used to compare property and step assignments across organisms.}
+	 \caption[Visualization Genome Properties data can be used to support a variety of pathways analysis tasks.]{\textbf{Visualization Genome Properties data can be used to support a variety of pathways analysis tasks.} Comparisons can be made between organisms, pathways or pathway steps.}
 	 \label{fig:client-analysis-types}
 \end{figure}
 
@@ -43,13 +43,13 @@ When designing a data visualization, often specific visualization techniques pre
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.7\textwidth]{media/square_vs_circle.pdf}
-	 \caption{A heat map has a square shape. Square diagrams provide better space utilization on a conventional display (grey) than circular diagrams (blue) of the same area. The circle (blue) and square (red) presented have the same area. A circle diagram requires larger X and Y-axis dimensions, as compared to a rectangular diagram, to display the same amount of data and produces dead space at the display's corners where no data can be presented.}
+	 \caption[Square diagrams provide better space utilization on a computer display than circular diagrams of the same area.]{\textbf{Square diagrams provide better space utilization on a computer display than circular diagrams of the same area.} The circle (blue) and square (red) presented have the same area. A circle diagram requires larger X and Y-axis dimensions, as compared to a rectangular diagram, to display the same amount of data and produces dead space where no data can be presented at a display's (grey) corners.}
 	 \label{fig:circle-square}
 \end{figure}
 
 Micromeda-Client's heat map uses its cell's positions to indicate what assignment belongs to what property or step and organism (Fig. \ref{fig:client-analysis-types}). Because most Micromeda files contain information about fewer organisms than there are properties in the Genome Properties database, assignments for the same property ideally position within the same heat map row. Columns are used to group assignments from the same organism across properties and steps. This configuration leads to a heat map that is much taller than it is wide and requires that users scroll vertically. Vertical scrolling is much more convenient than scrolling horizontally because it allows users to scroll the visualization easily by using their mouse.
 
-The magnitude of each assignment is encoded using cell colour (Fig. \ref{fig:client-analysis-types}). Because assignments are ordinal data, it makes sense to encode assignments using colour saturation, rather than hue \cite{munzner2015visualization}. For the heat map, a purple cell colour scheme was chosen to ensure that the diagram is interpretable by those with colour blindness. Specifically, colours were optimized for users with severe deuteranopia (i.e., complete loss of green cones), which, though rarer, has stronger Red-green colour blindness affects (see \href{http://wikipedia.org/wiki/Color_blindness#Classification}{wikipedia.org/wiki/Color\_blindness\#Classification}). A web service called ColorBrewer (\href{http://colorbrewer2.org}{colorbrewer2.org}) was used to select cell colours, and a tool called Sim Daltonism (\href{http://github.com/michelf/sim-daltonism}{github.com/ michelf/sim-daltonism}) was used to ensure colour blind compatibility of the entire diagram. 
+The magnitude of each assignment is encoded using cell colour (Fig. \ref{fig:client-analysis-types}). Because assignments are ordinal data, it makes sense to encode assignments using colour saturation, rather than hue \cite{munzner2015visualization}. For the heat map, a purple cell colour scheme was chosen to ensure that the diagram is interpretable by those with colour blindness. Specifically, colours were optimized for users with severe deuteranopia (i.e., complete loss of green cones), which, though rarer, has stronger Red-green colour blindness affects (see \href{http://wikipedia.org/wiki/Color_blindness#Classification}{wikipedia.org/wiki/Color\_blindness\#Classification}). A web service called ColorBrewer (\href{http://colorbrewer2.org}{colorbrewer2.org}) was used to select cell colours, and a tool called Sim Daltonism (\href{http://github.com/michelf/sim-daltonism}{github. com/michelf/sim-daltonism}) was used to ensure colour blind compatibility of the entire diagram. 
 
 Any visualization technique used is also challenged by the magnitude of data to be presented by Micromeda-Client. For example, if the heat map described above displayed all assignments for only a few organisms, then its size would prevent users from finding or tracking assignments quickly across organisms. As of version 2.0 of the Genome Properties database, there are 1296 properties and 6525 steps \cite{richardson2018genome}. If the client were used to generate a single heat map representing the assignments of all properties, with each cell being 5 mm tall, then the heat map produced would be approximately 6.5 meters tall (i.e., fifteen vertical pages on a 24" monitor). If a similar heat map was made, but for assignments of all property steps, then the heat map generated would be over 32.6 meters tall (i.e., seventy-five vertical pages on a 24" monitor). If both of these heat maps were combined, then the resulting heat map would be even longer. Micromeda-Client's visualization interface addresses the length issue by using interactive aggregation and disaggregation \cite{munzner2015visualization} of assignment rows to reduce the overall length of its assignment heat map (Fig. \ref{fig:visualization-philosophy}). This reduced length facilitates rapid visual exploration of property and step assignments.
 
@@ -58,7 +58,7 @@ Micromeda-Client's \gls{ui} allows users to manipulate the contents of its assig
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.9\textwidth]{media/visualization_design_philosphy.pdf}
-	 \caption{Micromeda-Client's UI uses a clickable icicle diagram to change the state of an adjacent heat map of property and step assignments. Clicking nodes in the diagram changes the shape of the heat map by adding and removing rows from the heat map. Icicle diagrams allow the final visualization to be more compact.}
+	 \caption[Micromeda-Client uses an interactive icicle diagram to control the state of its visualizations.]{\textbf{Micromeda-Client uses an interactive icicle diagram to control the state of its visualizations.} Clicking nodes in the diagram changes the shape of the heat map by adding and removing rows. The use of an icicle diagram allows the final visualization to be more compact.}
 	 \label{fig:visualization-philosophy}
 \end{figure}
 
@@ -75,11 +75,11 @@ In addition to the visualization capability presented above, the client's interf
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.9\textwidth]{media/micromeda-interface.pdf}
-	 \caption{Micromeda's UI provides functionality for getting additional information about properties and steps (1) and provides the ability to download protein sequences that support step assignments (2). A legend provides context to the heat map's colour scheme (3). The interface also supports property searching (4) and possesses a reset button that allows users to reset the heat map to its initial loaded state (5).}
+	 \caption[Beyond generating a heat map, Micromeda's UI also provides additional search and information gathering features.]{\textbf{Beyond generating a heat map, Micromeda's \gls{ui} also provides additional search and information gathering features.} It provides functionality for getting additional information about properties and steps (1) and provides the ability to download protein sequences that support step assignments (2). A legend provides context to the heat map's colour scheme (3). The interface also supports property searching (4) and possesses a reset button that allows users to reset the heat map to its initial loaded state (5).}
 	 \label{fig:micromeda-interface}
 \end{figure}
 
-While users explore the heat map, it may be useful to access more context about the displayed properties. The icicle diagram possesses question mark glyphs \footnote{A glyph is an elemental component of a data visualization. A data visualization is composed of a series of glyphs. Often glyphs are directly mapped to data points \cite{chen}.} at the bottom of each property node that facilitates access to an additional set of property information (Fig. \ref{fig:micromeda-interface}). When a user places their cursor over one of these glyphs, a pop-up box appears displaying information about the property that the glyph's node represents (Fig. \ref{fig:micromeda-interface}). This pop-up box includes the name of the property, a description of it, a link to the property on the \gls{ebi}  Genome Properties website (e.g., \href{https://www.ebi.ac.uk/interpro/genomeproperties/#GenProp0867}{ebi.ac.uk/interpro/genomeproperties/\#GenProp0867}), and a list of links to equivalent records in other pathways databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc \cite{karp2002metacyc}. The box is once again hidden when the user's cursor leaves the glyph or the pop box.
+While users explore the heat map, it may be useful to access more context about the displayed properties. The icicle diagram possesses question mark glyphs \footnote{A glyph is an elemental component of a data visualization. A data visualization is composed of a series of glyphs. Often glyphs are directly mapped to data points \cite{chen}.} at the bottom of each property node that facilitates access to an additional set of property information (Fig. \ref{fig:micromeda-interface}). When a user places their cursor over one of these glyphs, a pop-up box appears displaying information about the property that the glyph's node represents (Fig. \ref{fig:micromeda-interface}). This pop-up box includes the name of the property, a description of it, a link to the property on the \gls{ebi}  Genome Properties website (e.g., \href{https://www.ebi.ac.uk/interpro/genomeproperties/#GenProp0867}{ebi.ac.uk/interpro/genomeproperties/ \#GenProp0867}), and a list of links to equivalent records in other pathways databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc \cite{karp2002metacyc}. The box is once again hidden when the user's cursor leaves the glyph or the pop box.
 
 Leaf property steps have a different glyph at the bottom of their nodes that is shaped like a download symbol (Fig. \ref{fig:micromeda-interface}). This glyph allows users to download protein sequences that support the existence of property steps. When the download glyph is hovered over, it also generates a pop-up box. This box contains two download links (Fig. \ref{fig:micromeda-interface}). The first link downloads a FASTA file containing the protein sequences that are most likely to carry out the step for each organism in a dataset. The second link downloads a FASTA file containing any protein that could have carried out the step across all organisms in a dataset. When the cursor is removed from this download pop-up box or the glyph, then the pop-up box is hidden.
 
@@ -104,14 +104,14 @@ The client visualization page uses two core data structures and they are both ac
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=\textwidth]{media/diagram_measurements.pdf}
-	 \caption{A series of spacing, width, and length values are used by Micromeda-Server to build its diagrams. These values are stored in an external file. The contents of this file can be modified to change the layout of Micromeda-Client's visualizations.}
+	 \caption[The layout of Micromeda-Clients diagrams is determined by a series of pre-defined spacing, width, and length values.]{\textbf{The layout of Micromeda-Clients diagrams is determined by a series of pre-defined spacing, width, and length values.} Changes in these values can shift the size and spacing of the heat map's cells and axes. Dimension values are stored in an external file that loaded upon diagram generation. The contents of this file can be modified to change the layout of Micromeda-Client's heat map.}
 	 \label{fig:diagram-measurements}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.7\textwidth]{media/how_tree_state_maps.pdf}
-	 \caption{The state of enabled attributes of property objects in the client's Genome Property tree directly maps to contents of the client's visualization.}
+	 \caption[The state of Micromeda-Client's heat map diagram is controlled by the state of a client-side in-memory property tree.]{\textbf{The state of Micromeda-Client's heat map diagram is controlled by the state of a client-side in-memory property tree.} Changing the state of enabled attributes of property objects in the tree causes the heat map and icicle diagram to be generated differently on subsequent renderings. When a property is enabled, then its children are rendered in the heat map.}
 	 \label{fig:tree-map-to-viz}
 \end{figure}
 
@@ -121,7 +121,7 @@ As mentioned previously, requests for data from Micromeda-Server supports much o
 
 The upload page contains a file drag and drop zone. When a user drops a Micromeda file onto this zone, it is sent via \gls{ajax}  to Micromeda-Server using the server's \textbf{upload} endpoint (Subsection \ref{endpoint-upload}). The drag and drop zone was implemented using DropzoneJS \cite{meno}. After the file upload is complete, Micromeda-Server returns the file's associated dataset key to Micromeda-Client. This dataset key is stored in the browser's web local storage \cite{Hickson} (\href{http://en.wikipedia.org/wiki/Web_storage}{en.wikipedia.org/wiki/Web\_storage}) using a library called localForage \cite{localforage}. Once the dataset key is stored, the client redirects the browser to the visualization page where visualizations of uploaded file's contents are generated.
 
-As the visualisation page loads, the client requests a \gls{json} tree from Micromeda-Server's \textbf{get\_tree} endpoint (Subsection \ref{get-tree}) via \gls{ajax} . The dataset key saved in the browser's local storage is provided with this request and ensures that Micromeda-Server returns data from the browser's most recently uploaded Micromeda file. Micromeda-Server will respond to the \textbf{get\_tree} request by returning \gls{json} tree containing assignments for all properties and steps within this uploaded Micromeda file. The client parses this \gls{json} file into a \gls{javascript} object tree and uses it as the property tree data structure mentioned in Section \ref{visual-data-structures} above. The visualization is then built using the dimensions from the diagram configuration array, the contents of the property tree and the \textbf{enabled} attribute of the property objects therein Section \ref{visual-data-structures}. The visualization itself is generated using functions from version 3.0 of the D3.js visualization library \cite{bostock2015d3} and custom \gls{javascript} code.
+As the visualisation page loads, the client requests a \gls{json} tree from Micromeda-Server's \textbf{get\_tree} endpoint (Subsection \ref{get-tree}) via \gls{ajax} . The dataset key saved in the browser's local storage is provided with this request and ensures that Micromeda-Server returns data from the browser's most recently uploaded Micromeda file. Micromeda-Server will respond to the \textbf{get\_tree} request by returning \gls{json} tree containing assignments for all properties and steps within this uploaded Micromeda file. The client parses this \gls{json} file into a \gls{javascript} object tree and uses it as the property tree data structure mentioned in Subsection \ref{visual-data-structures} above. The visualization is then built using the dimensions from the diagram configuration array, the contents of the property tree and the \textbf{enabled} attribute of the property objects therein Subsection \ref{visual-data-structures}. The visualization itself is generated using functions from version 3.0 of the D3.js visualization library \cite{bostock2015d3} and custom \gls{javascript} code.
 
 \subsection{Interactivity After Initial Visualization Load}
 
@@ -150,7 +150,7 @@ Before Micromeda's \gls{ui} can be used, it must be downloaded into a web browse
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.7\textwidth]{media/micromeda-client-deployment.pdf}
-	 \caption{The client files for Micromeda-Client, in production, can either be deployed on the same server computer system as Micromeda-Server (A) or via a content delivery network (B).}
+	 \caption[There are two primary deployment strategies for Micromeda-Client. ]{\textbf{There are two primary deployment strategies for Micromeda-Client.} The client files for Micromeda-Client, in production, can either be deployed on the same server computer system as Micromeda-Server (A) or deployed via a content delivery network (B).}
 	 \label{fig:client-deployment}
 \end{figure}
 
@@ -205,17 +205,17 @@ In contrast to the property assignment heat map generated by the Genome Properti
      \begin{subfigure}[b]{0.46\textwidth}
          \centering
          \includegraphics[width=\textwidth]{media/genome_properties_viewer.png}
-         \caption{The Genome Properties viewer generates heat maps based on the pre-calculated assignments for a series of reference organisms. Users can also upload InterProScan TSV files for assignment calculation and visual comparison to these references.}
+         \caption{The Genome Properties viewer displays heat maps containing assignments for both reference and novel organisms.}
          \label{fig:property-viewer}
      \end{subfigure}
      \qquad % some horizontal space
      \begin{subfigure}[b]{0.46\textwidth}
          \centering
          \includegraphics[width=\textwidth]{media/genome_properties_browser.png}
-         \caption{The Genome Properties browser provides information about individual properties and their hierarchies.}
+         \caption{The Genome Properties browser provides information about individual properties and their hierarchy.}
          \label{fig:property-browser}
      \end{subfigure}
-     \caption{The Genome Properties website provides two separate views for learning more about individual genome properties and viewing property and step assignments. With Micromeda-Client, these two views are integrated into a single joint visualization.}
+     \caption[The Genome Properties website is split into two main web pages.]{\textbf{The Genome Properties website is split into two main web pages.} One is for learning more about individual genome properties and another for viewing property and step assignments. This second page allows for the upload of InterProScan \gls{tsv} files of novel organisms. These files are used to calculate assignments for these organisms. With Micromeda-Client, the same information presented by these two pages is integrated into a single page.}
      \label{fig:genome-properties-interface}
 \end{figure}
 
@@ -224,7 +224,7 @@ Other websites that visualize pathway annotation information do use aggregation 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.9\textwidth]{media/microscope.png}
-	 \caption{The MicroScope annotation server possesses heat maps that show the presence and absence of pathways across organisms. Figure is from \cite{vallenet2016microscope}.}
+	 \caption[The MicroScope annotation server presents both pathway assignment heat maps and pathway diagrams.]{\textbf{The MicroScope annotation server presents both pathway assignment heat maps and pathway diagrams.} The heat maps show the presence and absence of pathways across reference organisms and novel organisms whose genomes have been uploaded in FASTA format. The pathway diagrams allow users to explore further the pathways annotated by the server. Figure is from \cite{vallenet2016microscope}}.
 	 \label{fig:microscope}
 \end{figure}
 
@@ -232,8 +232,8 @@ In contrast to Microscope, Micromeda-Client displays its aggregated and disaggre
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.7\textwidth]{media/functree2.png}
-	 \caption{In FuncTree2, leaves of a radial tree represent individual KO annotations. In other words, each leaf node represents a type of protein that can be found in a cell. Nodes closer to the root represent different levels of classification that group these KO annotations according to the hierarchy of pathways in the KEGG database. A stacked bar chart annotates each leaf node. This chart possesses coloured bars representing the number of proteins in each organism's proteome with a specific KO annotation. These bar charts are oriented radially. Stacked Bar charts also annotate other nodes in the radial tree. The stacked bar charts on higher-level nodes represent reciprocal summations of KO counts of child nodes. Nodes can be clicked to remove child nodes and change the shape and size of the visualization. Figure is from \cite{darzi2019functree2}.}
+	\includegraphics[width=0.8\textwidth]{media/functree2.png}
+	 \caption[FuncTree2 presents a radial tree diagram that shows the abundance of KO annotations within multiple organism's predicted proteomes.]{\textbf{FuncTree2 presents a radial tree diagram that shows the abundance of \gls{ko} annotations within multiple organism's predicted proteomes.} In its diagrams, leaves of the radial tree represent individual \gls{ko} annotations. In other words, each leaf node represents a type of protein that can be found in a cell. Nodes closer to the root represent different levels of classification that group these \gls{ko} annotations according to the hierarchy of pathways in the \gls{kegg} database. A stacked bar chart annotates each leaf node. This chart possesses coloured bars representing the number of proteins in each organism's proteome with a specific \gls{ko}  annotation. These bar charts are oriented radially. Stacked Bar charts also annotate other nodes in the radial tree. The stacked bar charts on higher-level nodes represent reciprocal summations of \gls{ko} counts of child nodes. Nodes can be clicked to remove child nodes and change the shape and size of the visualization. Figure is from \cite{darzi2019functree2}.}
 	 \label{fig:functree2}
 \end{figure}
 
