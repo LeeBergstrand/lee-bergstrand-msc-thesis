@@ -72,19 +72,74 @@ I understand that my thesis may be made electronically available to the public.
 
 \begin{center}\textbf{Abstract}\end{center}
 
-Understanding the distribution of biochemical pathways across microorganisms is critical to understanding their evolution, ecology, and industrial applicability. Advances in genome sequencing and pathway databases have made genomically predicting what pathways an organism possesses a common technique. Researchers are moving on to scaling such analyses towards comparing the presence and absence of pathways across multiple microbes from the same environment or lineage. However, performing such analyses at scale is currently bottlenecked by the sheer number of pathways per organism and the lack of powerful tools to facilitate such comparisons. 
+Understanding the distribution of biochemical pathways across microorganisms is 
+critical to understanding their evolution, ecology, and industrial 
+applicability. Advances in genome sequencing and pathway databases have made 
+genomically predicting what pathways an organism possesses a common technique. 
+Researchers are moving on to scaling such analyses towards comparing the 
+presence and absence of pathways across multiple microbes from the same 
+environment or lineage. However, performing such analyses at scale is currently 
+bottlenecked by the sheer number of pathways per organism and the lack of 
+powerful tools to facilitate such comparisons. 
 
-This thesis presents a new set of tools, called Micromeda, that will assist users in making comparative genomic analyses. Micromeda consists of three core components. These are Micromeda-Client, which generates interactive heat maps that allow users to perform visual pathway comparisons; Micromeda-Server, which provides data to Micromeda-Client; and Pygenprop, which allows users to perform programmatic comparisons of thousands of organism pathways. Micromeda uses the Genome Properties database as its pathway information source. It is unique from other pathway databases because it maps directly between protein domains and pathway steps. The domains that the database uses are those from the InterPro consortium of protein databases. 
+This thesis presents a new set of tools, called Micromeda, that will assist 
+users in making comparative genomic analyses. Micromeda consists of three core 
+components. These are Micromeda-Client, which generates interactive heat maps 
+that allow users to perform visual pathway comparisons; Micromeda-Server, which 
+provides data to Micromeda-Client; and Pygenprop, which allows users to perform 
+programmatic comparisons of thousands of organism pathways. Micromeda uses the 
+Genome Properties database as its pathway information source. It is unique from 
+other pathway databases because it maps directly between protein domains and 
+pathway steps. The domains that the database uses are those from the InterPro 
+consortium of protein databases. 
 
-With Micromeda, the process of discovering an organism's pathways begins with the domain annotation of an organism's proteins by InterProScan. These domain annotations are then combined with information from the Genome Properties database and are used to predict the organism pathways. This prediction of pathways from domain data is carried out by Pygenprop and results in the creation of a Micromeda file. This novel file type carries both pathway annotations for multiple organisms and the sequences of the proteins that support these annotations. In the context of the Genome Properties database, such pathways are referred to as genome properties, and pathway annotations are referred to as property assignments. The newly created Micromeda file can later be uploaded to Micromeda-Client and Server for heat map visualization.
+With Micromeda, the process of discovering an organism's pathways begins with 
+the domain annotation of an organism's proteins by InterProScan. These domain 
+annotations are then combined with information from the Genome Properties 
+database and are used to predict the organism pathways. This prediction of 
+pathways from domain data is carried out by Pygenprop and results in the 
+creation of a Micromeda file. This novel file type carries both pathway 
+annotations for multiple organisms and the sequences of the proteins that 
+support these annotations. In the context of the Genome Properties database, 
+such pathways are referred to as genome properties, and pathway annotations are 
+referred to as property assignments. The newly created Micromeda file can later 
+be uploaded to Micromeda-Client and Server for heat map visualization.
 
-Pygenprop uses object orient programming techniques to represent the Genome Properties as a series of in-memory objects. These objects are used extensively within the property assignment process and to provide data that is transferred to Micromeda-Client via Micromeda-Server. The library is written in Python and also allows the programmatic comparison of pathways across organisms. Pygenprop's tight integration with the Python data science ecosystem, which results in it being compatible with many emerging data science and machine learning tools, lays the foundation for it becoming the backbone of a new generation of automated pathway analysis tools.
+Pygenprop uses object orient programming techniques to represent the Genome 
+Properties as a series of in-memory objects. These objects are used extensively 
+within the property assignment process and to provide data that is transferred 
+to Micromeda-Client via Micromeda-Server. The library is written in Python and 
+also allows the programmatic comparison of pathways across organisms. 
+Pygenprop's tight integration with the Python data science ecosystem, which 
+results in it being compatible with many emerging data science and machine 
+learning tools, lays the foundation for it becoming the backbone of a new 
+generation of automated pathway analysis tools.
 
-Micromeda-Server is a Python web server application that provides data from uploaded Micromeda files to Micromeda-Client. This data is presented in the form of a web application programming interface (API). This API provides clients, such as Micromeda-Client, with access to property assignments and proteins sequences found within uploaded Micromeda files. The API can also provide information about individual pathways and the overall structure of the Genome Properties database.
+Micromeda-Server is a Python web server application that provides data from 
+uploaded Micromeda files to Micromeda-Client. This data is presented in the form 
+of a web application programming interface (API). This API provides clients, 
+such as Micromeda-Client, with access to property assignments and proteins 
+sequences found within uploaded Micromeda files. The API can also provide 
+information about individual pathways and the overall structure of the Genome 
+Properties database.
 
-Micromeda-Client is a web client application whose purpose is to provide interactive heat maps to users. These heat maps are used to compare pathways across organisms within a dataset. The interactivity of these heat maps allows for pathway annotations to be aggregated into summaries of multiple pathways or be disaggregated down to a step level. At a step level, users can see differences in the presence of pathways steps. Individual pathways of interested can also be looked up via text search. The heat map interface also allows for the download of protein sequences that support individual pathway steps across multiple organisms.
+Micromeda-Client is a web client application whose purpose is to provide 
+interactive heat maps to users. These heat maps are used to compare pathways 
+across organisms within a dataset. The interactivity of these heat maps allows 
+for pathway annotations to be aggregated into summaries of multiple pathways or 
+be disaggregated down to a step level. At a step level, users can see 
+differences in the presence of pathways steps. Individual pathways of interested 
+can also be looked up via text search. The heat map interface also allows for 
+the download of protein sequences that support individual pathway steps across 
+multiple organisms.
 
-Rather than having to spend time reviewing spreadsheets of pathway annotations or using existing ineffectual pathway annotation visualization software, researchers can now perform their analyses using Micromeda's streamlined and efficient heat maps. For enormous datasets, Pygenprop can be used to compare the predict pathways of thousands of genomes. Micromeda has the potential for shaping the way that future researchers perform pathway analysis.
+Rather than having to spend time reviewing spreadsheets of pathway annotations 
+or using existing ineffectual pathway annotation visualization software, 
+researchers can now perform their analyses using Micromeda's streamlined and 
+efficient heat maps. For enormous datasets, Pygenprop can be used to compare the 
+predict pathways of thousands of genomes. Micromeda has the potential for 
+shaping the way that future researchers perform pathway analysis.
+
 
 \cleardoublepage
 
@@ -93,7 +148,20 @@ Rather than having to spend time reviewing spreadsheets of pathway annotations o
 
 \begin{center}\textbf{Acknowledgements}\end{center}
 
-I want to thank my supervisors, Dr. Josh Neufeld and Dr. Andrew Doxey, for their constant support and mentorship throughout the project. Feedback from my thesis committee, Dr. Laura Hug and Dr. Jim Wallace, was also much appreciated. I would also like to thank Jackson Tsuji and Dr. Sofie Thijs for their advice and feedback on user interface design. Concerning funding, I want to thank the Province of Ontario and the University of Waterloo for awarding me with a Queen Elizabeth II Graduate Scholarship in Science and Technology (QEII-GSST). I would also like to thank the Nuclear Waste Management Organization (NWMO) for direct funding and Natural Sciences and Engineering Research Council (NSERC) for providing funding via a Collaborative Research and Development (CRD) grant awarded to my supervisors. Finally, I would like to thank Donya Saghattchi and John Zubak, from my startup company Amplytica Inc., for their consistent patience and support throughout the thesis process.
+I want to thank my supervisors, Dr. Josh Neufeld and Dr. Andrew Doxey, for their 
+constant support and mentorship throughout the project. Feedback from my thesis 
+committee, Dr. Laura Hug and Dr. Jim Wallace, was also much appreciated. I would 
+also like to thank Jackson Tsuji and Dr. Sofie Thijs for their advice and 
+feedback on user interface design. Concerning funding, I want to thank the 
+Province of Ontario and the University of Waterloo for awarding me with a Queen 
+Elizabeth II Graduate Scholarship in Science and Technology (QEII-GSST). I would 
+also like to thank the Nuclear Waste Management Organization (NWMO) for direct 
+funding and Natural Sciences and Engineering Research Council (NSERC) for 
+providing funding via a Collaborative Research and Development (CRD) grant 
+awarded to my supervisors. Finally, I would like to thank Donya Saghattchi and 
+John Zubak, from my startup company Amplytica Inc., for their consistent 
+patience and support throughout the thesis process.
+
 
 \cleardoublepage
 

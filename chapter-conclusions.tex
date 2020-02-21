@@ -1,51 +1,238 @@
 \chapter{Conclusions} \label{conclusion-chapter}
 
-Micromeda is designed to help researchers compare the genomically predicted functional characteristics of multiple organisms. Two key elements facilitate this capability. Firstly, Pygenprop, a library that assists Micromeda's other components, can be used separately to compare functional characteristics across organisms programmatically. Secondly, Micromeda-Client can be used to generate an interactive heat map that allows users to perform the same comparisons visually. Micromeda-Server was developed to provide an \gls{api} that provides data to this client. Micromeda files allow for the transfer of entire datasets of pathway predictions and supporting information such as protein sequences to Micromeda-Client. They also enable the rapid transfer of datasets between researchers. Pygenprop is used to generate these Micromeda files, and the client uses their contents to draw its heat maps. The functional predictions made and displayed by Micromeda are derived from the information found within the Genome Properties database and the domain annotations of an organism's proteins. 
+Micromeda is designed to help researchers compare the genomically predicted 
+functional characteristics of multiple organisms. Two key elements facilitate 
+this capability. Firstly, Pygenprop, a library that assists Micromeda's other 
+components, can be used separately to compare functional characteristics across 
+organisms programmatically. Secondly, Micromeda-Client can be used to generate 
+an interactive heat map that allows users to perform the same comparisons 
+visually. Micromeda-Server was developed to provide an \gls{api} that provides 
+data to this client. Micromeda files allow for the transfer of entire datasets 
+of pathway predictions and supporting information such as protein sequences to 
+Micromeda-Client. They also enable the rapid transfer of datasets between 
+researchers. Pygenprop is used to generate these Micromeda files, and the client 
+uses their contents to draw its heat maps. The functional predictions made and 
+displayed by Micromeda are derived from the information found within the Genome 
+Properties database and the domain annotations of an organism's proteins. 
 
 \section{Micromeda in the Context of Previous Work}
 
-In contrast to many pathway annotation systems (see Sections \ref{server-summary} and \ref{visualization-comparison}) that are either run remotely or locally on a researcher's computer, Micromeda has both local and remote components. InterProScan and Pygenprop run locally on users' computers and generate Micromeda files. These files are later uploaded to Micromed-Client, which is deployed on a remote server along with Micromeda-Server. The main reason for this split is to shift the computational cost of generating pathway annotations onto users while allowing \gls{ui} components, such as Micromeda-Client, to be centrally hosted. This central hosting will allow for the rapid deployment of \gls{ui} updates and bug fixes.
+In contrast to many pathway annotation systems (see Sections 
+\ref{server-summary} and \ref{visualization-comparison}) that are either run 
+remotely or locally on a researcher's computer, Micromeda has both local and 
+remote components. InterProScan and Pygenprop run locally on users' computers 
+and generate Micromeda files. These files are later uploaded to Micromed-Client, 
+which is deployed on a remote server along with Micromeda-Server. The main 
+reason for this split is to shift the computational cost of generating pathway 
+annotations onto users while allowing \gls{ui} components, such as 
+Micromeda-Client, to be centrally hosted. This central hosting will allow for 
+the rapid deployment of \gls{ui} updates and bug fixes.
 
-From a human-computer interaction perspective, Micromeda provides a much-improved \gls{ui} for visualizing the difference in predicted function characteristics (Section \ref{visualization-comparison}). Unlike other tools, it uses interactivity to dynamically switch between displaying summaries of the presence of multiple pathways and the presence of individual pathways steps. It also integrates various pieces supporting information, such as descriptions of select genome properties, directly into its interface. This level of integration is in contrast to other tools that require users to view such information in separate web pages.
+From a human-computer interaction perspective, Micromeda provides a 
+much-improved \gls{ui} for visualizing the difference in predicted function 
+characteristics (Section \ref{visualization-comparison}). Unlike other tools, it 
+uses interactivity to dynamically switch between displaying summaries of the 
+presence of multiple pathways and the presence of individual pathways steps. It 
+also integrates various pieces supporting information, such as descriptions of 
+select genome properties, directly into its interface. This level of integration 
+is in contrast to other tools that require users to view such information in 
+separate web pages.
 
-Another key feature of the Micromeda platform that makes it stand out from other tools is its ability to connect pathway annotations to the predict protein sequences that underpin them. Both Pygenprop and Micromeda-Client allow users to generate FASTA files that contain proteins, from all organisms in a dataset, that support a property step. These FASTA files could be used to build phylogenetic trees. This feature is not available in other tools.
+Another key feature of the Micromeda platform that makes it stand out from other 
+tools is its ability to connect pathway annotations to the predict protein 
+sequences that underpin them. Both Pygenprop and Micromeda-Client allow users to 
+generate FASTA files that contain proteins, from all organisms in a dataset, 
+that support a property step. These FASTA files could be used to build 
+phylogenetic trees. This feature is not available in other tools.
 
-Pygenprop is one of the first libraries designed to support the programmatic comparison of genomically predicted functional characteristics. When combined with tools such as Jupyter Notebooks, it provides a powerful tool for both developing pathway analysis tools and performing rapid analyses. Pygenprop is the second library that is compatible with Genome Properties data and is one of the only pathway comparison libraries written Python. It is also one of the first pathway analysis tools to integrate with the Python data science ecosystem.
+Pygenprop is one of the first libraries designed to support the programmatic 
+comparison of genomically predicted functional characteristics. When combined 
+with tools such as Jupyter Notebooks, it provides a powerful tool for both 
+developing pathway analysis tools and performing rapid analyses. Pygenprop is 
+the second library that is compatible with Genome Properties data and is one of 
+the only pathway comparison libraries written Python. It is also one of the 
+first pathway analysis tools to integrate with the Python data science 
+ecosystem.
 
 \section{Why Micromeda is an Important Tool That Will Support Future Research}
 
-As the number of sequenced genomes increases and the cost of sequencing becomes more affordable, there will be an increasing need for tools that can rapidly compare the pathways of multiple organisms or even entire genome-resolved microbial communities. Micromeda provides tools that can scale with these increasing datasets. Micromeda-client can be used to compare the possessed pathways tens of organisms, and Pygenprop can examine the possessed pathways of thousands. Micromeda's improved user interface design and ability to connect pathway annotations to protein sequences will improve the velocity at which researchers can perform pathway analysis.
+As the number of sequenced genomes increases and the cost of sequencing becomes 
+more affordable, there will be an increasing need for tools that can rapidly 
+compare the pathways of multiple organisms or even entire genome-resolved 
+microbial communities. Micromeda provides tools that can scale with these 
+increasing datasets. Micromeda-client can be used to compare the possessed 
+pathways tens of organisms, and Pygenprop can examine the possessed pathways of 
+thousands. Micromeda's improved user interface design and ability to connect 
+pathway annotations to protein sequences will improve the velocity at which 
+researchers can perform pathway analysis.
 
 \section{Future Improvements to Micromeda}
 
-As discussed in Section \ref{introduction_summary}, the summary of each chapter of the thesis examines potential improvements to the component that the chapter reviews. However, some substantial improvements require modifications to multiple parts of the Micromeda platform or are outside the scope of previous chapters. These changes are discussed in the subsections below.
+As discussed in Section \ref{introduction_summary}, the summary of each chapter 
+of the thesis examines potential improvements to the component that the chapter 
+reviews. However, some substantial improvements require modifications to 
+multiple parts of the Micromeda platform or are outside the scope of previous 
+chapters. These changes are discussed in the subsections below.
 
-\subsection{Creation of an Automated Pipeline for Rapid and Easy Generation of Micromeda Files} \label{pipeline-development}
+\subsection{Creation of an Automated Pipeline for Rapid and Easy Generation of 
+Micromeda Files} \label{pipeline-development}
 
-Currently, there is no automated pipeline that users can apply to generate Micromeda files. As detailed in Section \ref{micromeda-overview}, users are required to install and run three \gls{cli} bioinformatics tools on their organisms' raw genome sequences to build Micromeda files. For convenience, an automated bioinformatics pipeline should be developed that would first install all these bioinformatics tools and later run them in series on user-supplied genomes. Components of the pipeline could be deployed via Conda (\href{http://conda.io}{conda.io}) and run in Conda environments to prevent these components from interfering with software installed previously. Pipeline automation tools such as Snakemake \cite{koster2012snakemake} or Nextflow \cite{di2017nextflow} could be used to develop such a pipeline. These tools ensure that steps in the pipeline are executed in the correct order and allow for these steps to be scaled out in parallel if multiple organism's genomes are to be processed.
+Currently, there is no automated pipeline that users can apply to generate 
+Micromeda files. As detailed in Section \ref{micromeda-overview}, users are 
+required to install and run three \gls{cli} bioinformatics tools on their 
+organisms' raw genome sequences to build Micromeda files. For convenience, an 
+automated bioinformatics pipeline should be developed that would first install 
+all these bioinformatics tools and later run them in series on user-supplied 
+genomes. Components of the pipeline could be deployed via Conda 
+(\href{http://conda.io}{conda.io}) and run in Conda environments to prevent 
+these components from interfering with software installed previously. Pipeline 
+automation tools such as Snakemake \cite{koster2012snakemake} or Nextflow 
+\cite{di2017nextflow} could be used to develop such a pipeline. These tools 
+ensure that steps in the pipeline are executed in the correct order and allow 
+for these steps to be scaled out in parallel if multiple organism's genomes are 
+to be processed.
 
-An extension to this primary pipeline could also be used to speed up the process of generating Micromeda files. As discussed in Subsection \ref{why-micromeda-files}, InterProScan is very slow because it must scan an organism's predicted proteins with many domain models. One way of speeding up this process would be to reduce the set of proteins that are required to be scanned. In Subsection \ref{Genome-Properties-Files}, it is mentioned that each property in the Genome Properties database posses has an associated FASTA file containing representative protein sequences that carry out the steps of a property. A fast sequence similarity search tool such as MMSeqs2 \cite{steinegger2017mmseqs2} could be used to compare an organism's proteins to the representatives in these FASTA files. This comparison could be used to filter out proteins that are unlikely to be homologous to those representative proteins from the database (i.e., true negatives), which reduces the overall set proteins that would need to be scanned by InterProScan. The Micromeda file generation pipeline mentioned above could automate these filtering steps.
+An extension to this primary pipeline could also be used to speed up the process 
+of generating Micromeda files. As discussed in Subsection 
+\ref{why-micromeda-files}, InterProScan is very slow because it must scan an 
+organism's predicted proteins with many domain models. One way of speeding up 
+this process would be to reduce the set of proteins that are required to be 
+scanned. In Subsection \ref{Genome-Properties-Files}, it is mentioned that each 
+property in the Genome Properties database posses has an associated FASTA file 
+containing representative protein sequences that carry out the steps of a 
+property. A fast sequence similarity search tool such as MMSeqs2 
+\cite{steinegger2017mmseqs2} could be used to compare an organism's proteins to 
+the representatives in these FASTA files. This comparison could be used to 
+filter out proteins that are unlikely to be homologous to those representative 
+proteins from the database (i.e., true negatives), which reduces the overall set 
+proteins that would need to be scanned by InterProScan. The Micromeda file 
+generation pipeline mentioned above could automate these filtering steps.
 
-\subsection{Add the Option to Assign Properties According Percentage Completeness Rather Than Categorically.}
+\subsection{Add the Option to Assign Properties According Percentage 
+Completeness Rather Than Categorically.}
 
-Currently, the heat map generated by Micromeda is coloured according to property assignments that follow a discrete scale. Each property is assigned YES, PARTIAL, or NO support and is tinted to match. It should be noted that the algorithm employed to generate these assignments uses only the presence of required steps for a property in its calculations (see Subsection \ref{AssignmentCachingAlgorithm}). If even a single required step is not supported, then the parent property is assigned PARTIAL support. If Micromeda is applied to incomplete genomes, such as those generated from Metagenomes, then many genes encoding for proteins that support property steps may be missing. These missing genes would result in many properties being assigned PARTIAL support. 
+Currently, the heat map generated by Micromeda is coloured according to property 
+assignments that follow a discrete scale. Each property is assigned YES, 
+PARTIAL, or NO support and is tinted to match. It should be noted that the 
+algorithm employed to generate these assignments uses only the presence of 
+required steps for a property in its calculations (see Subsection 
+\ref{AssignmentCachingAlgorithm}). If even a single required step is not 
+supported, then the parent property is assigned PARTIAL support. If Micromeda is 
+applied to incomplete genomes, such as those generated from Metagenomes, then 
+many genes encoding for proteins that support property steps may be missing. 
+These missing genes would result in many properties being assigned PARTIAL 
+support. 
 
-It may be useful for users to be able to quantify the level of support for each assigned property along a continuous scale. This change would address these potentially high levels of PARTIAL property assignments created by running Micromeda on incomplete genomes. For example, properties that have more of their steps supported could be given higher values than those that are incomplete. Non-required steps could also influence such a continuous scale. In the context of a heat map, these continuously scaled assignments of support would be assigned different shades of the same colour.
+It may be useful for users to be able to quantify the level of support for each 
+assigned property along a continuous scale. This change would address these 
+potentially high levels of PARTIAL property assignments created by running 
+Micromeda on incomplete genomes. For example, properties that have more of their 
+steps supported could be given higher values than those that are incomplete. 
+Non-required steps could also influence such a continuous scale. In the context 
+of a heat map, these continuously scaled assignments of support would be 
+assigned different shades of the same colour.
 
-Algorithms for calculating levels of PARTIAL support for biochemical pathways have been developed before. For example, \gls{maple} \cite{takami2016automated}, a \gls{kegg}-based pathway annotation server, can calculate \gls{mcr} (i.e., continuous levels of support based on the presence of pathway steps) for each module in the \gls{kegg}  database. \gls{kegg} modules are roughly equivalent to higher level genome properties. \gls{mcr}'s are calculations of the level of completeness of individual pathways that take into account that multiple different enzymes may catalyze some pathway steps. They are calculated using custom ``boolean algebra-like equations" generated for each \gls{kegg} module \cite{takami2012evaluation}. These equations take in \gls{ko} annotations (see Section \ref{visualization-comparison}, Fig. \ref{fig:functree2}, and \cite{mao2005automated}) of an organism's proteins as input. \gls{ko} annotations are equivalent to the step evidence used to support genome property steps. 
+Algorithms for calculating levels of PARTIAL support for biochemical pathways 
+have been developed before. For example, \gls{maple} \cite{takami2016automated}, 
+a \gls{kegg}-based pathway annotation server, can calculate \gls{mcr} (i.e., 
+continuous levels of support based on the presence of pathway steps) for each 
+module in the \gls{kegg}  database. \gls{kegg} modules are roughly equivalent to 
+higher level genome properties. \gls{mcr}'s are calculations of the level of 
+completeness of individual pathways that take into account that multiple 
+different enzymes may catalyze some pathway steps. They are calculated using 
+custom ``boolean algebra-like equations" generated for each \gls{kegg} module 
+\cite{takami2012evaluation}. These equations take in \gls{ko} annotations (see 
+Section \ref{visualization-comparison}, Fig. \ref{fig:functree2}, and 
+\cite{mao2005automated}) of an organism's proteins as input. \gls{ko} 
+annotations are equivalent to the step evidence used to support genome property 
+steps. 
 
-Pygenprop could also implement a similar ``completeness ratio" algorithm to that used by \gls{maple}. Much of the logic encoded in \gls{maple}'s ``boolean algebra-like equations" is already built into the Genome Properties database itself. For example, the record for each genome properties already records the InterPro domains, which represent multiple enzyme families, that can be used to support a single step. The steps required for individual properties are also codified. Calculation of ``completeness ratios" for genome properties may be complicated by the fact that several genome properties rely on the presence of others (see Section \ref{genome-properties-overview}), unlike \gls{kegg} modules, which are only supported by \gls{ko} annotations.
+Pygenprop could also implement a similar ``completeness ratio" algorithm to that 
+used by \gls{maple}. Much of the logic encoded in \gls{maple}'s ``boolean 
+algebra-like equations" is already built into the Genome Properties database 
+itself. For example, the record for each genome properties already records the 
+InterPro domains, which represent multiple enzyme families, that can be used to 
+support a single step. The steps required for individual properties are also 
+codified. Calculation of ``completeness ratios" for genome properties may be 
+complicated by the fact that several genome properties rely on the presence of 
+others (see Section \ref{genome-properties-overview}), unlike \gls{kegg} 
+modules, which are only supported by \gls{ko} annotations.
 
-Pygenprop could implement such a ``completeness ratio" based assignment system by providing it with a separate set of functions for calculating genome property assignments. The library could then be modified to calculate either discrete or continuous assignments for individual properties. These continuous assignments could be stored in Micromeda files or generated dynamically. In the context of Micromeda, its interface could be modified to have a user interface switch that would allow users to switch their current heat map between displaying property assignments as either YES, NO, or PARTIAL or as a percentage of step completeness. Micromeda-Server would have to be modified to provide an endpoint (Section \ref{endpoints}) for these serving completeness-based property assignments to Micromeda-Client.
+Pygenprop could implement such a ``completeness ratio" based assignment system 
+by providing it with a separate set of functions for calculating genome property 
+assignments. The library could then be modified to calculate either discrete or 
+continuous assignments for individual properties. These continuous assignments 
+could be stored in Micromeda files or generated dynamically. In the context of 
+Micromeda, its interface could be modified to have a user interface switch that 
+would allow users to switch their current heat map between displaying property 
+assignments as either YES, NO, or PARTIAL or as a percentage of step 
+completeness. Micromeda-Server would have to be modified to provide an endpoint 
+(Section \ref{endpoints}) for these serving completeness-based property 
+assignments to Micromeda-Client.
 
-\subsection{Expansion of the Genome Properties Database to Included New Properties Not In InterPro}
+\subsection{Expansion of the Genome Properties Database to Included New 
+Properties Not In InterPro}
 
-Although the Genome Properties database has been shown to have similar overall genome coverage to other pathway databases (see Subsection \ref{reason-for-genome-properties-selection}), it still missing several pathways that are covered by other databases and pathways that are newly emerging in the literature. These pathways could be rapidly added to the Genome Properties database by adding a series of \gls{hmm}s \cite{eddy2011accelerated} to InterProScan's data files. These \gls{hmm}s would be used to detect the enzymes that carry out these new pathway's steps. For example, the FunGene \cite{fish2013fungene} database contains a series of custom HMMER \cite{eddy2011accelerated} \gls{hmm}s that are used for identifying enzymes involved in biogeochemical processes. Integrating FunGene as a new InterProScan member database would only require adding FunGene's \gls{hmm}s to InterProScan's data files, writing a Python script for filtering out false-positive \gls{hmm} matches, and modifying some of InterProScan's configuration files. Afterwards, InterProScan would automatically use these new \gls{hmm}s when annotating novel proteins and would add the filtered results from running these \gls{hmm}s to its output \gls{tsv} file (see Section \ref{overview-interproscan}). This modified version of InterProScan could then be maintained separately or merged into the central InterProScan GitHub repository. Once FunGene is added to InterProScan, new Genome Properties could be created that use FunGene \gls{hmm}s names as step evidence instead of InterPro signature accessions. These novel properties could be implemented by added new property \textbf{DESC} files (Subsection \ref{Genome-Properties-Files}) to the database. This custom version of the Genome Properties database could also be maintained as a fork or merged into the latest version of the Genome Properties database on Github. A similar design pattern could be used to integrate any \gls{hmm}-based pathway database. The main advantage of this approach is that it allows the new database's \gls{hmm}s to be run by InterProScan, which provides high scalability across many \gls{cpu} cores or even on \gls{hpc} clusters.
+Although the Genome Properties database has been shown to have similar overall 
+genome coverage to other pathway databases (see Subsection 
+\ref{reason-for-genome-properties-selection}), it still missing several pathways 
+that are covered by other databases and pathways that are newly emerging in the 
+literature. These pathways could be rapidly added to the Genome Properties 
+database by adding a series of \gls{hmm}s \cite{eddy2011accelerated} to 
+InterProScan's data files. These \gls{hmm}s would be used to detect the enzymes 
+that carry out these new pathway's steps. For example, the FunGene 
+\cite{fish2013fungene} database contains a series of custom HMMER 
+\cite{eddy2011accelerated} \gls{hmm}s that are used for identifying enzymes 
+involved in biogeochemical processes. Integrating FunGene as a new InterProScan 
+member database would only require adding FunGene's \gls{hmm}s to InterProScan's 
+data files, writing a Python script for filtering out false-positive \gls{hmm} 
+matches, and modifying some of InterProScan's configuration files. Afterwards, 
+InterProScan would automatically use these new \gls{hmm}s when annotating novel 
+proteins and would add the filtered results from running these \gls{hmm}s to its 
+output \gls{tsv} file (see Section \ref{overview-interproscan}). This modified 
+version of InterProScan could then be maintained separately or merged into the 
+central InterProScan GitHub repository. Once FunGene is added to InterProScan, 
+new Genome Properties could be created that use FunGene \gls{hmm}s names as step 
+evidence instead of InterPro signature accessions. These novel properties could 
+be implemented by added new property \textbf{DESC} files (Subsection 
+\ref{Genome-Properties-Files}) to the database. This custom version of the 
+Genome Properties database could also be maintained as a fork or merged into the 
+latest version of the Genome Properties database on Github. A similar design 
+pattern could be used to integrate any \gls{hmm}-based pathway database. The 
+main advantage of this approach is that it allows the new database's \gls{hmm}s 
+to be run by InterProScan, which provides high scalability across many \gls{cpu} 
+cores or even on \gls{hpc} clusters.
 
 \section{Recommendations for Future Development}
 
-Researchers are scaling up their research projects from studying the capabilities of individual microorganisms to looking at the functional capabilities of entire microbial communities from a systems biology perspective. Due to its ability to programmatically compare thousands of pathway presence and absences from multiple organisms simultaneously, Pygenprop has the potential to form the basis of future bioinformatics tools that support the above emerging community-scale research. Such tools could use patterns in the presence and absence of pathway steps found in organisms from a single environment to detect patterns of interspecies cross-feeding. Pygenprop's integration with the Python data science ecosystem could be leveraged to build classifiers that automatically identify organisms that carry out specific ecosystem functions. When combined with culture condition information found in databases such as BacDive \cite{reimer2018bac}, Pygenprop could be used to develop classifiers that use the presence and absence of genome properties to predict an organism's favoured growth conditions. If such a tool was applied to multiple organisms from an environment, the data produced could be potentially used to build tools that predict how microbial communities will shift in response to changes in environmental conditions. It is recommended that future users of Pygenprop explore the possibility of building such tools.
+Researchers are scaling up their research projects from studying the 
+capabilities of individual microorganisms to looking at the functional 
+capabilities of entire microbial communities from a systems biology perspective. 
+Due to its ability to programmatically compare thousands of pathway presence and 
+absences from multiple organisms simultaneously, Pygenprop has the potential to 
+form the basis of future bioinformatics tools that support the above emerging 
+community-scale research. Such tools could use patterns in the presence and 
+absence of pathway steps found in organisms from a single environment to detect 
+patterns of interspecies cross-feeding. Pygenprop's integration with the Python 
+data science ecosystem could be leveraged to build classifiers that 
+automatically identify organisms that carry out specific ecosystem functions. 
+When combined with culture condition information found in databases such as 
+BacDive \cite{reimer2018bac}, Pygenprop could be used to develop classifiers 
+that use the presence and absence of genome properties to predict an organism's 
+favoured growth conditions. If such a tool was applied to multiple organisms 
+from an environment, the data produced could be potentially used to build tools 
+that predict how microbial communities will shift in response to changes in 
+environmental conditions. It is recommended that future users of Pygenprop 
+explore the possibility of building such tools.
 
 \section{Summary}
 
-Micromeda is a set of tools that allow users to make rapid comparisons of the pathways possessed by multiple organisms. Although there are many improvements to be made to the software, the current version of the tool is robust and provides users will new capabilities with regards to pathway analysis. The platform should be maintained and further expanded upon in terms of both user interface and overall features. Micromeda already provides users with a faster way to perform pathway analysis and future improved versions, with improved performance and capabilities, it will help users even more. It is hoped that Micromeda will garner wide adoption by the scientific community.
+Micromeda is a set of tools that allow users to make rapid comparisons of the 
+pathways possessed by multiple organisms. Although there are many improvements 
+to be made to the software, the current version of the tool is robust and 
+provides users will new capabilities with regards to pathway analysis. The 
+platform should be maintained and further expanded upon in terms of both user 
+interface and overall features. Micromeda already provides users with a faster 
+way to perform pathway analysis and future improved versions, with improved 
+performance and capabilities, it will help users even more. It is hoped that 
+Micromeda will garner wide adoption by the scientific community.
