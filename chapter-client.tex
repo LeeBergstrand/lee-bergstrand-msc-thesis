@@ -34,7 +34,7 @@ others.
 identify patterns of conservation across organisms in a dataset (Fig. 
 \ref{fig:client-analysis-types}c). In microbial ecology, such comparisons can be 
 used to identify microorganisms that fit specific biochemically determined 
-ecological niches (e.g., photoferrotrophy).
+ecological niches (\textit{e}.\textit{g}., photoferrotrophy).
 \item By looking at the step assignments of a single property of a single 
 organism, users can evaluate the correctness of a property assignment (Fig. 
 \ref{fig:client-analysis-types}b). A property might be assigned NO or PARTIAL 
@@ -143,7 +143,7 @@ sense to encode assignments using colour saturation, rather than hue
 \cite{munzner2015visualization}. For the heat map, a purple cell colour scheme 
 was chosen to ensure that the diagram is interpretable by those with colour 
 blindness. Specifically, colours were optimized for users with severe 
-deuteranopia (i.e., complete loss of green cones), which, though rarer, has 
+deuteranopia (\textit{i}.\textit{e}., complete loss of green cones), which, though rarer, has 
 stronger Red-green colour blindness affects (see 
 \href{http://wikipedia.org/wiki/Color_blindness#Classification}{wikipedia.org/wiki/Color\_blindness\#Classification}). 
 A web service called ColorBrewer 
@@ -161,9 +161,9 @@ version 2.0 of the Genome Properties database, there are 1296 properties and
 6525 steps \cite{richardson2018genome}. If the client were used to generate a 
 single heat map representing the assignments of all properties, with each cell 
 being 5 mm tall, then the heat map produced would be approximately 6.5 meters 
-tall (i.e., fifteen vertical pages on a 24" monitor). If a similar heat map was 
+tall (\textit{i}.\textit{e}., fifteen vertical pages on a 24" monitor). If a similar heat map was 
 made, but for assignments of all property steps, then the heat map generated 
-would be over 32.6 meters tall (i.e., seventy-five vertical pages on a 24" 
+would be over 32.6 meters tall (\textit{i}.\textit{e}., seventy-five vertical pages on a 24" 
 monitor). If both of these heat maps were combined, then the resulting heat map 
 would be even longer. Micromeda-Client's visualization interface addresses the 
 length issue by using interactive aggregation and disaggregation 
@@ -297,7 +297,7 @@ facilitates access to an additional set of property information (Fig.
 these glyphs, a pop-up box appears displaying information about the property 
 that the glyph's node represents (Fig. \ref{fig:micromeda-interface}). This 
 pop-up box includes the name of the property, a description of it, a link to the 
-property on the \gls{ebi}  Genome Properties website (e.g., 
+property on the \gls{ebi}  Genome Properties website (\textit{e}.\textit{g}., 
 \href{https://www.ebi.ac.uk/interpro/genomeproperties/#GenProp0867}{ebi.ac.uk/interpro/genomeproperties/ 
 \#GenProp0867}), and a list of links to equivalent records in other pathways 
 databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc 
@@ -318,7 +318,7 @@ pop-up box is hidden.
 
 Micromeda-Client's interface also includes a reset button. This button resets 
 the heat map and icicle diagram back to their starting configuration where only 
-the top-level properties are shown (i.e., one level below the root of the Genome 
+the top-level properties are shown (\textit{i}.\textit{e}., one level below the root of the Genome 
 Properties \gls{dag}) to the user. Users can click this button to reset the 
 diagram to allow them to search for other properties.
 
@@ -367,7 +367,7 @@ dimensions, the offset of axis labels, and other visualization details (Fig.
 in a \gls{json} file \cite{bray2014rfc}, called 
 \textbf{diagram\_configuration.json}, which is deployed alongside the \gls{html} 
 files of the client. The second data structure is a copy of the Genome 
-Properties \gls{dag} in the form of a tree (i.e., nodes with two parents are 
+Properties \gls{dag} in the form of a tree (\textit{i}.\textit{e}., nodes with two parents are 
 duplicated) of \gls{javascript} objects. Each of these objects represents a 
 genome property or step and are linked together in parent-child relationships. 
 This data structure is analogous to the one used by Pygenprop (Section 
@@ -375,7 +375,7 @@ This data structure is analogous to the one used by Pygenprop (Section
 called assignments, containing a list of property assignments for the organism 
 in a dataset. Micromeda-Client later uses these assignments during the 
 generation of its heat map. These property and step objects also have an 
-attribute, called \textbf{enabled}, containing a boolean (i.e., true or false). 
+attribute, called \textbf{enabled}, containing a boolean (\textit{i}.\textit{e}., true or false). 
 Elements of Micromeda's \gls{ui} manipulate the \textbf{enabled} attribute of 
 objects in the property tree and this, in turn, manipulates the contents of the 
 visualization (Fig. \ref{fig:tree-map-to-viz}). The \textbf{enabled} boolean of 
@@ -719,7 +719,7 @@ motif found in a protein of an organism and an InterPro domain, have an
 \gls{eval} score. Micromeda-files store these scores. Matches with \gls{eval} 
 scores that are below a specific per-InterPro member database threshold are 
 filtered out by InterProScan automatically. Matches that remain are likely to be 
-true positives (i.e., the motif matched is an ortholog to the domain from the 
+true positives (\textit{i}.\textit{e}., the motif matched is an ortholog to the domain from the 
 database). However, there is still some \gls{eval} score variation among the 
 remaining matches. Motifs with matches that have lower \gls{eval} scores are 
 closer in sequence to domains in the database and are more likely to be 
