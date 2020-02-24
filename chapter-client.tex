@@ -4,7 +4,7 @@ Organism Genome Properties} \label{micromeda-client}
 As discussed in Chapter \ref{introduction}, a client web application provides 
 Micromeda's \gls{ui}. This client's role is to provide users with a streamlined 
 interface for visualizing patterns of property and step assignment found across 
-organisms. This assignment data is provided to the client in the form of a 
+organisms. These assignment data are provided to the client in the form of a 
 user-uploaded Micromeda file (Section \ref{MicromedaFiles}). After upload, these 
 files are sent to Micromeda-Server (Chapter \ref{micromeda-server}) where they 
 are parsed and used to provide data to the client. The client can request these 
@@ -683,7 +683,7 @@ There are problems with this approach, as discussed in Subsection
 \ref{assignment-endpoints}, and it would be more appropriate to have a separate 
 server endpoint for returning assignments for properties and steps. In addition 
 to solving the problems mentioned, having the client make a separate \gls{api} 
-call to gather this assignment data would be useful as it would allow the client 
+call to gather these assignment data would be useful as it would allow the client 
 to request for Micromeda-Server to rearrange the data before it is returned. 
 This reconfigurability would also allow for step assignments that are supported 
 by protein domains to be replaced by match \gls{eval} scores or for assignments 
@@ -931,7 +931,7 @@ a radial tree with nodes annotated by stacked bar charts. The bar charts of leaf
 nodes of the tree represent counts for a singular \gls{ko}, whereas charts 
 annotating nodes closer to root display summed \gls{ko}  counts for child nodes 
 (Fig. \ref{fig:functree2}). Unlike Micromeda-Client, aggregated and 
-disaggregated data is presented simultaneously. Nodes in the tree can be clicked 
+disaggregated data are presented simultaneously. Nodes in the tree can be clicked 
 to add and remove child nodes from the visualization. Instead of a default 
 \gls{kegg}-based tree, users can also upload their tree and annotation frequency 
 information.
