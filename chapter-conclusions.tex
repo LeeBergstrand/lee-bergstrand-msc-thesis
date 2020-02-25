@@ -41,8 +41,8 @@ separate web pages.
 Another key feature of the Micromeda platform that makes it stand out from other 
 tools is its ability to connect pathway annotations to the predict protein 
 sequences that underpin them. Both Pygenprop and Micromeda-Client allow users to 
-generate FASTA files that contain proteins, from all organisms in a dataset, 
-that support a property step. These FASTA files could be used to build 
+generate \gls{fasta} files that contain proteins, from all organisms in a dataset, 
+that support a property step. These \gls{fasta} files could be used to build 
 phylogenetic trees. This feature is not available in other tools.
 
 Pygenprop is one of the first libraries designed to support the programmatic 
@@ -98,11 +98,11 @@ of generating Micromeda files. As discussed in Subsection
 organism's predicted proteins with many domain models. One way of speeding up 
 this process would be to reduce the set of proteins that are required to be 
 scanned. In Subsection \ref{Genome-Properties-Files}, it is mentioned that each 
-property in the Genome Properties database posses has an associated FASTA file 
+property in the Genome Properties database posses has an associated \gls{fasta} file 
 containing representative protein sequences that carry out the steps of a 
 property. A fast sequence similarity search tool such as \gls{mmseqs2} 
 \cite{steinegger2017mmseqs2} could be used to compare an organism's proteins to 
-the representatives in these FASTA files. This comparison could be used to 
+the representatives in these \gls{fasta} files. This comparison could be used to 
 filter out proteins that are unlikely to be homologous to those representative 
 proteins from the database (\textit{i}.\textit{e}., true negatives), which reduces the overall set 
 proteins that would need to be scanned by InterProScan. The Micromeda file 

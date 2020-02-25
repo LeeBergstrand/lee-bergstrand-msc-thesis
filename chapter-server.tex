@@ -68,7 +68,7 @@ client later uses this key to request data from a specific Micromeda file.}
 	 \caption[Micromeda-Server currently presents four endpoints for accessing 
 Genome Properties and Micromeda file data.]{\textbf{Micromeda-Server currently 
 presents four endpoints for accessing Genome Properties and Micromeda file 
-data.} These endpoints return JSON documents and FASTA files that are generated 
+data.} These endpoints return JSON documents and \gls{fasta} files that are generated 
 using methods of GenomePropertiesResultsWithMatches objects, GenomeProperty 
 objects, and GenomePropertiesTree objects.}
 	 \label{fig:micromeda-endpoints}
@@ -222,7 +222,7 @@ detailed in subsections below.
 	 \caption[Micromeda-Server uses data held within URLs to figure out what 
 information to return for a given HTTP request.]{\textbf{Micromeda-Server uses 
 data held within \gls{url}s to figure out what information to return for a given 
-\gls{http} request.} The example \gls{url} above is used to download a FASTA 
+\gls{http} request.} The example \gls{url} above is used to download a \gls{fasta} 
 file containing the top proteins (\textit{i}.\textit{e}., those with the lowest \gls{eval} 
 domains) that support GenProp0526 step one for dataset FXDABADS. The \gls{url} 
 path variables are in blue and the \gls{http} GET parameters are in green. Note 
@@ -268,7 +268,7 @@ the database. Each property is given a description and a list of equivalent
 records from other databases (\textit{e}.\textit{g}., \gls{kegg}, MetaCyc) \\ \hline
 get\_fasta & /fasta/ \textless{}string: property\_id\textgreater{}/ 
 \textless{}int:step \_number\textgreater{} & GET & property\_id, step\_number & 
-dataset\_key (optional), all (optional) & FASTA file containing either all or 
+dataset\_key (optional), all (optional) & \gls{fasta} file containing either all or 
 the top proteins (\textit{i}.\textit{e}., those with the lowest \gls{eval} domain annotations) 
 supporting the existence of a given property step. A dataset key can be provided 
 to specify a dataset. \\ \hline
@@ -361,25 +361,25 @@ the \gls{json} strings generated are placed into a list in a single larger
 
 \subsection{The Get\_Fasta Endpoint} \label{get-fasta-endpoint}
 
-The \textbf{get\_gasta} endpoint is used to send the client a FASTA file 
+The \textbf{get\_gasta} endpoint is used to send the client a \gls{fasta} file 
 containing protein sequences that support the existence of a property step 
 across multiple organisms in a specific uploaded dataset. The \gls{url} path of 
 requests to this endpoint includes the genome property identifier and step 
-number of the property step required to generate a FASTA file. The FASTA file 
+number of the property step required to generate a \gls{fasta} file. The FASTA file 
 can either contain all proteins that support the existence of a property step or 
 only those with the lowest \gls{eval} for the InterPro domain offering support 
 for a given step. These proteins are known as the \textbf{``top"} hits. The 
 contents of the returned file is controlled by the presence of a \gls{http} GET 
 parameter called \textbf{all} (Fig. \ref{fig:endpoint-url}). If \textbf{all} is 
-set to true, then a FASTA file containing all proteins that support a step is 
-returned. Otherwise, a FASTA file containing only the lowest \gls{eval} proteins 
+set to true, then a \gls{fasta} file containing all proteins that support a step is 
+returned. Otherwise, a \gls{fasta} file containing only the lowest \gls{eval} proteins 
 is returned. Like the Get\_Tree endpoint, this endpoint also accepts a 
 \textbf{dataset\_key} \gls{http} GET parameter (Fig. \ref{fig:endpoint-url}). 
 The value of this variable is used to reconstitute a 
 GenomePropertiesResultsWithMatches object representing a previously uploaded 
 Micromeda file (Fig. \ref{fig:micromeda-server-workflow}). This object's 
 \textbf{write\_supporting\_proteins\_for\_step\_fasta} function (Table 
-\ref{tab:genomepropertyresultswithmatches}) is used generate the FASTA file, 
+\ref{tab:genomepropertyresultswithmatches}) is used generate the \gls{fasta} file, 
 which is sent to the client.
 
 \section{Micromeda Server Performance} \label{micromeda-server-performance}
@@ -394,7 +394,7 @@ When this file was sent to the \textbf{upload} endpoint of Micromeda-Server, it
 was parsed and added to the Redis cache in 11.3 s \textpm 2.0 s (\gls{n} = 3). 
 The \textbf{get\_tree} endpoint could create a genome property tree from this 
 cached Micromeda file in 9.4 s \textpm 4.0 s (\gls{n} = 3). The 
-\textbf{get\_fasta} endpoint could generate a FASTA file with the top supporting 
+\textbf{get\_fasta} endpoint could generate a \gls{fasta} file with the top supporting 
 proteins for GenProp0633 step number two in 33.0 ms \textpm 4.0 ms (\gls{n} = 
 10). The property information \gls{json} file could be generated for GenProp0633 
 by the \textbf{get\_single\_genome\_property\_info} endpoint in 7.0 ms \textpm 
@@ -636,7 +636,7 @@ precalculated pathway annotations for sets of reference organisms
 \cite{kanehisa2000kegg,karp2002metacyc,karp2013data}. Many pathway annotation 
 web sites such as \gls{fmm} \cite{chou2009fmm}, \gls{kaas} \cite{moriya2007kaas} 
 and \gls{maple} \cite{takami2016automated} can pathway annotate user-supplied 
-genomes uploaded in FASTA format \cite{pearson19905}. Such annotation servers 
+genomes uploaded in \gls{fasta} format \cite{pearson19905}. Such annotation servers 
 are complex to build and host due to the relative computational complexity of 
 scanning for genes that support the existence of pathway steps. In contrast, the 
 Genome Properties website allows for the upload of user-created InterProScan 
