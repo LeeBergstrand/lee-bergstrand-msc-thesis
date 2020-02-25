@@ -217,7 +217,7 @@ Pygenprop's Genome Properties database parser (see Section
 files of individual properties and the concatenated 
 \textbf{genomeProperties.txt} release file. The format of \textbf{DESC} files is 
 very similar to the Stockholm sequence alignment format used by both the 
-\gls{pfam} and Rfam databases \cite{bateman2004pfam, griffiths2003rfam}. Like 
+\gls{pfam} and \gls{rfam} databases \cite{bateman2004pfam, griffiths2003rfam}. Like 
 these file types, \textbf{DESC} files consist of a series of key-value pairs. 
 Because these files use different keys than Stockholm, a custom parser had to be 
 developed. An example \textbf{DESC} file can be found at 
@@ -236,13 +236,13 @@ search tools. These reasons are explained below.
 One of the primary reasons for using the Genome Properties database and 
 InterProScan is that they allow pathway annotations to be built from domains 
 identified by model-based search tools such as HMMER \cite{eddy2011accelerated} 
-or RPS-BLAST \cite{mcginnis2004blast}. When compared to \gls{blast}-based 
-\cite{altschul1990basic} search methods, which are commonly used by other 
-pathway annotation systems, these model-based tools are better at detecting 
-enzymes whose sequences are phylogenetically divergent from those previously 
-known \cite{eddy2011accelerated}. This improved detection capability provides 
-Micromeda with an advantage when it is applied to the genomes of previously 
-unstudied organisms.
+or \gls{rpsblast} \cite{mcginnis2004blast}. When compared to non-position
+specific \gls{blast}-based \cite{altschul1990basic} search methods, which are 
+commonly used by other pathway annotation systems, these model-based tools are 
+better at detecting enzymes whose sequences are phylogenetically divergent from 
+those previously known \cite{eddy2011accelerated}. This improved detection 
+capability provides Micromeda with an advantage when it is applied to the 
+genomes of previously unstudied organisms.
 
 The Genome Properties database being domain-based also provides Micromeda with 
 another advantage. It allows Micromeda to detect the presence of enzymes that 
