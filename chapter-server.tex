@@ -458,7 +458,7 @@ copies of the code in separate processes (Fig.
 \ref{fig:micromeda-medium-deploy}). Such master \gls{http} servers include the 
 Apache \cite{fielding1997apache} and Nginx \cite{reese2008nginx} \gls{http} 
 servers. This master server handles the parsing of \gls{http} requests. In 
-addition to the master server, a middleware component, such as uWSGI 
+addition to the master server, a middleware component, such as \gls{uwsgi} 
 \cite{2019uwsgi} or gunicorn \cite{chesneau_2018}, must also be used. Redis is 
 used to cache GenomePropertiesResultsWithMatches objects between requests in 
 this deployment type. All components of the above server are deployed on the 
@@ -473,7 +473,7 @@ software.]{\textbf{When deployed to handle the traffic of multiple clients,
 Micromed-Server must be supported by multiple other types of software.} In this 
 deployment style, multiple copies of its Python code are run simultaneously to 
 handle multiple clients. Redis is used to provide shared data between these 
-processes. A uWSGI middleware component is used to connect these copies to a 
+processes. A \gls{uwsgi} middleware component is used to connect these copies to a 
 high performance \gls{http} server, such as Nginx, that can handle high web 
 traffic volumes. The genomeProperties.txt files and default Micromeda files are 
 still used in this deployment style but were omitted from the diagram for 
