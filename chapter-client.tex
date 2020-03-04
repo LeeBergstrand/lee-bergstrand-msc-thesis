@@ -110,21 +110,7 @@ over the competing visualization techniques such as bubble charts
 \cite{ward2002taxonomy,stothard2004circular}, or treemaps 
 \cite{shneiderman1998tree} due to the number of variables that needed to be 
 plotted by the client and the superior space utilization of heat maps, which 
-mimic the square dimensions of the computer monitors they are displayed on (Fig. 
-\ref{fig:circle-square}).
-
-\begin{figure}[!ht]
-  \centering
-	\includegraphics[width=0.7\textwidth]{media/square_vs_circle.pdf}
-	 \caption[Square diagrams provide better space utilization on a computer 
-display than circular diagrams of the same area.]{\textbf{Square diagrams 
-provide better space utilization on a computer display than circular diagrams of 
-the same area.} The circle (blue) and square (red) presented have the same area. 
-A circle diagram requires larger X and Y-axis dimensions, as compared to a 
-rectangular diagram, to display the same amount of data and produces dead space 
-where no data can be presented at a display's (grey) corners.}
-	 \label{fig:circle-square}
-\end{figure}
+mimic the square dimensions of the computer monitors they are displayed on \cite{muramalla2017radial}.
 
 Micromeda-Client's heat map uses its cell's positions to indicate what 
 assignment belongs to what property or step and organism (Fig. 
@@ -959,15 +945,15 @@ used by visualization tools such as Circos \cite{krzywinski2009circos}.}.
 Rather than defaulting to a horizontal tree or radial tree, micromeda's client 
 replaces both of these trees with an icicle diagram. This icicle diagram 
 provides superior spacial compactness to either tree type as no edges have to be 
-rendered and nodes can be placed adjacently. As shown in Figure 
-\ref{fig:circle-square}, rectangular diagrams have better space utilization than 
-radial diagrams on modern computer monitors. In contrast to FuncTree2, the 
-visualization of Micromeda-Client only allows users to show either aggregated 
-assignments for a parent node or the disaggregated assignments of its children, 
-not both simultaneously. Both the decision to use icicle diagrams and either 
-present parent or child assignments allow the client's diagram to retain the 
-same square layout as an annotated horizontal tree with superior space 
-utilization to a radial tree. 
+rendered and nodes can be placed adjacently. Rectangular diagrams have better 
+space utilization than radial diagrams on modern computer monitors 
+\cite{muramalla2017radial}. In contrast to FuncTree2, the visualization of 
+Micromeda-Client only allows users to show either aggregated assignments for a 
+parent node or the disaggregated assignments of its children, not both 
+simultaneously. Both the decision to use icicle diagrams and either present 
+parent or child assignments allow the client's diagram to retain the same square 
+layout as an annotated horizontal tree with superior space utilization to a 
+radial tree. 
 
 \section{Summary} \label{micromeda-client-summary}
 
