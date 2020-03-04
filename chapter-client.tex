@@ -55,10 +55,11 @@ pathway step.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=\textwidth]{media/analysis_types.pdf}
-	 \caption[Visualization Genome Properties data can be used to support a variety 
-of pathways analysis tasks.]{\textbf{Visualization Genome Properties data can be 
-used to support a variety of pathways analysis tasks.} Comparisons can be made 
-between organisms, pathways or pathway steps.}
+	 \caption[Examples of different pathway analysis tasks that can be supported by 
+the visualization of Genome Properties data.]{\textbf{Examples of different 
+pathway analysis tasks that can be supported by the visualization of Genome 
+Properties data.} Comparisons can be made between 
+organisms, pathways or pathway steps.}
 	 \label{fig:client-analysis-types}
 \end{figure}
 
@@ -175,11 +176,12 @@ detailed child assignments (Fig. \ref{fig:visualization-philosophy}).
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/visualization_design_philosphy.pdf}
-	 \caption[Micromeda-Client uses an interactive icicle diagram to control the 
-state of its visualizations.]{\textbf{Micromeda-Client uses an interactive 
-icicle diagram to control the state of its visualizations.} Clicking nodes in 
-the diagram changes the shape of the heat map by adding and removing rows. The 
-use of an icicle diagram allows the final visualization to be more compact.}
+	 \caption[Overview of the components of Micromeda's visualization design that 
+are critical to user interactivity.]{\textbf{Overview of the components of 
+Micromeda's visualization design that are critical to user interactivity.} The 
+use of an icicle diagram allows the final visualization to be more compact. 
+Clicking nodes in the icicle diagram changes the shape of the heat map by adding 
+and removing rows.}
 	 \label{fig:visualization-philosophy}
 \end{figure}
 
@@ -261,15 +263,16 @@ activated when a user clicks a node in the icicle diagram.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.9\textwidth]{media/micromeda-interface.pdf}
-	 \caption[Beyond generating a heat map, Micromeda's UI also provides additional 
-search and information gathering features.]{\textbf{Beyond generating a heat 
-map, Micromeda's \gls{ui} also provides additional search and information 
-gathering features.} It provides functionality for getting additional 
-information about properties and steps (1) and provides the ability to download 
-protein sequences that support step assignments (2). A legend provides context 
-to the heat map's colour scheme (3). The interface also supports property 
-searching (4) and possesses a reset button that allows users to reset the heat 
-map to its initial loaded state (5).}
+	 \caption[Web-browser window containing Micromeda’s heat map visualization and 
+interface annotated to highlight the interface’s search and information 
+gathering features.]{\textbf{Web-browser window containing Micromeda’s heat map 
+visualization and interface annotated to highlight the interface’s search and 
+information gathering features.} The interface provides functionality for getting 
+additional information about properties and steps (1) and provides the ability 
+to download protein sequences that support step assignments (2). A legend 
+provides context to the heat map’s colour scheme (3). The interface also 
+supports property searching (4) and possesses a reset button that allows users 
+to reset the heat map to its initial loaded state (5).}
 	 \label{fig:micromeda-interface}
 \end{figure}
 
@@ -376,21 +379,21 @@ properties, and is analogous to Pygenprop's GenomePropertiesTree class (Section
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=\textwidth]{media/diagram_measurements.pdf}
-	 \caption[The layout of Micromeda-Clients diagrams is determined by a series of 
-pre-defined spacing, width, and length values.]{\textbf{The layout of 
-Micromeda-Clients diagrams is determined by a series of pre-defined spacing, 
-width, and length values.} Changes in these values can shift the size and 
-spacing of the heat map's cells and axes. Dimension values are stored in an 
-external file that loaded upon diagram generation. The contents of this file can 
-be modified to change the layout of Micromeda-Client's heat map.}
+	 \caption[How pre-defined spacing, width, and length values determine the 
+layout of Micromeda-Client's diagrams.]{\textbf{How pre-defined spacing, width, 
+and length values determine the layout of Micromeda-Client's diagrams.} Changes 
+in these values can shift the size and spacing of the heat map's cells and axes. 
+Dimension values are stored in an external file that is loaded upon diagram 
+generation. The contents of this file can be modified to change the layout of 
+Micromeda-Client's heat map.}
 	 \label{fig:diagram-measurements}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.7\textwidth]{media/how_tree_state_maps.pdf}
-	 \caption[The state of Micromeda-Client's heat map diagram is controlled by the 
-state of a client-side in-memory property tree.]{\textbf{The state of 
+	 \caption[How the state of Micromeda-Client's heat map diagram is controlled by 
+the state of a client-side in-memory property tree.]{\textbf{How the state of 
 Micromeda-Client's heat map diagram is controlled by the state of a client-side 
 in-memory property tree.} Changing the state of enabled attributes of property 
 objects in the tree causes the heat map and icicle diagram to be generated 
@@ -583,11 +586,11 @@ and opened by a developer's web browser for development and testing purposes.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.7\textwidth]{media/micromeda-client-deployment.pdf}
-	 \caption[There are two primary deployment strategies for Micromeda-Client. 
-]{\textbf{There are two primary deployment strategies for Micromeda-Client.} The 
-client files for Micromeda-Client, in production, can either be deployed on the 
-same server computer system as Micromeda-Server (A) or deployed via a content 
-delivery network (B).}
+	 \caption[The two primary deployment strategies for 
+Micromeda-Client.]{\textbf{The two primary deployment strategies for 
+Micromeda-Client.} The client files for Micromeda-Client, in production, can 
+either be deployed on the same server computer system as Micromeda-Server (A) or 
+deployed via a \gls{cdn} (B).}
 	 \label{fig:client-deployment}
 \end{figure}
 
@@ -831,10 +834,11 @@ assignments for both reference and novel organisms.}
 individual properties and their hierarchy.}
          \label{fig:property-browser}
      \end{subfigure}
-     \caption[The Genome Properties website is split into two main web 
-pages.]{\textbf{The Genome Properties website is split into two main web pages.} 
-One is for learning more about individual genome properties and another for 
-viewing property and step assignments. This second page allows for the upload of 
+     \caption[Browser windows containing the two main webpages of the Genome 
+Properties website.]{\textbf{Browser windows containing the two main webpages of 
+the Genome Properties website.} The viewer page (a) is used for viewing property and 
+step assignments. The browser page (b) helps users learn more about 
+individual genome properties. The viewer page (a) allows for the upload of 
 InterProScan \gls{tsv} files of novel organisms. These files are used to 
 calculate assignments for these organisms. With Micromeda-Client, the same 
 information presented by these two pages is integrated into a single page.}
@@ -867,13 +871,14 @@ compare the cousin pathway results within the same heat map
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.9\textwidth]{media/microscope.png}
-	 \caption[The MicroScope annotation server presents both pathway assignment 
-heat maps and pathway diagrams.]{\textbf{The MicroScope annotation server 
-presents both pathway assignment heat maps and pathway diagrams.} The heat maps 
-show the presence and absence of pathways across reference organisms and novel 
-organisms whose genomes have been uploaded in \gls{fasta} format. The pathway diagrams 
-allow users to explore further the pathways annotated by the server. Figure is 
-from \cite{vallenet2016microscope}.}
+	 \caption[User interface of and analysis services provided by the MicroScope 
+annotation server.]{\textbf{User interface of and analysis services provided by 
+the MicroScope annotation server.} The server presents both pathway assignment 
+heat maps and pathway diagrams. The heat maps show the presence and absence of 
+pathways across reference organisms and novel organisms whose genomes have been 
+uploaded in \gls{fasta} format. The pathway diagrams allow users to explore 
+further the pathways annotated by the server. Figure is from 
+\cite{vallenet2016microscope}.}
 	 \label{fig:microscope}
 \end{figure}
 
@@ -887,23 +892,23 @@ map view.
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.8\textwidth]{media/functree2.png}
-	 \caption[FuncTree2 presents a radial tree diagram that shows the abundance of 
-KO annotations within multiple organism's predicted 
-proteomes.]{\textbf{FuncTree2 presents a radial tree diagram that shows the 
-abundance of \gls{ko} annotations within multiple organism's predicted 
-proteomes.} In its diagrams, leaves of the radial tree represent individual 
-\gls{ko} annotations. In other words, each leaf node represents a type of 
-protein that can be found in a cell. Nodes closer to the root represent 
-different levels of classification that group these \gls{ko} annotations 
-according to the hierarchy of pathways in the \gls{kegg} database. A stacked bar 
-chart annotates each leaf node. This chart possesses coloured bars representing 
-the number of proteins in each organism's proteome with a specific \gls{ko}  
-annotation. These bar charts are oriented radially. Stacked Bar charts also 
-annotate other nodes in the radial tree. The stacked bar charts on higher-level 
-nodes represent reciprocal summations of \gls{ko} counts of child nodes. Nodes 
-can be clicked to remove child nodes and change the shape and size of the 
-visualization. Figure is from \cite{darzi2019functree2}.}
+	\includegraphics[width=0.7\textwidth]{media/functree2.png}
+	 \caption[Overview of the KEGG annotation visualization produced by 
+FuncTree2.]{\textbf{Overview of the \gls{kegg} annotation visualization produced 
+by FuncTree2.} FuncTree2 presents a radial tree diagram that shows the abundance 
+of \gls{ko} annotations within multiple organisms' predicted proteomes. In its 
+diagrams, leaves of the radial tree represent individual \gls{ko} annotations. 
+In other words, each leaf node represents a type of protein that can be found in 
+a cell. Nodes closer to the root represent different levels of classification 
+that group these \gls{ko} annotations according to the hierarchy of pathways in 
+the \gls{kegg} database. A stacked bar chart annotates each leaf node. This 
+chart possesses coloured bars representing the number of proteins in each 
+organism's proteome with a specific \gls{ko}  annotation. These bar charts are 
+oriented radially. Stacked Bar charts also annotate other nodes in the radial 
+tree. The stacked bar charts on higher-level nodes represent reciprocal 
+summations of \gls{ko} counts of child nodes. Nodes can be clicked to remove 
+child nodes and change the shape and size of the visualization. Figure is from 
+\cite{darzi2019functree2}.}
 	 \label{fig:functree2}
 \end{figure}
 

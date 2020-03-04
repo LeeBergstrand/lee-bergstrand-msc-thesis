@@ -36,23 +36,23 @@ addresses) that return specific types of data. These addresses are known as
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.50\textwidth]{media/Micromeda-Server.pdf}
-	 \caption[Micromeda-Server is a web server application consisting of several 
-components.]{\textbf{Micromeda-Server is a web server application consisting of 
-several components.} The server code was written in Python using the Flask web 
-framework \cite{grinberg2018flask}. Micromeda-Server is supported by a Redis 
-cache and a series of text files. A genomeproperties.txt file supplies data for 
-the generation of Genome Properties \gls{dag}. Micromeda files, either default 
-or uploaded, provide information about property assignments, step assignments, 
-and supporting information of multiple organisms.}
+	 \caption[Components of Micromeda-Server's software 
+architecture.]{\textbf{Components of Micromeda-Server's software architecture.} 
+The web server code was written in Python using the Flask web framework 
+\cite{grinberg2018flask}. Micromeda-Server is supported by a Redis cache and a 
+series of text files. A genomeproperties.txt file supplies data for the 
+generation of Genome Properties \gls{dag}. Micromeda files, either default or 
+uploaded, provide information about property assignments, step assignments, and 
+supporting information of multiple organisms.}
 	 \label{fig:micromeda-server}
 \end{figure}
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.80\textwidth]{media/Micromeda-Server-Workflow.pdf}
-	 \caption[Once a Micromeda file is uploaded, Micromeda-Server caches its 
-contents in Redis.]{\textbf{Once a Micromeda file is uploaded, Micromeda-Server 
-caches its contents in Redis.} The caching process involves the generation of 
+	 \caption[How uploaded Micromeda files are cached to Redis by 
+Micromeda-Server.]{\textbf{How uploaded Micromeda files are cached to Redis by 
+Micromeda-Server.} The caching process involves the generation of 
 GenomePropertiesResultsWithMatches objects for each uploaded file. These objects 
 are cached in Redis and reconstituted between API calls. Micromeda-Server uses 
 methods possessed by these reconstituted GenomePropertiesResultsWithMatches 
@@ -65,12 +65,12 @@ client later uses this key to request data from a specific Micromeda file.}
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.65\textwidth]{media/Micromeda-Endpoints.pdf}
-	 \caption[Micromeda-Server currently presents four endpoints for accessing 
-Genome Properties and Micromeda file data.]{\textbf{Micromeda-Server currently 
-presents four endpoints for accessing Genome Properties and Micromeda file 
-data.} These endpoints return JSON documents and \gls{fasta} files that are generated 
-using methods of GenomePropertiesResultsWithMatches objects, GenomeProperty 
-objects, and GenomePropertiesTree objects.}
+	 \caption[Endpoints that Micromeda-Server presents for accessing Genome 
+Properties and Micromeda file data.]{\textbf{Endpoints that Micromeda-Server 
+presents for accessing Genome Properties and Micromeda file data.} These 
+endpoints return JSON documents and \gls{fasta} files that are generated using 
+methods of GenomePropertiesResultsWithMatches objects, GenomeProperty objects, 
+and GenomePropertiesTree objects.}
 	 \label{fig:micromeda-endpoints}
 \end{figure}
 
@@ -187,9 +187,9 @@ allows for this design pattern (see Subsection \ref{messagepack-performance}).
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.50\textwidth]{media/Client-Processing.pdf}
-	 \caption[Requests directed towards Python web endpoints are spread out across 
+	 \caption[How requests directed towards Python web endpoints are spread out across 
 multiple processes and sharing data between these processes is 
-difficult.]{\textbf{Requests directed towards Python web endpoints are spread 
+difficult.]{\textbf{How requests directed towards Python web endpoints are spread 
 out across multiple processes and sharing data between these processes is 
 difficult.} (A) Processes cannot share in-memory objects directly due to 
 operating system enforced process boundaries. (B) In order for data to be shared 
@@ -219,16 +219,18 @@ detailed in subsections below.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.95\textwidth]{media/Coloured-Endpoint.pdf}
-	 \caption[Micromeda-Server uses data held within URLs to figure out what 
-information to return for a given HTTP request.]{\textbf{Micromeda-Server uses 
-data held within \gls{url}s to figure out what information to return for a given 
-\gls{http} request.} The example \gls{url} above is used to download a \gls{fasta} 
-file containing the top proteins (\textit{i}.\textit{e}., those with the lowest \gls{eval} 
-domains) that support GenProp0526 step one for dataset FXDABADS. The \gls{url} 
-path variables are in blue and the \gls{http} GET parameters are in green. Note 
-that the \gls{url} above is an example and does not point towards an active copy 
-of Micromeda-Server or Micromeda-Client. Links to a demonstration of the client 
-interface can be found in Section \ref{client-demo}.}
+     \caption[Example of a URL that a client would use to request information 
+from Micromeda-Server.]{\textbf{Example of a \gls{url} that a client would use 
+to request information from Micromeda-Server.} Micromeda-Server uses data held 
+within \gls{url}s to figure out what information to return for a given 
+\gls{http} request. The example \gls{url} above is used to download a 
+\gls{fasta} file containing the top proteins (\textit{i}.\textit{e}., those with 
+the lowest \gls{eval}  domains) that support GenProp0526 step one for dataset 
+FXDABADS. The \gls{url} path variables are in blue and the \gls{http} GET 
+parameters are in green. Note that the \gls{url} above is an example and does 
+not point towards an active copy of Micromeda-Server or Micromeda-Client. Links 
+to a demonstration of the client interface can be found in Section 
+\ref{client-demo}.}
 	 \label{fig:endpoint-url}
 \end{figure}
 
@@ -322,14 +324,15 @@ generate the tree \gls{json} using the same method.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.70\textwidth]{media/Tree-JSON.pdf}
-	 \caption[Micromeda-Server's Get\_Tree endpoint returns a Genome Property tree, 
-not a DAG.]{\textbf{Micromeda-Server's Get\_Tree endpoint returns a Genome 
-Property tree, not a \gls{dag}.} Unlike a \gls{dag} (A), a tree (B) cannot have 
-branches that merge. Thus, the \gls{json} returned by the Get\_Treecan endpoint 
-has some Genome Property nodes duplicated (B). In this JSON document, each node 
-is tagged with a list of YES (Dark Purple), PARTIAL (Light Purple), and NO 
-(White) assignments (C). Each assignment in this list belongs to a single 
-organism in a dataset.}
+	 \caption[Comparison of the tree data structures returned by Micromeda-Server's 
+Get\_Tree endpoint to the property DAG built by Pygenprop.]{\textbf{Comparison 
+of the tree data structures returned by Micromeda-Server's Get\_Tree endpoint to 
+the property \gls{dag} built by Pygenprop.} Unlike a \gls{dag} (A), a tree (B) 
+cannot have branches that merge. Thus, the \gls{json} returned by the 
+Get\_Tree can endpoint has some Genome Property nodes duplicated (B). In this 
+JSON document, each node is tagged with a list of YES (Dark Purple), PARTIAL 
+(Light Purple), and NO (White) assignments (C). Each assignment in this list 
+belongs to a single organism in a dataset.}
 	 \label{fig:tree-json}
 \end{figure}
 
@@ -432,15 +435,13 @@ developers who want to test newly developed features or bug fixes.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.25\textwidth]{media/micromeda-simple-deployment.pdf}
-	 \caption[Micromeda-Server can be deployed in a manner that only visualizes 
-Micromeda files stored on the server that hosts it.]{\textbf{Micromeda-Server 
-can be deployed in a manner that only visualizes Micromeda files stored on the 
-server that hosts it.} In this deployment style, Micromed-Server uses Flask's 
-builtin \gls{http} server, a genomeProperties.txt file, and the server-side 
-Micromeda file. This deployment style is excellent for development use or 
-deployment to individual user laptops and desktops. However, this deployment 
-style encounters problems when used by multiple users because only a single copy 
-of the client Python is run at a time.}
+	 \caption[How Micromeda-Server would be deployed to support a development or 
+single-user environment.]{\textbf{How Micromeda-Server would be deployed to 
+support a development or single-user environment.} In this deployment style, 
+Micromed-Server uses Flask's builtin \gls{http} server, a genomeProperties.txt 
+file, and the server-side Micromeda file. However, this deployment style 
+encounters problems when used by multiple users because only a single copy of 
+the client Python is run at a time.}
 	 \label{fig:micromeda-small-deploy}
 \end{figure}
 
@@ -467,17 +468,17 @@ same server computer system (Fig. \ref{fig:micromeda-medium-deploy}).
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.35\textwidth]{media/micromeda-medium-deployment.pdf}
-	 \caption[When deployed to handle the traffic of multiple clients, 
-Micromed-Server must be supported by multiple other types of 
-software.]{\textbf{When deployed to handle the traffic of multiple clients, 
-Micromed-Server must be supported by multiple other types of software.} In this 
-deployment style, multiple copies of its Python code are run simultaneously to 
-handle multiple clients. Redis is used to provide shared data between these 
-processes. A \gls{uwsgi} middleware component is used to connect these copies to a 
-high performance \gls{http} server, such as Nginx, that can handle high web 
-traffic volumes. The genomeProperties.txt files and default Micromeda files are 
-still used in this deployment style but were omitted from the diagram for 
-simplicity.}
+	 \caption[How Micromeda-Server would be deployed to support multiple users using 
+a single server computer system.]{\textbf{How Micromeda-Server would be deployed 
+to support multiple users using a single server computer system.} When deployed 
+to handle the traffic of multiple clients, Multiple other types of software must 
+support Micromed-Server. Multiple copies of its Python code are run 
+simultaneously to handle multiple clients. Redis is used to provide shared data 
+between these processes. A \gls{uwsgi} middleware component is used to connect 
+these copies to a high performance \gls{http} server, such as Nginx, that can 
+handle high web traffic volumes. The genomeProperties.txt files and default 
+Micromeda files are still used in this deployment style but were omitted from 
+the diagram for simplicity.}
 	 \label{fig:micromeda-medium-deploy}
 \end{figure}
 
@@ -499,16 +500,17 @@ systems can handle increases in request volume.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.60\textwidth]{media/micromeda-heavy-deployment.pdf}
-	 \caption[When Micromeda is required to scale to handle hundreds or thousands 
-of simultaneous users, its workload must be spread out across multiple caching 
-and web server computer systems.]{\textbf{When Micromeda is required to scale to 
-handle hundreds or thousands of simultaneous users, its workload must be spread 
-out across multiple caching and web server computer systems.} Each node in the 
-webserver cluster runs additional copies of Micromeda-Server and supporting 
-software. The performance of such deployments can be increased by adding 
-hardware to either of the caching or web server clusters.  A copy of the 
-genomeProperties.txt file and default Micromeda file would be stored in each web 
-server and have been omitted from the diagram for simplicity.}
+	 \caption[How Micromeda-Server would be deployed to support multiple users 
+using a cluster of computer systems.]{\textbf{How Micromeda-Server would be 
+deployed to support multiple users using a cluster of computer systems.} When 
+Micromeda is required to scale to handle hundreds or thousands of simultaneous 
+users, its workload must be spread out across multiple caching and web server 
+computer systems. Each node in the web server cluster runs additional copies of 
+Micromeda-Server and supporting software. The performance of such deployments 
+can be increased by adding hardware to either of the caching or web server 
+clusters.  A copy of the genomeProperties.txt file and default Micromeda file 
+would be stored in each web server and have been omitted from the diagram for 
+simplicity.}
 	 \label{fig:micromeda-large-deploy}
 \end{figure}
 
@@ -585,12 +587,12 @@ once procedurally would significantly improve endpoint performance.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.8\textwidth]{media/micromeda-server-new-endpoints.pdf}
-	 \caption[Future versions of Micromeda-Server could have new endpoints that 
-allow for expanded functionality.]{\textbf{Future versions of Micromeda-Server 
-could have new endpoints that allow for expanded functionality.} These endpoints 
-would return step assignments, step supporting information, and property 
-assignments (blue). They would be supported by new \gls{json} generating methods 
-of GenomePropertiesResultsWithMatches objects (green).}
+	 \caption[New endpoints that could be added to Micromeda-Server to allow for 
+expanded client functionality.]{\textbf{New endpoints that could be added to 
+Micromeda-Server to allow for expanded client functionality.} These endpoints 
+(blue) would return step assignments, step supporting information, and property 
+assignments. They would be supported by new \gls{json} generating methods of 
+GenomePropertiesResultsWithMatches objects (green).}
 	 \label{fig:new_endpoints}
 \end{figure}
 
