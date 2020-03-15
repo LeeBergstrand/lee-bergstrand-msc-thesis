@@ -1,7 +1,7 @@
 \chapter{Introduction} \label{introduction}
 
 \gls{dna} sequencing allows us to read an organism's genome and, through software, 
-learn more about its inherent capabilities without having to study it \textit{in 
+learn more about organism's inherent capabilities without having to study it \textit{in 
 vivo} or \textit{in vitro} \cite{de2012bioinformatic}. In an environmental 
 microbiology context, such sequenced genomes are used to learn more about 
 microorganisms' metabolic capabilities and possibly shed light on their 
@@ -366,18 +366,18 @@ Micromeda follows a client-server web architecture \cite{svobodova1985client}
 (see 
 \href{http://en.wikipedia.org/wiki/Client-server_model}{en.wikipedia.org/wiki/Client-server\_model} 
 and Section \ref{web-servers}). Users interact with Micromeda-Client via their 
-web browser, and it allows them to upload Micromeda files to Micromeda-Server. 
-Micromeda files contain all the information that the client requires to generate 
-a pathway heat map. These files store pathway annotations, InterProScan5 output 
-data, and supporting protein sequences for multiple organisms (see Section 
-\ref{MicromedaFiles}). Having all these datasets in a single file simplifies the 
-data upload process as only one file has to be uploaded by the user per heat map 
-drawn. After upload, the contents of the uploaded file are stored temporarily in 
-\gls{ram} on the computer used to host Micromeda-Server (see Section 
-\ref{server-workflow}). Micromeda-Client will ask Micromeda-Server for data from 
-this file as it draws a heat map or responds to user activity (see Section 
-\ref{client-implementation}). Multiple users can interact with Micromeda-Server 
-and Client simultaneously.
+web browser, and this client allows them to upload Micromeda files to 
+Micromeda-Server. Micromeda files contain all the information that the client 
+requires to generate a pathway heat map. These files store pathway annotations, 
+InterProScan5 output data, and supporting protein sequences for multiple 
+organisms (see Section \ref{MicromedaFiles}). Having all these datasets in a 
+single file simplifies the data upload process as only one file has to be 
+uploaded by the user per heat map drawn. After upload, the contents of the 
+uploaded file are stored temporarily in \gls{ram} on the computer used to host 
+Micromeda-Server (see Section \ref{server-workflow}). Micromeda-Client will ask 
+Micromeda-Server for data from this file as the client draws a heat map or 
+responds to user activity (see Section \ref{client-implementation}). Multiple 
+users can interact with Micromeda-Server and Client simultaneously.
 
 \subsection{The Reasoning for Building a Web Application and Having Micromeda 
 files} \label{why-micromeda-files}
@@ -400,24 +400,25 @@ speed) processors and 16 \gls{gb}  of \gls{ram}.}.
 
 In contrast, Micromeda can render a pathway heat map for over forty organisms in 
 less than a second. Thus, if one wanted to have a web application that both 
-computes and visualizes pathway annotations for uploaded genome sequences, it 
-would require the support of an extensive and well-maintained hardware 
-infrastructure. Developing the code to build, maintain, and sustain such a 
-system draws away from the core goal of the Micromeda platform, which was to 
-design a tool that helps users visualize pathway differences across organisms. 
-Hence, for Micromeda, I chose to have users generate pathway annotations 
-locally, using InterProScan5 and other tools, and have them upload these files 
-to a remote web server for visualization (Fig. 
+computes and visualizes pathway annotations for uploaded genome sequences, then 
+this application would require the support of an extensive and well-maintained 
+hardware infrastructure. Developing the code to build, maintain, and sustain 
+such a system draws away from the core goal of the Micromeda platform, which was 
+to design a tool that helps users visualize pathway differences across 
+organisms. Hence, for Micromeda, I chose to have users generate pathway 
+annotations locally, using InterProScan5 and other tools, and have them upload 
+these files to a remote web server for visualization (Fig. 
 \ref{fig:micromeda-file-generation}). This design decision significantly reduces 
 the hardware requirements for those who want to host Micromeda-Server and 
-Client. It also reduces the overall design complexity of Micromeda-Client and 
-Server and allows future development to focus on creating better and more 
-feature-rich versions of Micromeda's \gls{ui} and visualizations.
+Client. The decision also reduces the overall design complexity of 
+Micromeda-Client and Server and allows future development to focus on creating 
+better and more feature-rich versions of Micromeda's \gls{ui} and 
+visualizations.
 
 \section{Summary} \label{introduction_summary}
 
 Micromeda allows users to visualize the differences in pathway presence and 
-absence across organisms. It does this based on the data contained within 
+absence across organisms. The tool does this based on the data contained within 
 uploaded Micromeda files. Pygenprop is a software library that can not only 
 produce Micromeda files but also make programmatic comparisons of pathway 
 presence and absence across organisms. Potential improvements to individual 

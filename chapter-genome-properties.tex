@@ -54,7 +54,7 @@ the same protein or domain within member databases (\textit{e}.\textit{g}., PFXX
 
 An import feature of protein databases is the ability to take the sequence of a 
 novel protein (\textit{i}.\textit{e}., a protein that is not currently in the database) and 
-predict the placement and function of its domains, which is a process called 
+predict the placement and function of the protein's domains, which is a process called 
 domain annotation. The search algorithms used by members database of the 
 consortium compare novel proteins to computational models (\textit{i}.\textit{e}., a profile) that 
 represents the sequence diversity (\textit{i}.\textit{e}., not all domains from different proteins 
@@ -107,20 +107,20 @@ to each model.
 
 InterPro consortium created a tool, InterProScan, that allows users to compare a 
 novel protein sequence to all domain models found within InterPro member 
-databases. InterProScan is a software wrapper for and execution engine of the 
-model-based sequence search techniques (\textit{e}.\textit{g}., HMMER \cite{eddy2011accelerated}) 
-used by all member databases of the InterPro consortium. It also implements the 
-false positive filtering techniques developed for each member database. The 
-latest version of the software, InterProScan5, follows a Master/Worker 
-architecture (see 
+databases. The tool is a software wrapper for and execution engine of the 
+model-based sequence search techniques (\textit{e}.\textit{g}., HMMER 
+\cite{eddy2011accelerated}) used by all member databases of the InterPro 
+consortium. InterProScan also implements the false positive filtering techniques 
+developed for each member database. The latest version of the software, 
+InterProScan5, follows a Master/Worker architecture (see 
 \href{http://en.wikipedia.org/wiki/Master/slave_(technology)}{en.wikipedia.org/wiki/Master/slave\_(technology)}) 
 where a master process schedules jobs for many worker processes. Depending on 
 the number of \gls{cpu} cores of the computer running InterProScan5, tens to 
 hundreds of models can be run against a novel protein simultaneously. Due to its 
 architecture, InterProScan5 can also run jobs run across a compute cluster. Due 
 to this scalability, InterProScan is capable of domain annotating every protein 
-of a microorganism in only a few hours, depending on the computer it is run on 
-and the organism's genome size. InterProScan takes a \gls{fasta} file 
+of a microorganism in only a few hours, depending on the computer the software 
+is run on and the organism's genome size. InterProScan takes a \gls{fasta} file 
 \cite{pearson19905} containing an organism's predicted proteins as input and 
 writes domain annotations and match data to \gls{tsv} files. The match data 
 includes supporting information such as \gls{eval} scores for matches and 
@@ -243,22 +243,23 @@ capability provides Micromeda with an advantage when it is applied to the
 genomes of previously unstudied organisms.
 
 The Genome Properties database being domain-based also provides Micromeda with 
-another advantage. It allows Micromeda to detect the presence of enzymes that 
-are split across multiple genes or have fused with other proteins. In a recent 
-study that focused on confirming genome-predicted amino-acid auxotrophy across a 
-variety of bacteria, the authors found that many predicted instances of 
-auxotrophy were misannotations \cite{price2018filling}. Many of these 
-misannotations were the result of either gene fusions or the enzyme being split 
-across multiple genes \cite{price2018filling}. Traditional whole protein 
-sequence-based detection methods such as \gls{blast} \cite{altschul1990basic}, 
-which are typically used by pathway annotation pipelines based on databases such 
-as \gls{kegg}, were shown to miss these enzymes \cite{price2018filling}. For 
-example, if previous forms of a protein were all found to be encoded by a single 
-gene, such whole sequence methods were shown to filter out versions of the 
-enzyme that are split across genes due to inadequate alignment lengths for 
-matches to individual subunits \cite{price2018filling}. In contrast, Micromeda 
-would determine that the enzymes exist, as InterProScan will detect all required 
-domains, whether the proteins are on one gene or multiple.
+another advantage. Because the database is based on domains rather than whole 
+proteins, Micromeda can detect the presence of enzymes that are split across 
+multiple genes or have fused with other proteins. In a recent study that focused 
+on confirming genome-predicted amino-acid auxotrophy across a variety of 
+bacteria, the authors found that many predicted instances of auxotrophy were 
+misannotations \cite{price2018filling}. Many of these misannotations were the 
+result of either gene fusions or the enzyme being split across multiple genes 
+\cite{price2018filling}. Traditional whole protein sequence-based detection 
+methods such as \gls{blast} \cite{altschul1990basic}, which are typically used 
+by pathway annotation pipelines based on databases such as \gls{kegg}, were 
+shown to miss these enzymes \cite{price2018filling}. For example, if previous 
+forms of a protein were all found to be encoded by a single gene, such whole 
+sequence methods were shown to filter out versions of the enzyme that are split 
+across genes due to inadequate alignment lengths for matches to individual 
+subunits \cite{price2018filling}. In contrast, Micromeda would determine that 
+the enzymes exist, as InterProScan will detect all required domains, whether the 
+proteins are on one gene or multiple.
 
 Another advantage of Genome Properties is that it is freely available under an 
 open-source licence and is hosted on GitHub \cite{richardson2018genome}. In 

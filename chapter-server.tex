@@ -21,7 +21,7 @@ applications follow a client-server architecture \cite{svobodova1985client} (see
 \href{http://en.wikipedia.org/wiki/Client-server_model}{en.wikipedia.org/wiki/Client-server\_model}) 
 where the code running in the user's browser is called the client. The user 
 acquires this client by downloading it into their browser like any other 
-webpage. If this client requires external data, it can request this information 
+webpage. If this client requires external data, then it can request this information 
 from a server process running on a server computer system\footnote{For this 
 document, the term \textbf{server computer system} is used to refer to the 
 physical hardware on which software is running. The term \textbf{server} is used 
@@ -75,14 +75,14 @@ and GenomePropertiesTree objects.}
 \end{figure}
 
 Micromeda-Server is designed to provide a web \gls{api} to client applications 
-that require access to information about the Genome Properties database. It also 
-provides an \gls{api} for accessing temporarily stored property assignments, 
-step assignments, and supporting information for user-supplied datasets. The 
-Micromeda-Server is written in Python and utilizes the Flask web development 
-framework \cite{grinberg2018flask} (Fig. \ref{fig:micromeda-server}) to map 
-Python functions for handling specific web \gls{api} requests to server 
-\gls{url} addresses (\textit{i}.\textit{e}., ``endpoints"). Information about the Genome 
-Properties database is supplied to Micromeda-Server via a 
+that require access to information about the Genome Properties database. The 
+server also provides an \gls{api} for accessing temporarily stored property 
+assignments, step assignments, and supporting information for user-supplied 
+datasets. The Micromeda-Server is written in Python and utilizes the Flask web 
+development framework \cite{grinberg2018flask} (Fig. \ref{fig:micromeda-server}) 
+to map Python functions for handling specific web \gls{api} requests to server 
+\gls{url} addresses (\textit{i}.\textit{e}., ``endpoints"). Information about 
+the Genome Properties database is supplied to Micromeda-Server via a 
 \textbf{genomeProperties.txt} release file (Fig. \ref{fig:micromeda-server} and 
 Subsection \ref{Genome-Properties-Files}). Property assignments, step 
 assignments, and supporting information for user datasets are supplied via 
@@ -124,7 +124,7 @@ Each GenomePropertiesResultsWithMatches object cached to Redis is given a
 \gls{ttl} value \cite{gwertzman1996world} (see 
 \href{http://en.wikipedia.org/wiki/Time_to_live}{en.wikipedia.org/wiki/Time\_to\_live}). 
 Users can set this value for any period, such as minutes or days. After the 
-\gls{ttl} of the cached object is exceeded, it is flushed from the cache; the 
+\gls{ttl} of the cached object is exceeded, the object is flushed from the cache; the 
 user will then have to re-upload their Micromeda file. The default \gls{ttl} 
 used is two hours. During each \gls{api} request, if a dataset key is provided, 
 the MessagePack-formatted GenomePropertiesResultsWithMatches object is grabbed 
@@ -421,16 +421,16 @@ discussed below.
 If a user wishes to install and run Micromeda-Server on their desktop or laptop 
 and only needs to visualize one dataset at a time, then a very simplified 
 deployment strategy can be used (Fig. \ref{fig:micromeda-small-deploy}). This 
-deployment uses Flask's built in development \gls{http} server to respond to 
+deployment uses Flask's built-in development \gls{http} server to respond to 
 requests. The server is activated when Micromeda-Server's Python script is run 
 directly from a \gls{cli}. This single-user deployment is slow and can only 
-handle single requests from single clients. In this configuration, Redis is not 
-required, and users must tell Micromeda-Server to use their dataset (\textit{i}.\textit{e}., a 
-Micromeda file) as its default (Fig. \ref{fig:micromeda-small-deploy}). The 
-upload endpoint is also turned off. This deployment method is similar to the one 
-used by Anvio's \gls{mags} visualization and refinement server 
-\cite{eren2015anvi}. The single-user deployment configuration is also useful for 
-developers who want to test newly developed features or bug fixes.
+handle single requests from single clients. In this configuration, the upload 
+endpoint is turned off, and Redis is not used. Users cannot upload Micromeda 
+files. Instead, Micromeda-Server gets its data from a single Micromeda file 
+stored on disk (Fig. \ref{fig:micromeda-small-deploy}). This deployment method 
+is similar to the one used by Anvio's \gls{mags} visualization and refinement 
+server \cite{eren2015anvi}. The single-user deployment configuration is also 
+useful to developers who want to test newly developed features or bug fixes.
 
 \begin{figure}[!ht]
   \centering
@@ -448,14 +448,14 @@ the client Python is run at a time.}
 \subsection{Single Server Deployment} \label{single-server-micromeda-deployment}
 
 If a user requires Micromeda-Server to handle multiple users simultaneously, 
-such as would be the case if it was installed on a server computer system, a 
-larger deployment must be used (Fig. \ref{fig:micromeda-medium-deploy}). This 
-deployment type adds additional software layers that increase Micromeda-Server's 
-scalability. As discussed in previous sections, multiple copies of 
-Micromeda-Server's Python code must be run simultaneously to handle multiple 
-client requests. This technique is done by putting the Micromeda-Server under 
-the command of a master \gls{http} server that can route traffic to multiple 
-copies of the code in separate processes (Fig. 
+such as would be the case if the software was installed on a server computer 
+system, a larger deployment must be used (Fig. 
+\ref{fig:micromeda-medium-deploy}). This deployment type adds additional 
+software layers that increase Micromeda-Server's scalability. As discussed in 
+previous sections, multiple copies of Micromeda-Server's Python code must be run 
+simultaneously to handle multiple client requests. This technique is done by 
+putting the Micromeda-Server under the command of a master \gls{http}server that 
+can route traffic to multiple copies of the code in separate processes (Fig. 
 \ref{fig:micromeda-medium-deploy}). Such master \gls{http} servers include the 
 Apache \cite{fielding1997apache} and Nginx \cite{reese2008nginx} \gls{http} 
 servers. This master server handles the parsing of \gls{http} requests. In 
@@ -468,17 +468,17 @@ same server computer system (Fig. \ref{fig:micromeda-medium-deploy}).
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.35\textwidth]{media/micromeda-medium-deployment.pdf}
-	 \caption[How Micromeda-Server would be deployed to support multiple users using 
-a single server computer system.]{\textbf{How Micromeda-Server would be deployed 
-to support multiple users using a single server computer system.} When deployed 
-to handle the traffic of multiple clients, Multiple other types of software must 
-support Micromed-Server. Multiple copies of its Python code are run 
-simultaneously to handle multiple clients. Redis is used to provide shared data 
-between these processes. A \gls{uwsgi} middleware component is used to connect 
-these copies to a high performance \gls{http} server, such as Nginx, that can 
-handle high web traffic volumes. The genomeProperties.txt files and default 
-Micromeda files are still used in this deployment style but were omitted from 
-the diagram for simplicity.}
+	 \caption[How Micromeda-Server would be deployed to support multiple users 
+using a single server computer system.]{\textbf{How Micromeda-Server would be 
+deployed to support multiple users using a single server computer system.} When 
+deployed to handle the traffic of multiple clients, Multiple other types of 
+software must support Micromed-Server. Multiple copies of the application's 
+Python code are run simultaneously to handle multiple clients. Redis is used to 
+provide shared data between these processes. A \gls{uwsgi} middleware component 
+is used to connect these copies to a high performance \gls{http} server, such as 
+Nginx, that can handle high web traffic volumes. The genomeProperties.txt files 
+and default Micromeda files are still used in this deployment style but were 
+omitted from the diagram for simplicity.}
 	 \label{fig:micromeda-medium-deploy}
 \end{figure}
 
@@ -544,11 +544,11 @@ endpoints and a potential new endpoint are discussed below.
 
 \subsection{Improving Performance of the Upload Endpoint}
 
-The \textbf{upload} endpoint takes a Micromeda file and saves its contents to a 
-Redis cache. This endpoint was shown to have poor performance (see Section 
-\ref{micromeda-server-performance}) and should be optimized to make it respond 
-faster. Most of the performance problems with this endpoint can be attributed to 
-the performance of parsing Micromeda files into 
+The \textbf{upload} endpoint takes a Micromeda file and saves the file's 
+contents to a Redis cache. This endpoint was shown to have poor performance (see 
+Section \ref{micromeda-server-performance}) and should be optimized to be more 
+responsive. Most of the performance problems with this endpoint can be 
+attributed to the performance of parsing Micromeda files into 
 GenomePropertiesResultsWithMatches objects using the 
 \textbf{load\_assignment\_caches\_from\_database \\ \_with\_matches} function of 
 Pygenprop's results module. The performance of this function was also weak (see 
@@ -608,7 +608,7 @@ no endpoints for accessing the stored InterProScan annotations of these
 proteins. Specifically, these annotations contain \gls{eval} scores representing 
 how closely the domain in the protein matches to a model of a representative 
 domain in a protein database (see Section \ref{InterProDatabases}). The 
-\gls{eval} scores for these domains may be useful for client visualizations that 
+\gls{eval} scores for these domains may be useful to client visualizations that 
 compare not only the presence and absence of proteins that support property 
 steps but also compare how close these matches are to existing domain models. 
 Thus, it may be useful to create a new endpoint that returns domain annotation 
@@ -627,34 +627,29 @@ Indeed, such web \gls{api}s have been developed by both the creators of
 \gls{kegg} \cite{kawashima2003kegg} and MetaCyc \cite{karp2013data}, not only 
 for their web client applications but also for academic use. A web server has 
 also been built for Genome Properties database website 
-\cite{richardson2018genome} that is hosted by the \gls{ebi}. However, its 
+\cite{richardson2018genome} that is hosted by the \gls{ebi}. However, the server's 
 \gls{api} is not publicly available and is only designed to support the Genome 
-Properties website. The \gls{kegg}, MetaCyc, and Genome Properties website all 
-contain precalculated pathway annotations for sets of reference organisms 
-\cite{kanehisa2000kegg,karp2002metacyc,karp2013data}. However, its \gls{api} is 
-not publicly available and is only designed to support the Genome Properties 
-website. The \gls{kegg}, MetaCyc, and Genome Properties website all contain 
+Properties website. The \gls{kegg}, MetaCyc, and Genome Properties website all contain 
 precalculated pathway annotations for sets of reference organisms 
 \cite{kanehisa2000kegg,karp2002metacyc,karp2013data}. Many pathway annotation 
 web sites such as \gls{fmm} \cite{chou2009fmm}, \gls{kaas} \cite{moriya2007kaas} 
 and \gls{maple} \cite{takami2016automated} can pathway annotate user-supplied 
-genomes uploaded in \gls{fasta} format \cite{pearson19905}. Such annotation servers 
-are complex to build and host due to the relative computational complexity of 
-scanning for genes that support the existence of pathway steps. In contrast, the 
-Genome Properties website allows for the upload of user-created InterProScan 
-annotation files. The creation of such annotations files pushes the most 
-computationally complex part of the Genome Properties pipeline, domain 
+genomes uploaded in \gls{fasta} format \cite{pearson19905}. Such annotation 
+servers are complex to build and host due to the relative computational 
+complexity of scanning for genes that support the existence of pathway steps. In 
+contrast, the Genome Properties website allows for the upload of user-created 
+InterProScan annotation files.The creation of such annotations files pushes the 
+most computationally complex part of the Genome Properties pipeline, domain 
 annotation, off onto end-users \cite{richardson2018genome}. As discussed in 
 Subsection \ref{why-micromeda-files}, Micromeda-Server follows a similar 
 approach. However, unlike the Genome Properties website, Micromeda-Server takes 
-the upload of Micromeda files. The use of Micromeda files provides a unique 
-advantage to Micromeda-Server, in contrast to almost all other annotation 
-servers, because it allows users to download information about supporting 
-proteins and domain annotations if such an endpoint was created and used in 
-pathway determination. Micromeda files also allow the upload of datasets 
+the upload of Micromeda files. Micromeda files allow the upload of datasets 
 consisting of pathway annotations from multiple genomes simultaneously, unlike 
 other pathway servers, which often require uploading genomes or InterProScan 
-annotations for organisms one at a time. With the avoidance of computationally 
-complex annotation steps and a variety of horizontally scalable deployment 
-options, Micromeda-Server should provide a reliable and sustainable \gls{api} 
-for Micromeda's client application.
+annotations for organisms one at a time. Also, because Micromeda files 
+contain protein sequences that support pathway annotations, Micromeda-Server can 
+present these sequences for download by users, which is a feature few other 
+pathway annotation servers currently possess. With the avoidance of 
+computationally complex annotation steps and a variety of horizontally scalable 
+deployment options, Micromeda-Server should provide a reliable and sustainable 
+\gls{api} for Micromeda's client application.

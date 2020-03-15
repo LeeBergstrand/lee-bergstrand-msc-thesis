@@ -38,7 +38,7 @@ ecological niches (\textit{e}.\textit{g}., photoferrotrophy).
 \item By looking at the step assignments of a single property of a single 
 organism, users can evaluate the correctness of a property assignment (Fig. 
 \ref{fig:client-analysis-types}b). A property might be assigned NO or PARTIAL 
-because it is missing only a few required steps. However, it may possess many 
+because it is missing only a few required steps; However, it may possess many 
 other steps that are not required (Fig. \ref{fig:client-analysis-types}b). Being 
 able to look at all step assignments for the property would allow users to 
 determine why a property has been given a specific assignment.
@@ -113,8 +113,8 @@ over the competing visualization techniques such as bubble charts
 plotted by the client and the superior space utilization of heat maps, which 
 mimic the square dimensions of the computer monitors they are displayed on \cite{muramalla2017radial}.
 
-Micromeda-Client's heat map uses its cell's positions to indicate what 
-assignment belongs to what property or step and organism (Fig. 
+Micromeda-Client's heat map uses cell position to indicate what assignment 
+belongs to what property or step and organism (Fig. 
 \ref{fig:client-analysis-types}). Because most Micromeda files contain 
 information about fewer organisms than there are properties in the Genome 
 Properties database, assignments for the same property ideally position within 
@@ -155,19 +155,20 @@ monitor). If both of these heat maps were combined, then the resulting heat map
 would be even longer. Micromeda-Client's visualization interface addresses the 
 length issue by using interactive aggregation and disaggregation 
 \cite{munzner2015visualization} of assignment rows to reduce the overall length 
-of its assignment heat map (Fig. \ref{fig:visualization-philosophy}). This 
+of the client's assignment heat map (Fig. \ref{fig:visualization-philosophy}). This 
 reduced length facilitates rapid visual exploration of property and step 
 assignments.
 
-Micromeda-Client's \gls{ui} allows users to manipulate the contents of its 
-assignment heat map to show and hide properties and steps according to their 
-position in the Genome Properties \gls{dag} \cite{richardson2018genome} (Fig. 
-\ref{fig:visualization-philosophy}). Because the Genome Properties \gls{dag} 
-arranges individual properties hierarchically, the assignments of properties 
-closer to the root can be used to summarize the assignments of properties closer 
-to its leaves (Fig. \ref{fig:visualization-philosophy}). In the context of a 
-heat map, this means that a row of assignments for a parent property can be used 
-to summarize the rows of assignments of its children, either other properties or 
+Micromeda-Client's \gls{ui} allows users to manipulate the contents of the 
+client's assignment heat map to show and hide properties and steps according to 
+their position in the Genome Properties \gls{dag} \cite{richardson2018genome} 
+(Fig. \ref{fig:visualization-philosophy}). Because the Genome Properties 
+\gls{dag} arranges individual properties hierarchically, the assignments of 
+properties closer to the root can be used to summarize the assignments of 
+properties closer to the \gls{dag}'s leaves (Fig. 
+\ref{fig:visualization-philosophy}). In the context of a heat map, this means 
+that a row of assignments for a parent property can be used to summarize the 
+rows of assignments of this property's children, either other properties or 
 steps (Fig. \ref{fig:visualization-philosophy} and Fig. 
 \ref{fig:client-analysis-types}). Micromeda-Client provides mechanisms to expand 
 and collapse heat map rows to display either parent summary assignments or more 
@@ -276,12 +277,15 @@ to reset the heat map to its initial loaded state (5).}
 	 \label{fig:micromeda-interface}
 \end{figure}
 
-While users explore the heat map, it may be useful to access more context about 
-the displayed properties. The icicle diagram possesses question mark 
-glyphs\footnote{A glyph is an elemental component of a data visualization. A 
-data visualization is composed of a series of glyphs. Often glyphs are directly 
-mapped to data points \cite{chen}.} at the bottom of each property node that 
-facilitates access to an additional set of property information (Fig. 
+While users explore the heat map, it may be useful for them to be able to access 
+more context about the displayed properties. The icicle diagram possesses 
+question mark glyphs\footnote{A glyph is an elemental component of a data 
+visualization. A data visualization is composed of a series of glyphs. Often 
+glyphs are directly mapped to data points \cite{chen}.} at the bottom of each 
+property node that facilitates access to an additional set of property 
+information (Fig. \ref{fig:micromeda-interface}). When a user places their 
+cursor over one of these glyphs, a pop-up box appears displaying information 
+about the property that the glyph's node represents (Fig. 
 \ref{fig:micromeda-interface}). When a user places their cursor over one of 
 these glyphs, a pop-up box appears displaying information about the property 
 that the glyph's node represents (Fig. \ref{fig:micromeda-interface}). This 
@@ -296,14 +300,14 @@ leaves the glyph or the pop box.
 Leaf property steps have a different glyph at the bottom of their nodes that is 
 shaped like a download symbol (Fig. \ref{fig:micromeda-interface}). This glyph 
 allows users to download protein sequences that support the existence of 
-property steps. When the download glyph is hovered over, it also generates a 
-pop-up box. This box contains two download links (Fig. 
-\ref{fig:micromeda-interface}). The first link downloads a \gls{fasta} file containing 
-the protein sequences that are most likely to carry out the step for each 
-organism in a dataset. The second link downloads a \gls{fasta} file containing any 
-protein that could have carried out the step across all organisms in a dataset. 
-When the cursor is removed from this download pop-up box or the glyph, then the 
-pop-up box is hidden.
+property steps. A pop-up box is also generated when the download glyph is 
+hovered over. This box contains two download links (Fig. 
+\ref{fig:micromeda-interface}). The first link downloads a \gls{fasta} file 
+containing the protein sequences that are most likely to carry out the step for 
+each organism in a dataset. The second link downloads a \gls{fasta} file 
+containing any protein that could have carried out the step across all organisms 
+in a dataset. When the cursor is removed from this download pop-up box or the 
+glyph, then the pop-up box is hidden.
 
 Micromeda-Client's interface also includes a reset button. This button resets 
 the heat map and icicle diagram back to their starting configuration where only 
@@ -317,7 +321,7 @@ Micromeda-Client is delivered as a client web browser application. The method
 was chosen due to its relative ease of deployment. End users only need open the 
 web address in order for the client to be loaded into their web browser and ran. 
 Because the application is web browser-based, it will work on any operating 
-systems with a modern web browser, including mobile devices such as tablet 
+system with a modern web browser, including mobile devices such as tablet 
 computers and cell phones.
 
 \section{Implementation} \label{client-implementation}
@@ -408,22 +412,21 @@ As mentioned previously, requests for data from Micromeda-Server supports much
 of the functionality of Micromeda-Client. All these requests are done through a 
 technique known as \gls{ajax} \cite{garrett2005ajax,li2012jquery} (see 
 \href{http://en.wikipedia.org/wiki/Ajax_(programming)}{en.wikipedia.org/wiki/ 
-Ajax\_(programming)}). \gls{ajax}  allows requests to be made to the server, 
+Ajax\_(programming)}). \gls{ajax} allows requests to be made to the server, 
 using \gls{javascript} \cite{flanagan2006javascript}, without the need for a web 
-page reload. This technique allows Micromeda-Client to remain asynchronous and 
-not kept in sync with the server where it was downloaded. \gls{ajax}  requests 
-are made via \gls{http} \cite{fielding1999hypertext}, through a series of 
-\gls{url} addresses \cite{berners1994rfc} that map to Micromeda-Server endpoints 
+page reload. This technique allows Micromeda-Client to remain asynchronous to  
+the server where it was downloaded. \gls{ajax}  requests are made via \gls{http} 
+\cite{fielding1999hypertext}, through a series of \gls{url} addresses 
+\cite{berners1994rfc} that map to Micromeda-Server endpoints 
 (see Section \ref{endpoints}). All \gls{ajax}  requests to the server were made 
-using the JQuery \gls{javascript} library 
-\cite{chaffer2013learning,li2012jquery}. The \gls{url} address of 
-Micromeda-Server, where \gls{ajax}  requests are made to, is found in a 
-\gls{json} file called server\_config.json. This file is deployed with 
+using the JQuery \gls{javascript}library \cite{chaffer2013learning,li2012jquery}. 
+The \gls{url} address of Micromeda-Server, where \gls{ajax}  requests are made 
+to, is found in a \gls{json} file called server\_config.json. This file is deployed with 
 \gls{html} files of the client and both the file upload and visualization page 
 call this file upon their initial load.
 
 The upload page contains a file drag and drop zone. When a user drops a 
-Micromeda file onto this zone, it is sent via \gls{ajax}  to Micromeda-Server 
+Micromeda file onto this zone, the file is sent via \gls{ajax} to Micromeda-Server 
 using the server's \textbf{upload} endpoint (Subsection \ref{endpoint-upload}). 
 The drag and drop zone was implemented using DropzoneJS \cite{meno}. After the 
 file upload is complete, Micromeda-Server returns the file's associated dataset 
@@ -562,13 +565,13 @@ recorded. Several of their suggestions are discussed in Section
 
 Before Micromeda's \gls{ui} can be used, it must be downloaded into a web 
 browser. A web server must be made available to send the client code to the 
-user's browser. Micromeda-Client can be deployed in two ways. It can be served 
-from a web server, such as NGINX \cite{reese2008nginx}, running on the same 
-server computer system as Micromeda-Server (Fig. \ref{fig:client-deployment}). 
-Such a web server is already of a component of the medium-scale deployment of 
-Micromeda-Server described in Subsection 
-\ref{single-server-micromeda-deployment}. Alternatively, it can be served from a 
-\gls{cdn} \cite{farber2003internet} 
+user's browser. Micromeda-Client can be deployed in two ways. The client can be 
+served from a web server, such as NGINX \cite{reese2008nginx}, running on the 
+same server computer system as Micromeda-Server (Fig. 
+\ref{fig:client-deployment}). Such a web server is already of a component of the 
+medium-scale deployment of Micromeda-Server described in Subsection 
+\ref{single-server-micromeda-deployment}. Alternatively, Micromeda-Server can be 
+served from a \gls{cdn} \cite{farber2003internet} 
 (\href{http://en.wikipedia.org/wiki/Content_delivery_network}{en.wikipedia.org/wiki/Content\_delivery\_network}) 
 such as Amazon Cloudfront \cite{varia2014overview} 
 (\href{http://aws.amazon.com/cloudfront}{aws.amazon.com/cloudfront}) or 
@@ -681,8 +684,8 @@ of organisms to be returned in a different order.
 \subsection{Clustering Heat Map Columns by Assignment Similarity}
 
 Columns in the heat map contain assignments from different organisms. Currently, 
-these columns are ordered alphanumerically by organism name. It may be useful 
-for users to be able to cluster these columns by assignment contents rather than 
+these columns are ordered alphanumerically by organism name. Users may find it 
+useful to be able to cluster these columns by assignment contents rather than 
 by name. Clustering by assignment contents would group organisms that have 
 similar assignments and potentially similar metabolic, physiological, or 
 structural characteristics. Columns could be clustered either globally by the 
@@ -771,11 +774,11 @@ show and hide information as needed by users. Below is a detailed comparison
 between Micromeda-Client and three similar visualization tools.
 
 As of fall 2019, there is only one Genome Properties assignment visualization 
-tool available other than Micromeda-Client. This tool is part of the \gls{ebi}  
+tool available other than Micromeda-Client. This tool is part of the \gls{ebi} 
 Genome Properties website \cite{richardson2018genome} 
 (\href{http://www.ebi.ac.uk/interpro/genomeproperties}{ebi.ac.uk/interpro/genomeproperties}) 
 and has an assignment viewing page that displays a heat map similar to the one 
-generated by Micromeda-Client \cite{richardson2018genome}  (Fig. 
+generated by Micromeda-Client \cite{richardson2018genome} (Fig. 
 \ref{fig:property-viewer} and see 
 \href{http://www.ebi.ac.uk/interpro/genomeproperties/#viewer}{ebi.ac.uk/interpro/genomeproperties/\#viewer}). 
 In contrast to Micromeda-Client, information about the properties displayed is 
@@ -787,7 +790,7 @@ Even when a user finds a property on this browsing page, they must open a third
 page that contains the property's information such as a description and links to 
 equivalent records. Thus, with the Genome Properties website, if users need a 
 more detailed description of a property, they are forced to swap between 
-multiple web pages. To effectively use the \gls{ebi}  tool, from a \gls{ui}  
+multiple web pages. To effectively use the \gls{ebi} tool, from a \gls{ui} 
 perspective, users should place both property browser and assignment viewer 
 windows side by side. However, this requires either a large monitor or two 
 monitors placed side by side because the assignment heat map page of the website 
@@ -796,45 +799,45 @@ information and assignment information pages are open simultaneously on a 14"
 laptop, then the controls of the assignment heat map page are cut off, and the 
 visualization becomes unusable. Unlike Micromeda-Client, the Genome Properties 
 website's assignment viewer only displays a subset of leaf genome properties and 
-their steps, not all properties and steps (Fig. \ref{fig:property-viewer}). It 
-does not perform any aggregation of assignments to reduce the length of its heat 
-map (Fig. \ref{fig:property-viewer}). Like the client, users can upload their 
-data. In the case of the \gls{ebi}  assignment viewer, users can upload 
-InterProScan \gls{tsv} files instead of Micromeda files 
+their steps, not all properties and steps (Fig. \ref{fig:property-viewer}). The 
+website also does not perform any aggregation of assignments to reduce the 
+length of its heat map (Fig. \ref{fig:property-viewer}). Like the client, users 
+can upload their data. In the case of the \gls{ebi} assignment viewer, users can 
+upload InterProScan \gls{tsv} files instead of Micromeda files 
 \cite{richardson2018genome}. Thus, there is no way for users to access the 
 underlying protein sequences that support each step.
 
 In contrast to the property assignment heat map generated by the Genome 
 Properties website, Micromeda-Client uses pop-up boxes to display its property 
-information. Its users do not have to search for the property that they are 
-interested in an entirely new window, nor do they need to swap between multiple 
-windows. Having all the information in a single view saves users time and 
-reduces mistakes where users view information about the wrong property. Also, 
-unlike the \gls{ebi}  Genome Properties website, Micromeda-Client displays 
-assignments for all properties, not just leaf properties. The icicle diagram 
-that is present in the client's visualization helps organize property 
-assignments, so users more easily find them. Unlike the \gls{ebi}  tool, the 
+information. Users of Micromeda-Client do not have to search for the property 
+that they are interested in an entirely new window, nor do they need to swap 
+between multiple windows. Having all the information in a single view saves 
+users time and reduces mistakes where users view information about the wrong 
+property. Also, unlike the \gls{ebi} Genome Properties website, Micromeda-Client 
+displays assignments for all properties, not just leaf properties. The icicle 
+diagram that is present in the client's visualization helps organize property 
+assignments, so users more easily find them. Unlike the \gls{ebi} tool, the 
 client's assignment viewer does use interactive aggregation and disaggregation, 
 which decreases the length of its heat maps substantially.
 
 \begin{figure}[!ht]
+   \centering
+   \begin{subfigure}[b]{0.46\textwidth}
      \centering
-     \begin{subfigure}[b]{0.46\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{media/genome_properties_viewer.png}
-         \caption{The Genome Properties viewer displays heat maps containing 
+     \includegraphics[width=\textwidth]{media/genome_properties_viewer.png}
+     \caption{The Genome Properties viewer displays heat maps containing 
 assignments for both reference and novel organisms.}
-         \label{fig:property-viewer}
-     \end{subfigure}
-     \qquad % some horizontal space
-     \begin{subfigure}[b]{0.46\textwidth}
-         \centering
-         \includegraphics[width=\textwidth]{media/genome_properties_browser.png}
-         \caption{The Genome Properties browser provides information about 
+     \label{fig:property-viewer}
+   \end{subfigure}
+   \qquad % some horizontal space
+   \begin{subfigure}[b]{0.46\textwidth}
+     \centering
+     \includegraphics[width=\textwidth]{media/genome_properties_browser.png}
+     \caption{The Genome Properties browser provides information about 
 individual properties and their hierarchy.}
-         \label{fig:property-browser}
-     \end{subfigure}
-     \caption[Browser windows containing the two main webpages of the Genome 
+     \label{fig:property-browser}
+   \end{subfigure}
+   \caption[Browser windows containing the two main webpages of the Genome 
 Properties website.]{\textbf{Browser windows containing the two main webpages of 
 the Genome Properties website.} The viewer page (a) is used for viewing property and 
 step assignments. The browser page (b) helps users learn more about 
@@ -842,7 +845,7 @@ individual genome properties. The viewer page (a) allows for the upload of
 InterProScan \gls{tsv} files of novel organisms. These files are used to 
 calculate assignments for these organisms. With Micromeda-Client, the same 
 information presented by these two pages is integrated into a single page.}
-     \label{fig:genome-properties-interface}
+   \label{fig:genome-properties-interface}
 \end{figure}
 
 Other websites that visualize pathway annotation information do use aggregation 
@@ -869,7 +872,7 @@ compare the cousin pathway results within the same heat map
 (Fig. \ref{fig:microscope}).
 
 \begin{figure}[!ht]
-  \centering
+ \centering
 	\includegraphics[width=0.9\textwidth]{media/microscope.png}
 	 \caption[User interface of and analysis services provided by the MicroScope 
 annotation server.]{\textbf{User interface of and analysis services provided by 
@@ -891,37 +894,37 @@ view. The assignment of cousin properties is easily seen within the same heat
 map view.
 
 \begin{figure}[!ht]
-  \centering
+ \centering
 	\includegraphics[width=0.7\textwidth]{media/functree2.png}
 	 \caption[Overview of the KEGG annotation visualization produced by 
 FuncTree2.]{\textbf{Overview of the \gls{kegg} annotation visualization produced 
 by FuncTree2.} FuncTree2 presents a radial tree diagram that shows the abundance 
-of \gls{ko} annotations within multiple organisms' predicted proteomes. In its 
-diagrams, leaves of the radial tree represent individual \gls{ko} annotations. 
-In other words, each leaf node represents a type of protein that can be found in 
-a cell. Nodes closer to the root represent different levels of classification 
-that group these \gls{ko} annotations according to the hierarchy of pathways in 
-the \gls{kegg} database. A stacked bar chart annotates each leaf node. This 
-chart possesses coloured bars representing the number of proteins in each 
-organism's proteome with a specific \gls{ko}  annotation. These bar charts are 
-oriented radially. Stacked Bar charts also annotate other nodes in the radial 
-tree. The stacked bar charts on higher-level nodes represent reciprocal 
-summations of \gls{ko} counts of child nodes. Nodes can be clicked to remove 
-child nodes and change the shape and size of the visualization. Figure is from 
-\cite{darzi2019functree2}.}
+of \gls{ko} annotations within multiple organisms' predicted proteomes. In 
+diagrams created by the tool, leaves of the radial tree represent individual 
+\gls{ko} annotations. In other words, each leaf node represents a type of 
+protein that can be found in a cell. Nodes closer to the root represent 
+different levels of classification that group these \gls{ko} annotations 
+according to the hierarchy of pathways in the \gls{kegg} database. A stacked bar 
+chart annotates each leaf node. This chart possesses coloured bars representing 
+the number of proteins in each organism's proteome with a specific \gls{ko} 
+annotation. These bar charts are oriented radially. Stacked Bar charts also 
+annotate other nodes in the radial tree. The stacked bar charts on higher-level 
+nodes represent reciprocal summations of \gls{ko} counts of child nodes. Nodes 
+can be clicked to remove child nodes and change the shape and size of the 
+visualization. Figure is from \cite{darzi2019functree2}.}
 	 \label{fig:functree2}
 \end{figure}
 
 In contrast to the Genome Properties website and Microscope, some alternative 
 annotation visualization tools do present their data hierarchically within the 
 same visualization \cite{darzi2019functree2}. For example, FuncTree2 
-\cite{darzi2019functree2} allows users to plot \gls{ko}  annotation 
+\cite{darzi2019functree2} allows users to plot \gls{ko} annotation 
 \cite{mao2005automated,kanehisa2011kegg} frequency (i.e, the number of proteins 
-of an organism that that possess a specific \gls{ko}  annotation) across 
+of an organism that that possess a specific \gls{ko} annotation) across 
 multiple organisms (Fig. \ref{fig:functree2}). Frequencies are visualized using 
 a radial tree with nodes annotated by stacked bar charts. The bar charts of leaf 
 nodes of the tree represent counts for a singular \gls{ko}, whereas charts 
-annotating nodes closer to root display summed \gls{ko}  counts for child nodes 
+annotating nodes closer to root display summed \gls{ko} counts for child nodes 
 (Fig. \ref{fig:functree2}). Unlike Micromeda-Client, aggregated and 
 disaggregated data are presented simultaneously. Nodes in the tree can be clicked 
 to add and remove child nodes from the visualization. Instead of a default 
@@ -963,12 +966,12 @@ radial tree.
 \section{Summary} \label{micromeda-client-summary}
 
 The web client of Micromeda allows users to visually explore and compare 
-assignments for genome properties and their steps across organisms. It also 
-provides information about these properties and steps and provides links between 
-them and equivalent records in other databases. Due to the use of Micromeda 
-files, it also allows users to download protein sequences that support the 
-displayed assignments. These functionalities directly support the required tasks 
-listed in Section \ref{visualization-design}.
+assignments for genome properties and their steps across organisms. The software 
+also provides information about these properties and steps and provides links 
+between them and equivalent records in other databases. Due to the use of 
+Micromeda files, the client also allows users to download protein sequences that 
+support the displayed assignments. These functionalities directly support the 
+required tasks listed in Section \ref{visualization-design}.
 
 As discussed in the Section above, the client's visualization addresses many 
 interface issues the afflict other pathway annotation visualization software. As 
