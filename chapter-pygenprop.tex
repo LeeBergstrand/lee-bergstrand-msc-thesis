@@ -593,8 +593,7 @@ consortium \_identifiers      & Property  & Return a list of InterPro consortium
 member database (\textit{e}.\textit{g}., \gls{pfam}) signature accessions that are used as 
 evidence for steps (\textit{e}.\textit{g}., PFXXXXX) within the database                           
  \\ \hline
-consortium \_identifiers \_dataframe   & Property  & Return the above in the 
-form of a pandas DataFrame  \cite{mckinney2010data}                              
+consortium \_identifiers \_dataframe   & Property  & Return InterPro consortium signature accessions in the form of a pandas DataFrame  \cite{mckinney2010data}                              
                           \\ \hline
 genome \_properties \_dictionary    & Attribute  & Dictionary of genome property 
 objects representing all genome properties within by the database; the 
@@ -649,7 +648,7 @@ was not pursued. Individual genome property objects can be looked up, by
 property identifier, from within a GenomePropertiesTree object within 277 ns 
 \textpm 8 ns (\gls{n} = 80).
 
-\section{Assignment of Genome Properties to Organism Genomes}
+\section{Assignment of Genome Properties to Organism Genomes} \label{property-assign}
 
 Information contained within the Genome Properties database can be used to 
 assign YES, NO, or PARTIAL support for an organism possessing a genetically 
@@ -721,13 +720,13 @@ itself to calculate levels of support for all properties. This function also
 calculates levels of support for steps. AssignmentCaches from multiple organisms 
 can later be combined during the creation of GenomePropertiesResults objects (as 
 discussed in Section \ref{GenomePropertiesResults} below) that allow comparison 
-of property assignments across organisms. As mentioned above these caches can be 
-from different sources. Unlike Pygenprop, the Genome Properties Perl library 
-does not maintain the concept of an assignment cache and can only calculate 
-property support for a single organism from a single InterProScan \gls{tsv} 
-file. A summary of the methods, properties, and attributes of AssignmentCache 
-objects can be seen in Table \ref{tab:assignment-cache-object} and example code 
-below.
+of property assignments across organisms. As mentioned at the top of this 
+sectionthese caches can be from different sources. Unlike Pygenprop, the Genome 
+Properties Perl library does not maintain the concept of an assignment cache and 
+can only calculate property support for a single organism from a single 
+InterProScan \gls{tsv} file. A summary of the methods, properties, and 
+attributes of AssignmentCache objects can be seen in Table 
+\ref{tab:assignment-cache-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \caption{Methods, properties, and attributes of AssignmentCache objects.}
@@ -821,22 +820,22 @@ step_table = tables[1]
 \subsection{Implemented Assignment Algorithms} 
 \label{AssignmentCachingAlgorithm}
 
-As mentioned above, Pygenprop uses recursion, the process of program functions 
-repeatedly calling themselves internally, to assign YES, NO, or PARTIAL support 
-for individual properties found within the Genome Properties database. During 
-assignment recursion, Pygenprop uses a GenomePropertiesTree object (Subsection 
-\ref{GenomePropertiesTree-Class}) to provide itself with information about 
-assignment requirements for each property and relevant connections between 
-properties. In the context of AssignmentCache objects, the process of generating 
-of assignments is referred to as bootstrapping. Bootstrapping is the term used 
-to describe this process because properties are assigned from pre-existing 
-information stored within the cache, such as pre-calculated property and step 
-assignments, and InterPro consortium signature accessions. This information 
-grows as more properties are assigned. Pygenprop's recursive assignment 
-algorithms, like those in the Genome Properties Perl library, assign support to 
-both properties and property steps (Fig. \ref{fig:propertyassignment}). 
-Assignments of support for steps are used to assign support for parent 
-properties (Fig. \ref{fig:propertyassignment}).
+As mentioned in Section \ref{property-assign}, Pygenprop uses recursion, the 
+process of program functions repeatedly calling themselves internally, to assign 
+YES, NO, or PARTIAL support for individual properties found within the Genome 
+Properties database. During assignment recursion, Pygenprop uses a 
+GenomePropertiesTree object (Subsection \ref{GenomePropertiesTree-Class}) to 
+provide itself with information about assignment requirements for each property 
+and relevant connections between properties. In the context of AssignmentCache 
+objects, the process of generating of assignments is referred to as 
+bootstrapping. Bootstrapping is the term used to describe this process because 
+properties are assigned from pre-existing information stored within the cache, 
+such as pre-calculated property and step assignments, and InterPro consortium 
+signature accessions. This information grows as more properties are assigned. 
+Pygenprop's recursive assignment algorithms, like those in the Genome Properties 
+Perl library, assign support to both properties and property steps (Fig. 
+\ref{fig:propertyassignment}). Assignments of support for steps are used to 
+assign support for parent properties (Fig.\ref{fig:propertyassignment}).
 
 During the recursion process, the newly calculated step and property assignments 
 are added continually to the AssignmentCache object's step and property 
@@ -847,12 +846,12 @@ first, using the AssignmentCache's \textbf{get\_property\_assignment} and
 \ref{tab:assignment-cache-object}), to find step and property assignments that 
 have already been calculated in previous recursive cycles. If these assignments 
 are found, recursion is stopped, and these cached assignment values are used. 
-Because the above dictionaries are used as a cache, the rate of the assignment 
-process will increase exponentially in speed as more properties are calculated, 
-vastly reducing overall assignment time (as discussed in Subsection 
-\ref{AssignmentCache-Performance} below). Recursion also stops when step 
-assignments are calculated for steps that are supported by InterPro domains 
-\ref{fig:propertyassignment}).
+Because the AssignmentCache object's assignment dictionaries are used as a 
+cache, the rate of the assignment process will increase exponentially in speed 
+as more properties are calculated, vastly reducing overall assignment time (as 
+discussed in Subsection \ref{AssignmentCache-Performance} below). Recursion also 
+stops when step assignments are calculated for steps that are supported by 
+InterPro domains \ref{fig:propertyassignment}).
 
 \subsubsection{Assigning support for steps, functional elements and evidences}
 
@@ -886,11 +885,12 @@ Other than these two situations, the functional element is assigned NO (Fig.
 \ref{fig:propertyassignment}). Steps are assigned YES or NO based on the 
 assignments of functional elements (Fig. \ref{fig:propertyassignment}). Steps 
 are assigned YES only if all functional elements of that step have been assigned 
-YES and are assigned NO otherwise. As noted in the above section, assignment 
-results for already calculated steps are checked for before step assignment 
-recursion and are added to the AssignmentCache after step assignment 
-calculations. If a piece of evidence has a genome property as its child, then 
-this property's assignment is calculated, creating another recursion cycle.
+YES and are assigned NO otherwise. As noted in the second paragraph of Section 
+\ref{AssignmentCachingAlgorithm}, assignment results for already calculated 
+steps are checked for before step assignment recursion and are added to the 
+AssignmentCache after step assignment calculations. If a piece of evidence has a 
+genome property as its child, then this property's assignment is calculated, 
+creating another recursion cycle.
 
 \subsubsection{Assigning support for non-categorical properties}
 
@@ -1191,10 +1191,9 @@ want access to the entire sequence of proteins containing predicted domains so
 they can be analyzed more deeply. For example, the proteins that are predicted 
 to possess a motif that supports the existence of a property step could be 
 compared phylogenetically to reference proteins that are already known carry out 
-this step in other organisms. 
-
-Previously, with the Genome Properties Perl library, the information required to 
-perform the above analyses were kept in four separate file types:
+this step in other organisms. Previously, with the Genome Properties Perl 
+library, the information required to perform the such analyses was kept in four 
+separate file types:
 
 \begin{itemize}
 \item GenomeProperties.txt files kept property information
@@ -1209,10 +1208,10 @@ of a genome property step they would have to write a script to parse all four of
 these file types, combine the data contained within each and perform searches on 
 this data. These scripts would be difficult and time-consuming to write as they 
 would need much ``boilerplate" code to carry out the joining of the datasets 
-before analysis. Because the above file types are created per-organism, if one 
-wanted to apply such scripts to multiple organisms, then these scripts would 
-have to be able to remember that file belongs to what organism. This tracking 
-would further complicate script development.
+before analysis. Because the file types listed at the start of this section are 
+created per-organism, if one wanted to apply such scripts to multiple organisms, 
+then these scripts would have to be able to remember that file belongs to what 
+organism. This tracking would further complicate script development.
 
 Pygenprop already possesses much much of the aforementioned boilerplate code. 
 For example, code for parsing the Genome Properties database and for comparing 
@@ -1480,19 +1479,20 @@ Performance} \label{matches-performance}
 For 1877 proteins from \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}: 
 319225) and 1774 proteins from \textit{Chlorobium chlorochromatii} CaD3 
 (\gls{ncbitaxa}: 340177), it took 80.4 ms \textpm 1.7 ms (\gls{n} = 80) and 89.4 
-ms \textpm 4.0 ms (\gls{n} = 80) to parse the \gls{fasta} and InterProScan \gls{tsv} 
-files and generate two AssignmentCacheWithMatches objects. These caches were 
-then combined into a single GenomePropertyResultsWithMatches object in 4.2 s 
-\textpm 0.2 s (\gls{n} = 20). The two assignment caches were found to take 21.3 
-and 15.3 MB of memory, respectively. The final GenomePropertyResultsWithMatches 
-object required only 29.8 \gls{mb} of memory. At over 4.2 seconds for joining 
-only two caches, scaling analyses to large datasets may become a challenge and 
-opportunities for optimizing this step should be pursued. The 
-GenomePropertyResultsWithMatches object created above was serialized to 
-\gls{json} in 7.1 s \textpm 1.3 s (\gls{n} = 20). This speed may need to be 
-optimized in the future. The proteins most likely to carry out GenProp1757 step 
-number two in each sample were written to a \gls{fasta} file in 21.7 ms \textpm 0.8 ms 
-(\gls{n} = 80) using the above GenomePropertyResultsWithMatches's 
+ms \textpm 4.0 ms (\gls{n} = 80) to parse the \gls{fasta} and InterProScan 
+\gls{tsv} files and generate two AssignmentCacheWithMatches objects. These 
+caches were then combined into a single GenomePropertyResultsWithMatches object 
+in 4.2 s \textpm 0.2 s (\gls{n} = 20). The two assignment caches were found to 
+take 21.3 and 15.3 MB of memory, respectively. The final 
+GenomePropertyResultsWithMatches object required only 29.8 \gls{mb} of memory. 
+At over 4.2 seconds for joining only two caches, scaling analyses to large 
+datasets may become a challenge and opportunities for optimizing this step 
+should be pursued. The GenomePropertyResultsWithMatches object generated was 
+subsequently serialized to \gls{json} in 7.1 s \textpm 1.3 s (\gls{n} = 20). 
+This speed may need to be optimized in the future. The proteins most likely to 
+carry out GenProp1757 step number two in each sample were written to a 
+\gls{fasta} file in 21.7 ms \textpm 0.8 ms (\gls{n} = 80) using the same 
+GenomePropertyResultsWithMatches object's 
 \textbf{write\_supporting\_proteins\_for\_step\_fasta} method (Table 
 \ref{tab:genomepropertyresultswithmatches}).
 
@@ -2021,7 +2021,7 @@ or help them generate graph visualization of metabolic networks
 \cite{posma2013metabonetworks}. In terms of analysis functionality, Pygenprop is 
 closest to clusterProfiler \cite{yu2012clusterprofiler}. However, this package 
 is made for the R programming language \cite{rprogman}, whereas Pygenprop is 
-built for Python. None of the above libraries are integrated with Python's Scipy 
+built for Python. None of the libraries cited are integrated with Python's Scipy 
 \cite{scipystack} or machine learning ecosystems in the same way as Pygenprop 
 is, nor do they have its automation enabling features such as the tracking of 
 supporting information or the serialization of entire datasets to files, 

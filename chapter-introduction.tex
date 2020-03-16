@@ -98,7 +98,7 @@ or all of the following key steps.
 \item Translation of these genes' sequences to protein for reduced redundancy 
 (Fig. \ref{fig:pathway-analysis-steps}).
 \item Taking known enzymatic protein sequences from pathway databases and using 
-them to search the above-predicted proteins to find those with high sequence 
+them to search the predicted proteins to find those with high sequence 
 similarity. Predicted proteins with high sequence similarity to known enzymes 
 are likely to carry out the same enzymatic function (see Section 
 \ref{enzymes-and-pathways}). This process is called protein annotation (Fig. 
@@ -153,13 +153,14 @@ present information about pathways found within the MetaCyc
 data from the genomes of a specific clade on the tree of life. For example, 
 Prokka \cite{seemann2014prokka}, a pipeline that predicts genes and annotates 
 protein sequences, is only designed to work with the genomes of prokaryotic 
-microbes. Prokka only carries out the first few steps of the above list 
-\cite{seemann2014prokka}. Once these proteins are predicted, they can be 
-uploaded to servers such as \gls{kaas} \cite{moriya2007kaas} for pathway 
-annotation. Some tools can perform all of the pathway analysis steps outlined in 
-the list above. For example, \gls{rast} \cite{aziz2008rast} can take the upload 
-of whole or partial bacterial genomes, predict the genes of these genomes, and 
-provide users with a report displaying found pathways.
+microbes. Prokka only carries out the first two steps of the key pathway 
+analysis steps listed at the top of this section \cite{seemann2014prokka}. Once 
+these proteins are predicted, they can be uploaded to servers such as \gls{kaas} 
+\cite{moriya2007kaas} for pathway annotation. Some tools can perform all of the 
+pathway analysis steps outlined in the key pathway analysis steps list. For 
+example, \gls{rast} \cite{aziz2008rast} can take the upload of whole or partial 
+bacterial genomes, predict the genes of these genomes, and provide users with a 
+report displaying found pathways.
 
 \section{The Current Bottlenecks of High Throughput Pathway Analysis}
 
@@ -256,27 +257,26 @@ design can be found in Chapter \ref{micromeda-client}.}
 \item A client web application that runs in the user's browser. This web 
 application allows users to upload files to a server. These files contain 
 precalculated data about an organism's predicted pathways and the protein 
-sequences that support these predictions. This application draws the pathway 
-heat maps mentioned above based on the data uploaded (Fig. 
-\ref{fig:basic-heatmap-overview}). These heat maps allow users to make 
-comparisons across pathways and organisms. This component is called 
-\textbf{Micromeda-Client} and is detailed in Chapter \ref{micromeda-client}. 
-Links to a demonstration of the client interface can be found in Section 
-\ref{client-demo}.
+sequences that support these predictions. This application draws pathway 
+heat maps based on this uploaded data  (Fig. \ref{fig:basic-heatmap-overview}). 
+These heat maps allow users to make comparisons across pathways and organisms. 
+This component is called \textbf{Micromeda-Client} and is detailed in Chapter 
+\ref{micromeda-client}. Links to a demonstration of the client interface can be 
+found in Section \ref{client-demo}.
 \item A server web application that runs on a remote computer system and in 
-support of the client application. This server application accepts the above 
-file upload and provides the client with easy access to the data held within the 
-file. This component is called \textbf{Micromeda-Server} and is discussed in 
+support of the client application. This server application accepts file uploads 
+from the client and provides the client with easy access to the data held within 
+the file. This component is called \textbf{Micromeda-Server} and is discussed in 
 Chapter \ref{micromeda-server}.
 \item A file format that allows users to easily transfer an assessment of what 
 pathways are possessed by multiple organisms and the protein sequences used to 
 support this assessment. These files, called \textbf{Micromeda files}, are the 
 files uploaded to Micromeda-Server and use a custom format that is discussed in 
-Section \ref{MicromedaFiles}. The format allows for the storage of the above 
-information in the most compact way possible.
+Section \ref{MicromedaFiles}. The format allows for the storage of the pathway 
+and sequence information in the most compact way possible.
 \item A software library that supports the generation of pathway annotations, 
 rapid programmatic comparisons between organism pathway annotations and the 
-generation of the above Micromeda files. The library is compatible with many 
+generation of Micromeda files. The library is compatible with many 
 emerging machine learning tools and opens up new avenues to their application to 
 pathway analysis. This library is called \textbf{Pygenprop} and is discussed in 
 Chapter \ref{Pygenprop}.
@@ -297,6 +297,7 @@ Genome Properties Database. An overview of InterProScan5
 within an organism's genome. For example, in the case of prokaryotic genomes, an 
 existing tool such as \textbf{Prodigal} \cite{hyatt2010prodigal} would be used. 
 \end{itemize}
+
 
 \begin{figure}[!ht]
   \centering
@@ -338,7 +339,7 @@ uploaded to a remote server for visualization.}
 	 \label{fig:micromeda-file-building-and-use}
 \end{figure}
 
-The above Micromeda platform can be subdivided into two core components: a 
+The Micromeda platform can be subdivided into two core components: a 
 toolchain for generating Micromeda files (labelled Micromeda Annotator in Fig. 
 \ref{fig:micromeda-file-generation}) and a web application for visualizing the 
 data they contain (labelled Micromeda Visualizer in Fig. 

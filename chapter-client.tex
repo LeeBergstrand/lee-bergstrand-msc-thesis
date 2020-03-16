@@ -63,7 +63,7 @@ organisms, pathways or pathway steps.}
 	 \label{fig:client-analysis-types}
 \end{figure}
 
-If Micromeda-Client is to support the above comparisons, the data visualization 
+If Micromeda-Client is to support these listed comparisons, the data visualization 
 method used must allow users to perform the following tasks.
 
 \begin{itemize}
@@ -98,6 +98,7 @@ can also be considered to be multidimensional
 \cite{pedersen1999multidimensional}.
 
 \subsection{How Micromeda-Client Visualizes Assignment Data}
+\label{client-visualization}
 
 When designing a data visualization, often specific visualization techniques 
 present themselves intuitively as potential candidates, and this was the case 
@@ -141,23 +142,23 @@ com/michelf/sim-daltonism}) was used to ensure colour blind compatibility of the
 entire diagram. 
 
 Any visualization technique used is also challenged by the magnitude of data to 
-be presented by Micromeda-Client. For example, if the heat map described above 
-displayed all assignments for only a few organisms, then its size would prevent 
-users from finding or tracking assignments quickly across organisms. As of 
-version 2.0 of the Genome Properties database, there are 1296 properties and 
-6525 steps \cite{richardson2018genome}. If the client were used to generate a 
-single heat map representing the assignments of all properties, with each cell 
-being 5 mm tall, then the heat map produced would be approximately 6.5 meters 
-tall (\textit{i}.\textit{e}., fifteen vertical pages on a 24" monitor). If a similar heat map was 
-made, but for assignments of all property steps, then the heat map generated 
-would be over 32.6 meters tall (\textit{i}.\textit{e}., seventy-five vertical pages on a 24" 
-monitor). If both of these heat maps were combined, then the resulting heat map 
-would be even longer. Micromeda-Client's visualization interface addresses the 
-length issue by using interactive aggregation and disaggregation 
-\cite{munzner2015visualization} of assignment rows to reduce the overall length 
-of the client's assignment heat map (Fig. \ref{fig:visualization-philosophy}). This 
-reduced length facilitates rapid visual exploration of property and step 
-assignments.
+be presented by Micromeda-Client. For example, if the heat map described at the 
+top of this section displayed all assignments for only a few organisms, then its 
+size would prevent users from finding or tracking assignments quickly across 
+organisms. As of version 2.0 of the Genome Properties database, there are 1296 
+properties and 6525 steps \cite{richardson2018genome}. If the client were used 
+to generate a single heat map representing the assignments of all properties, 
+with each cell being 5 mm tall, then the heat map produced would be 
+approximately 6.5 meters tall (\textit{i}.\textit{e}., fifteen vertical pages on 
+a 24" monitor). If a similar heat map was made, but for assignments of all 
+property steps, then the heat map generated would be over 32.6 meters tall 
+(\textit{i}.\textit{e}., seventy-five vertical pages on a 24" monitor). If both 
+of these heat maps were combined, then the resulting heat map would be even 
+longer. Micromeda-Client's visualization interface addresses the length issue by 
+using interactive aggregation and disaggregation \cite{munzner2015visualization} 
+of assignment rows to reduce the overall length of the client's assignment heat 
+map (Fig. \ref{fig:visualization-philosophy}). This reduced length facilitates 
+rapid visual exploration of property and step assignments.
 
 Micromeda-Client's \gls{ui} allows users to manipulate the contents of the 
 client's assignment heat map to show and hide properties and steps according to 
@@ -187,7 +188,7 @@ and removing rows.}
 \end{figure}
 
 One critical design decision for Micromeda-Client was how to let users control 
-the above aggregation and disaggregation of heat map rows. To support this 
+the aggregation and disaggregation of heat map rows. To support this 
 usage, a new visualization component to Micromeda-Client was designed, in 
 addition to the assignment heat map. Specifically, the client uses a horizontal 
 icicle diagram\footnote{Traditional icicle diagrams have leaf nodes facing 
@@ -218,7 +219,7 @@ rows are vertically aligned. Each new node in the icicle diagram has the same
 height as its parent. The clicked node's shape is expanded vertically to align 
 with the top and bottom of its first and last child node cells, respectively. 
 The overall length of the icicle diagram and heat map is extended. If the user 
-clicks the previous clicked node once again, then this expansion process above 
+clicks the previous clicked node once again, then the expansion process 
 is reversed. The child nodes and their assignment rows are removed from the 
 visualization (Fig. \ref{fig:visualization-philosophy}), the clicked cell 
 returns to its original shape, and its matching summary assignment row is placed 
@@ -242,24 +243,26 @@ properties by name. This search functionality is discussed in the next section.
 \section{Additional Features of Micromeda-Client's Interface} 
 \label{client-additional-features}
 
-In addition to the visualization capability presented above, the client's 
-interface also possesses several other features that help users explore their 
-data. In the top right corner of the \gls{ui} is a text-based search box (Fig. 
-\ref{fig:micromeda-interface}). This box allows users to search for properties 
-by entering a text string containing either a property name or identifier. As 
-the user enters this string, a list of matching property names are displayed in 
-a drop-down menu (Fig. \ref{fig:micromeda-interface}). As the user enters 
-additional information, this list of possible matches shrinks. If the user 
-clicks one of these property names, then the Micromeda-Client will automatically 
-scroll to the heat map row where assignments for the clicked property are 
-located. If the property is not shown in the current version of the heat map, 
-then it will be added by disaggregating heat map rows in a path towards the 
-property. This path is built recursively by disaggregating parent properties 
-along a path from the root of the Genome Properties \gls{dag} to the property 
-that was clicked in the search menu. As the client diagram scrolls, the X-axis 
-labels remain in a fixed position to provide users with sample/genome name 
-information for any assignment views. This scrolling behaviour above is also 
-activated when a user clicks a node in the icicle diagram.
+In addition to the visualization capability presented in Section 
+\ref{client-visualization}, the client's interface also possesses several other 
+features that help users explore their data. In the top right corner of the 
+\gls{ui} is a text-based search box (Fig. \ref{fig:micromeda-interface}). This 
+box allows users to search for properties by entering a text string containing 
+either a property name or identifier. As the user enters this string, a list of 
+matching property names are displayed in a drop-down menu (Fig. 
+\ref{fig:micromeda-interface}). As the user enters additional information, this 
+list of possible matches shrinks. If the user clicks one of these property 
+names, then the Micromeda-Client will automatically scroll to the heat map row 
+where assignments for the clicked property are located. If the property is not 
+shown in the current version of the heat map, then it will be added by 
+disaggregating heat map rows in a path towards the property. This path is built 
+recursively by disaggregating parent properties along a path from the root of 
+the Genome Properties \gls{dag} to the property that was clicked in the search 
+menu. As the client diagram scrolls, the X-axis labels remain in a fixed 
+position to provide users with sample/genome name information for any assignment 
+views. A similar scrolling behaviour as to when a search bar item is clicked is 
+also activated when a user clicks a node in the icicle diagram. The diagram's 
+X-axis is scrolled to align with the clicked node's associated heat map row.
 
 \begin{figure}[!ht]
   \centering
@@ -446,7 +449,7 @@ to the \textbf{get\_tree} request by returning \gls{json} tree containing
 assignments for all properties and steps within this uploaded Micromeda file. 
 The client parses this \gls{json} file into a \gls{javascript} object tree and 
 uses it as the property tree data structure mentioned in Subsection 
-\ref{visual-data-structures} above. The visualization is then built using the 
+\ref{visual-data-structures}. The visualization is then built using the 
 dimensions from the diagram configuration array, the contents of the property 
 tree and the \textbf{enabled} attribute of the property objects therein 
 Subsection \ref{visual-data-structures}. The visualization itself is generated 
@@ -754,7 +757,7 @@ the property for iron metabolism and its children. This feature could be
 implemented by having a glyph on each node of the icicle diagram that, when 
 clicked, allows for the diagram to be re-rooted at the node. In the future, this 
 feature could be expanded for users to select multiple properties to display, 
-for example by clicking three of the above glyphs and an interface button. Being 
+for example by clicking three of the re-root glyphs and an interface button. Being 
 able to perform selections in this way would allow users only to compare the 
 assignments of two or more properties that are distant in the Genome Properties 
 \gls{dag}.
@@ -973,15 +976,15 @@ Micromeda files, the client also allows users to download protein sequences that
 support the displayed assignments. These functionalities directly support the 
 required tasks listed in Section \ref{visualization-design}.
 
-As discussed in the Section above, the client's visualization addresses many 
-interface issues the afflict other pathway annotation visualization software. As 
-discussed in the summary section of Chapter \ref{micromeda-server}, another 
-feature that sets Micromeda apart from these tools is the accessibility to 
-supporting information used property and step assignments such as protein 
-sequences. In the future, and as discussed in Subsection 
-\ref{interface-e-value}, the data presented by Micromeda-Client could be further 
-expanded to display more information such as E-value scores. Annotation 
-frequency, as displayed by default by FuncTree2, could also be readily displayed 
-by the client. Overall, Micromeda-Client will increase users' ability to utilize 
-pathway annotation information and set a new standard for pathway annotation 
-visualizations.
+As discussed in the Section \ref{visualization-comparison}, the client's 
+visualization addresses many interface issues the afflict other pathway 
+annotation visualization software. As discussed in the summary section of 
+Chapter \ref{micromeda-server}, another feature that sets Micromeda apart from 
+these tools is the accessibility to supporting information used property and 
+step assignments such as protein sequences. In the future, and as discussed in 
+Subsection \ref{interface-e-value}, the data presented by Micromeda-Client could 
+be further expanded to display more information such as E-value scores. 
+Annotation frequency, as displayed by default by FuncTree2, could also be 
+readily displayed by the client. Overall, Micromeda-Client will increase users' 
+ability to utilize pathway annotation information and set a new standard for 
+pathway annotation visualizations.
