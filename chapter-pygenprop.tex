@@ -6,28 +6,33 @@ it would be useful to have a software library to assist with programmatic usage
 of the Genome Properties database. This library would be used to access the 
 database's information, assign levels of support to individual properties and 
 compare these assignments among organisms. A vital component of the thesis work 
-was the development of this library, called Pygenprop. Pygenprop is a Python 
-library that provides an object-oriented framework \cite{booch1986object} for 
-representing the Genome Properties database and assessing the property 
-assignments of multiple organisms. The library is deeply integrated with the 
-Python data science software stack \cite{scipystack} through its representation 
-of property assignments as pandas DataFrames \cite{mckinney2010data}. Pygenprop 
-is also interoperable with modern machine learning frameworks, opening up new 
-use cases for pathway annotation data. Pygenprop additionally provides 
-automation features for tracking the data used to generate property assignments 
-and storing assignments for later use. This chapter will review the structure 
-and function of Pygenprop's core modules and the design decisions implemented 
-during its creation.
+was the development of this library, called Pygenprop 
+\cite{bergstrand2019pygenprop}. Pygenprop is a Python library that provides an 
+object-oriented framework \cite{booch1986object} for representing the Genome 
+Properties database and assessing the property assignments of multiple 
+organisms. The library is deeply integrated with the Python data science 
+software stack \cite{scipystack} through its representation of property 
+assignments as pandas DataFrames \cite{mckinney2010data}. Pygenprop is also 
+interoperable with modern machine learning frameworks, opening up new use cases 
+for pathway annotation data. Pygenprop additionally provides automation features 
+for tracking the data used to generate property assignments and storing 
+assignments for later use. This chapter will review the structure and function 
+of Pygenprop's core modules and the design decisions implemented during its 
+creation. Pygenprop was recently published in Oxford Bioinformatics 
+\cite{bergstrand2019pygenprop}\footnote{Chapter \ref{Pygenprop} was modified 
+from \cite{bergstrand2019pygenprop}. The description of the library's internals was 
+greatly expanded.}.
 
 \section{Parsing the Genome Properties Database} 
 \label{genome-properties-parser}
 
 Before addressing the object-oriented programming aspects of Pygenprop, it is 
-important to first discuss how the library imports data. In all use cases, Pygenprop 
-requires the information found within the Genome Properties database and before 
-the library can use this information, it must first be loaded into a computer's 
-main memory (\textit{i}.\textit{e}., \gls{ram}). This parsing of the Genome Properties database is 
-the job of Pygenprop's Genome Properties database parser.
+important to first discuss how the library imports data. In all use cases, 
+Pygenprop requires the information found within the Genome Properties database 
+and before the library can use this information, it must first be loaded into a 
+computer's main memory (\textit{i}.\textit{e}., \gls{ram}). This parsing of the 
+Genome Properties database is the job of Pygenprop's Genome Properties database 
+parser.
 
 The Genome Properties database consists of a series of flat files (see 
 Subsection \ref{Genome-Properties-Files}). The database parser module loads 
@@ -132,7 +137,8 @@ interconnected. Parent property objects are connected to child property objects.
 Database references, literature references, and property steps are also present 
 in the object model and are connected as children of individual property 
 objects. The objects presented by Pygenprop can be used to build software that 
-queries the Genome Properties database.}
+queries the Genome Properties database. Figure is from 
+\cite{bergstrand2019pygenprop}.}
 	 \label{fig:propertytree}
 \end{figure}
 
@@ -144,9 +150,11 @@ objects.]{\textbf{In-memory objects that Pygenprop uses to support its property
 objects.} With Pygenprop, each property object is supported by a series of 
 objects that represent a property's steps and lines of evidence. Functional 
 element objects form links between steps and evidence. Property objects can be 
-supported by multiple step, functional element, and evidence objects.}
+supported by multiple step, functional element, and evidence objects. Figure is 
+from \cite{bergstrand2019pygenprop}.}
 	 \label{fig:property}
 \end{figure}
+
 
 \subsection{The GenomeProperty Class} \label{genome-property-class}
 
