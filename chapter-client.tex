@@ -59,7 +59,7 @@ pathway step.
 the visualization of Genome Properties data.]{\textbf{Examples of different 
 pathway analysis tasks that can be supported by the visualization of Genome 
 Properties data.} Comparisons can be made between 
-organisms, pathways or pathway steps.}
+organisms, pathways, or pathway steps.}
 	 \label{fig:client-analysis-types}
 \end{figure}
 
@@ -71,7 +71,7 @@ method used must allow users to perform the following tasks.
 \item Assess the magnitude of assignments
 \item Aggregate assignments into summaries
 \item Explore how these aggregate summaries are derived
-\item Quickly find assignments of interest
+\item Find assignments of interest
 \end{itemize}
 
 When a visualization approach was selected for use by Micromeda-Client, the 
@@ -80,7 +80,7 @@ compatibility of the visualization with these tasks was prioritized.
 \subsection{An Overview of Genome Properties Data}
 
 Specific visualization techniques are better suited for presenting certain types 
-of data over others, and it is essential first to discuss the nature of data to 
+of the data over others, and it is essential first to discuss the nature of data to 
 be visualized before discussing how a specific visualization approach was 
 selected for Micromeda-Client. At its core, the data presented by 
 Micromeda-Client consist of assignments for genome properties and their steps. 
@@ -295,10 +295,10 @@ that the glyph's node represents (Fig. \ref{fig:micromeda-interface}). This
 pop-up box includes the name of the property, a description of it, a link to the 
 property on the \gls{ebi}  Genome Properties website (\textit{e}.\textit{g}., 
 \href{https://www.ebi.ac.uk/interpro/genomeproperties/#GenProp0867}{ebi.ac.uk/interpro/genomeproperties/ 
-\#GenProp0867}), and a list of links to equivalent records in other pathways 
+\#GenProp0867}), and a list of links to equivalent records in other pathway 
 databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc 
 \cite{karp2002metacyc}. The box is once again hidden when the user's cursor 
-leaves the glyph or the pop box.
+leaves the glyph or the pop-up box.
 
 Leaf property steps have a different glyph at the bottom of their nodes that is 
 shaped like a download symbol (Fig. \ref{fig:micromeda-interface}). This glyph 
@@ -322,7 +322,7 @@ diagram to allow them to search for other properties.
 
 Micromeda-Client is delivered as a client web browser application. The method 
 was chosen due to its relative ease of deployment. End users only need open the 
-web address in order for the client to be loaded into their web browser and ran. 
+web address in order for the client to be loaded into their web browser and run. 
 Because the application is web browser-based, it will work on any operating 
 system with a modern web browser, including mobile devices such as tablet 
 computers and cell phones.
@@ -340,7 +340,7 @@ Both pages are styled using the Bootstrap 3.0 \gls{css} framework
 \cite{spurlock2013bootstrap}. Bootstrap is used to set up page elements such as 
 header navigation bars and drop-down menus. Bootstrap also makes each page 
 compatible with tablet computers and phones as it will automatically restyle 
-non-visualization page elements fit on these smaller screens.
+non-visualization page elements to fit on these smaller screens.
 
 \section{Demonstration of the Client User Interface} \label{client-demo}
 
@@ -492,7 +492,7 @@ pairs of property names and identifiers. After the visualization generation, an
 interactive search menu is created in the top right-hand corner of the 
 Micromeda-Client interface (Fig. \ref{fig:micromeda-interface}). This menu is 
 built using the Select2 library \cite{select2} 
-(\href{http://select2.org}{select2.org}) and uses the previously mention pairs 
+(\href{http://select2.org}{select2.org}) and uses the previously mentioned pairs 
 of property identifiers and names as search data. When a user searches for a 
 property name or identifier in the search menu, properties whose name or 
 identifier are similar to the search query are displayed in a drop-down menu 
@@ -529,7 +529,7 @@ the property is retrieved from web local storage using localForage. This
 property information was cached during the previous diagram render. If no 
 information for a property was previously cached, a template is used. The cached 
 or template property information is used to generate the contents of the 
-property information pop up box. The \gls{fasta} download pop box, when generated, 
+property information pop-up box. The \gls{fasta} download pop box, when generated, 
 contains links for downloading \gls{fasta} files. These links point to \gls{url}s 
 provided by Micromeda-Server's \textbf{get\_fasta} endpoint (Subsection 
 \ref{get-fasta-endpoint}). When the``get all proteins" link is clicked (Fig. 
@@ -542,7 +542,7 @@ pop-up. This lack of a parameter causes the return of a \gls{fasta} file contain
 only the proteins that are most likely to support a step. During both of these 
 types of requests, the dataset key stored in local web storage is attached. This 
 key tells the Micromeda-Server to generate \gls{fasta} files from sequences found in 
-the browsers most recently uploaded Micromeda file. Both pop-up boxes are hidden 
+the browser's most recently uploaded Micromeda file. Both pop-up boxes are hidden 
 upon removal of the user's cursor via the triggering of an onmouseout event 
 \cite{dom-events} 
 (\href{http://en.wikipedia.org/wiki/DOM_events}{en.wikipedia.org/wiki/DOM\_events}).
@@ -571,7 +571,7 @@ browser. A web server must be made available to send the client code to the
 user's browser. Micromeda-Client can be deployed in two ways. The client can be 
 served from a web server, such as NGINX \cite{reese2008nginx}, running on the 
 same server computer system as Micromeda-Server (Fig. 
-\ref{fig:client-deployment}). Such a web server is already of a component of the 
+\ref{fig:client-deployment}). Such a web server is already a component of the 
 medium-scale deployment of Micromeda-Server described in Subsection 
 \ref{single-server-micromeda-deployment}. Alternatively, Micromeda-Server can be 
 served from a \gls{cdn} \cite{farber2003internet} 
@@ -581,12 +581,12 @@ such as Amazon Cloudfront \cite{varia2014overview}
 Cloudflare Anycast \cite{calder2015analyzing} 
 (\href{http://cloudflare.com/cdn}{cloudflare.com/cdn}). In this deployment 
 configuration, the end-user downloads the client code from the nearest content 
-delivery server in the \gls{cdn} , rather than the same sever where 
+delivery server in the \gls{cdn} , rather than the same server where 
 Micromeda-Server is hosted (Fig. \ref{fig:client-deployment}). After loading, 
 the client would then send \gls{api} requests to Micromeda-Server, which would 
 be hosted outside the \gls{cdn}  (Fig. \ref{fig:client-deployment}). During 
 end-user testing, a version of Micromeda-Client was deployed via Amazon 
-Cloudfront \gls{cdn} . The files for Micromeda-Client could also be downloaded 
+Cloudfront \gls{cdn}. The files for Micromeda-Client could also be downloaded 
 and opened by a developer's web browser for development and testing purposes.
 
 \begin{figure}[!ht]
@@ -610,22 +610,22 @@ improvements were derived from feedback gathered during end-user testing.
 \subsection{Providing More Information About Property Steps}
 
 In the current version of Micromeda-Client, there are pop-up boxes that provide 
-additional information about individual genome properties such as property 
+additional information about individual genome properties, such as property 
 descriptions and links to equivalent records in other pathway databases. 
 However, there are no equivalent pop-up boxes for providing more detailed 
 information about property steps. The Genome Properties database includes 
-additional information about steps that could be displayed in another set of pop 
-up boxes. For example, using information about what domains support a step could 
-be used to generate links to domain records on the InterPro website. These links 
-could be added to the suggested step pop up boxes. Also, such pop-up boxes could 
-provide \gls{go} terms and links to details about these terms on the \gls{go} 
-website because individual steps are associated with such terms. The information 
-in step information pop-up boxes would provide additional context to heat map 
-step assignments. The boxes would be activated by hovering over a question mark 
-glyph placed slightly above the download glyph of each step node in the client's 
-icicle diagram (Fig. \ref{fig:micromeda-interface}). Both the addition of step 
-information pop-up boxes would require an additional endpoint to be added to 
-Micromeda-Server.
+additional information about steps that could be displayed in another set of 
+pop-up boxes. For example, using information about what domains support a step 
+could be used to generate links to domain records on the InterPro website. These 
+links could be added to the suggested step pop-up boxes. Also, such pop-up boxes 
+could provide \gls{go} terms and links to details about these terms on the 
+\gls{go} website because individual steps are associated with such terms. The 
+information in step information pop-up boxes would provide additional context to 
+heat map step assignments. The boxes would be activated by hovering over a 
+question mark glyph placed slightly above the download glyph of each step node 
+in the client's icicle diagram (Fig. \ref{fig:micromeda-interface}). The 
+addition of step information pop-up boxes would require an additional endpoint 
+to be added to Micromeda-Server.
 
 \subsection{Providing Improvements to Search Capability}
 
@@ -731,7 +731,7 @@ strength of these assignments' supporting domain matches. For example,
 Micromeda-Client could display the \gls{eval} score of the closest match 
 supporting each step in its heat map in place of a binary YES or NO value. These 
 \gls{eval} scores could be coloured by shades of green along a continuous scale. 
-Pop up boxes could also be generated by hovering over each cell in the heat map 
+Pop-up boxes could also be generated by hovering over each cell in the heat map 
 cell and would display match info, such as the \gls{eval} score, protein name, 
 and matched domain identifier. No \gls{eval} data would be presented for NO 
 assignments. An interface switch could be implemented that would be used to 
@@ -751,7 +751,7 @@ are differing between organisms and false otherwise. Children of nodes on the
 \gls{javascript} property tree whose state is set to \textbf{enabled} would only 
 be rendered if their \textbf{differing} property is set to true.
 
-The icicle diagram could be re-root based on the assignments and child 
+The icicle diagram could be re-rooted based on the assignments and child 
 assignments of a specific property. For example, having the visualization show 
 the property for iron metabolism and its children. This feature could be 
 implemented by having a glyph on each node of the icicle diagram that, when 
@@ -961,7 +961,7 @@ space utilization than radial diagrams on modern computer monitors
 \cite{muramalla2017radial}. In contrast to FuncTree2, the visualization of 
 Micromeda-Client only allows users to show either aggregated assignments for a 
 parent node or the disaggregated assignments of its children, not both 
-simultaneously. Both the decision to use icicle diagrams and either present 
+simultaneously. Both the decision to use icicle diagrams and to either present 
 parent or child assignments allow the client's diagram to retain the same square 
 layout as an annotated horizontal tree with superior space utilization to a 
 radial tree. 
@@ -977,10 +977,10 @@ support the displayed assignments. These functionalities directly support the
 required tasks listed in Section \ref{visualization-design}.
 
 As discussed in the Section \ref{visualization-comparison}, the client's 
-visualization addresses many interface issues the afflict other pathway 
-annotation visualization software. As discussed in the summary section of 
+visualization addresses many interface issues that afflict other pathway 
+annotation visualization software tools. As discussed in the summary section of 
 Chapter \ref{micromeda-server}, another feature that sets Micromeda apart from 
-these tools is the accessibility to supporting information used property and 
+these tools is the access to supporting information used in property and 
 step assignments such as protein sequences. In the future, and as discussed in 
 Subsection \ref{interface-e-value}, the data presented by Micromeda-Client could 
 be further expanded to display more information such as E-value scores. 

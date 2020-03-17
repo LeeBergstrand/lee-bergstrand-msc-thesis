@@ -5,7 +5,7 @@ learn more about organism's inherent capabilities without having to study it \te
 vivo} or \textit{in vitro} \cite{de2012bioinformatic}. In an environmental 
 microbiology context, such sequenced genomes are used to learn more about 
 microorganisms' metabolic capabilities and possibly shed light on their 
-ecological role \cite{de2012bioinformatic}. In an applied context, predictions 
+ecological roles \cite{de2012bioinformatic}. In an applied context, predictions 
 of such metabolic capabilities are also useful for the selection of what 
 microbes to use in a bioprocess. In a genetic engineering context, genomically 
 derived information can be used to select what metabolic traits to remove from, 
@@ -35,7 +35,7 @@ metabolic features of organisms, in terms of biochemical pathways present, but
 also allow users to access the underlying protein sequences that support these 
 predictions. Details about the information presented by Micromeda and its 
 expected use cases are presented within the sections below. The following 
-chapter will discuss the database Micromeda uses, Pygenprop, and Micromeda's 
+chapters will discuss the database Micromeda uses, Pygenprop, and Micromeda's 
 implementation.
 
 \section{Enzymes and Biochemical Pathways} \label{enzymes-and-pathways} 
@@ -43,13 +43,13 @@ implementation.
 For many systems, both environmental and industrial processes can be carried out 
 biochemically. From a biological context, such processes are carried out via a 
 series of chemical reactions catalyzed by proteinaceous biological enzymes. 
-Enzymes that facilitate similar chemical reactions often 
-\cite{galperin1998analogous} have similar sequences of amino acid residues, 
-structures, and genes that encode them \cite{zhang2003evolution}. A biochemical 
+Enzymes that facilitate similar chemical reactions often have similar sequences 
+of amino acid residues, structures, and genes that encode them 
+\cite{galperin1998analogous,zhang2003evolution}. A biochemical 
 pathway represents a series of chemical reactions, that when chained together, 
 are beneficial to a cell \cite{michal2012biochemical}. Examples of such 
 reactions are the breaking down of a nutrient macromolecule into pieces that 
-cells can use or the build-up of components of cellular structure 
+cells can use or the synthesis of components of cellular structure 
 \cite{wagner2012metabolic}. Each reaction step in a pathway is often 
 \cite{keller2015widespread,tawfik2010enzyme} catalyzed by a specific enzyme 
 whose amino acid sequence, and thus structure and activity, is optimized for the 
@@ -59,10 +59,10 @@ and chemical reaction steps in biochemical pathways \cite{thiele2010protocol}.
 As a result, by reading the genome, researchers can predict what biochemical 
 pathways an organism may possess 
 \cite{abubucker2012metabolic,thiele2010protocol}. Also, the output from one 
-pathway (\textit{e}.\textit{g}., the monomers from the break down of a macro-nutrient) may be the 
-input for a second biochemical pathway that builds cellular structures 
-\cite{wagner2012metabolic,stelling2002metabolic}. Thus, all pathways in a cell 
-are somehow connected and form a network of reactions 
+pathway (\textit{e}.\textit{g}., the monomers from the break down of a 
+macro-nutrient) may be the input for a second biochemical pathway that builds 
+cellular structures \cite{wagner2012metabolic,stelling2002metabolic}. Thus, all 
+pathways in a cell are somehow connected and form a network of reactions 
 \cite{wagner2012metabolic,stelling2002metabolic}. This network forms the cell's 
 metabolism and is called its metabolic network \cite{wagner2012metabolic}.
 
@@ -81,17 +81,18 @@ many others.
 
 \section{The State of Pathway Analysis}
 
-As the breadth of the information within pathway databases increases, it is 
-increasingly being used for by tools that automate pathway analysis. Such tools 
-help make rapid insights into the capabilities and roles of organisms in a 
-variety of environments. Often this software is released in the form of a 
-toolchain (\textit{i}.\textit{e}., a pipeline) where a separate bioinformatics software 
-applications are run in series to generate a final output. Such pipelines take 
-an organism's \gls{dna} genome sequence, perform \textit{in-silico} transcription and 
-translation (Fig. \ref{fig:pathway-analysis-steps}), identify enzymes, and 
-identify the pathways that they support via information contained within pathway 
-databases (Fig. \ref{fig:pathway-analysis-overview}). These tools perform some 
-or all of the following key steps.
+As the breadth and depth of the information within pathway databases increases, 
+the information contained within is increasingly being used by automated tools 
+that perform pathway analysis. Such tools help make rapid insights into the 
+capabilities and roles of organisms in a variety of environments. Often this 
+software is released in the form of a toolchain (\textit{i}.\textit{e}., a 
+pipeline) where separate bioinformatics software applications are run in series 
+to generate a final output. Such pipelines take an organism's \gls{dna} genome 
+sequence, perform \textit{in-silico} transcription and translation (Fig. 
+\ref{fig:pathway-analysis-steps}), identify enzymes, and identify the pathways 
+that they support via information contained within pathway databases (Fig. 
+\ref{fig:pathway-analysis-overview}). These tools perform some or all of the 
+following key steps.
 
 \begin{enumerate}
 \item Prediction of what genes are present in an organism's genome.
@@ -137,9 +138,9 @@ pathways are genomically predicted using information from pathway databases.}
 Predicting an organism’s biochemical pathways involves joining together two 
 distinct datasets. One is a prediction of what genes are possessed by an 
 organism. The other is a database containing the knowledge of what genes are 
-involved in previously known biochemical pathways. When these previously 
-cataloged genes are found within an organism’s genome, pathway prediction can be 
-made.}
+involved in previously known biochemical pathways. When predicted proteins with 
+sufficient homology to the previously cataloged genes are found within an 
+organism’s genome, pathway prediction can be made.}
 	 \label{fig:pathway-analysis-overview}
 \end{figure}
 
@@ -156,7 +157,7 @@ protein sequences, is only designed to work with the genomes of prokaryotic
 microbes. Prokka only carries out the first two steps of the key pathway 
 analysis steps listed at the top of this section \cite{seemann2014prokka}. Once 
 these proteins are predicted, they can be uploaded to servers such as \gls{kaas} 
-\cite{moriya2007kaas} for pathway annotation. Some tools can perform all of the 
+\cite{moriya2007kaas} for pathway annotation. Several tools can perform all of the 
 pathway analysis steps outlined in the key pathway analysis steps list. For 
 example, \gls{rast} \cite{aziz2008rast} can take the upload of whole or partial 
 bacterial genomes, predict the genes of these genomes, and provide users with a 
@@ -167,11 +168,11 @@ report displaying found pathways.
 Due to the current plethora of tools for genome annotation and pathway 
 determination, identifying pathways for single organisms is becoming a solved 
 problem. Researchers have progressed to comparing the presence and absence of 
-pathways across organisms. Such comparisons are in the hope of finding 
-information about individual organism's ecological roles, evolution, or 
-suitability towards different industrial tasks. For example, the genomes of 
-organisms that are closely related phylogenetically could be compared to 
-determine those that may have lost or gained a pathway or pathway step over 
+pathways across organisms. Such comparisons are applied in order to, for 
+example, find information about individual organism's ecological roles, 
+evolution, or suitability towards different industrial tasks. For example, the 
+genomes of organisms that are closely related phylogenetically could be compared 
+to determine those that may have lost or gained a pathway or pathway step over 
 time. Alternatively, the pathways possessed by multiple organisms from within 
 the same environment could be compared to shed light on their potential 
 ecological niches (Fig. \ref{fig:metagenomics}). Pathway comparisons could also 
@@ -208,8 +209,8 @@ pathway data. However, the majority of these libraries focus on helping users
 download data from existing pathway databases, rather than helping them with 
 making comparisons across organisms. Thus, due to a lack of libraries for 
 pathway comparison and lack of coding skills among biologists, there is a need 
-for dedicated bioinformatics tools that simply pathway comparisons across 
-organisms. Software that visualizes the presence and absence of pathways these 
+for dedicated bioinformatics tools that simplify pathway comparisons across 
+organisms. Software that visualizes the presence and absence of pathways 
 would be of great use in this role. There are several emerging tools, which are 
 discussed in Section \ref{micromeda-client-summary}, that help users visualize 
 pathway annotations from multiple organisms. However, their implementation, in 
@@ -217,9 +218,9 @@ terms of visual idioms used and supporting data presented, is currently lacking.
 There is currently a gap for a tool that effectively presents such data and 
 allows for rapid comparisons. There is also a gap for a pathway library that 
 assists coders in making these comparisons programmatically. Finally, there is a 
-gap for a tool that can both users what pathways an organism possess and allows 
-users to identify the protein sequences that support these annotations. 
-Micromeda and Pygenprop were developed to fill these gaps.
+gap for a tool that can both describe what pathways an organism possesses and 
+allow users to identify the protein sequences that support these pathway 
+annotations. Micromeda and Pygenprop were developed to fill these gaps.
 
 \section{The Micromeda Platform} \label{micromeda-overview}
 
@@ -305,7 +306,7 @@ existing tool such as \textbf{Prodigal} \cite{hyatt2010prodigal} would be used.
 	 \caption[Steps performed and software tools used by Micromeda to predict the 
 genome properties of an organism.]{\textbf{Steps performed and software tools 
 used by Micromeda to predict the genome properties of an organism.} For 
-prokaryotes,  proteins must firsts be predicted via Prodigal. These proteins are 
+prokaryotes, proteins must first be predicted via Prodigal. These proteins are 
 then scanned using InterProScan5. The results of InterProScan are then combined 
 with the Genome Properties database to predict pathways steps. These predictions 
 are carried out by Pygenprop, which also predicts the overall presence and 
@@ -320,7 +321,7 @@ absence of pathways.}
 visualizations using Micromeda.]{\textbf{Two core steps that users must perform 
 to generate Genome Properties visualizations using Micromeda.} A local computer 
 system must be used to execute a data generation step that creates a Micromeda 
-file. Users can then uploaded this file to a second remote computer system that 
+file. Users can then upload this file to a second remote computer system that 
 generates heat map visualizations. The most computationally complex step, 
 Micromeda file generation, is not performed on the same server that generates 
 the data visualizations.}
@@ -332,10 +333,10 @@ the data visualizations.}
 	\includegraphics[width=0.8\textwidth]{media/how-micromeda-files-are-built.pdf}
 	 \caption[How Micromeda files are built from InterProScan annotations of an 
 organism's predicted proteins.]{\textbf{How Micromeda files are built from 
-InterProScan annotations of an organism's predicted proteins.} They possess not 
-only pathway annotations but also the protein sequences that support them. Thus 
-they allow for the transfer complete pathway datasets. Micromeda files are 
-uploaded to a remote server for visualization.}
+InterProScan annotations of an organism's predicted proteins.} These files 
+possess not only pathway annotations but also the protein sequences that support 
+them. Thus they allow for the transfer of complete pathway datasets. Micromeda 
+files are uploaded to a remote server for visualization.}
 	 \label{fig:micromeda-file-building-and-use}
 \end{figure}
 
@@ -350,16 +351,17 @@ Micromeda files can be done manually using only three \gls{cli} tools (see Fig.
 For example, with prokaryotic genomes, Prodigal could be used to predict protein 
 sequences from an organism's genome sequence, and InterProScan5 could be used to 
 scan these proteins to identify enzymes that support the existence of specific 
-pathways (Fig. \ref{fig:micromeda-file-building-and-use}). Afterwards, a Python 
-script taking advantage of the Pygenprop library could be used to convert the 
-output from InterProScan and Prodigal a Micromeda file. This script would also 
-use a copy of the Genome Properties database (Fig. 
+pathways (Fig. \ref{fig:micromeda-file-building-and-use}). Afterwards, a short 
+Python script, built using the Pygenprop library, could be used to convert the 
+output from InterProScan and Prodigal into a single Micromeda file. This script 
+would also use a copy of the Genome Properties database (Fig. 
 \ref{fig:micromeda-file-building-and-use}). An example of such a script can be 
 found within Pygenprop's GitHub repository 
 (\href{http://github.com/Micromeda/pygenprop}{github.com/Micromeda/pygenprop}). 
 An explicit automated software pipeline for generating Micromeda files does not 
 currently exist. However, its potential implementation is discussed in 
 Subsection \ref{pipeline-development}.
+
 
 \subsection{Software Architecture Overview}
 

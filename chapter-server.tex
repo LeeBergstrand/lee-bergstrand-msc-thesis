@@ -93,7 +93,7 @@ cache \cite{han2011survey} in MessagePack format \cite{furuhashi2013messagepack}
 (Fig. \ref{fig:micromeda-server}, Fig. \ref{fig:micromeda-server-workflow} and 
 Section \ref{msgpack}). In the context of Micromeda-Server, the contents of each 
 uploaded and cached Micromeda file is called a dataset. A single Micromeda file 
-can also be provided to Micromeda-Server during start-up for use as default 
+can also be provided to Micromeda-Server during start-up for use as the default 
 dataset (Fig. \ref{fig:micromeda-server}). This default dataset is also parsed 
 to a GenomePropertiesResultsWithMatches object and is used to supply data to the 
 \gls{api} if users upload no Micromeda files. The standard workflow for starting 
@@ -137,7 +137,7 @@ in Section \ref{endpoints}.
 
 Micromeda files contain information about both assignments and supporting 
 information used in their creation. This supporting information, such as 
-proteins sequences, can take up substantial disk space. Permanently storing such 
+protein sequences, can take up substantial disk space. Permanently storing such 
 information would be prohibitive in terms of both hardware and maintenance 
 costs. In response, Micromeda-Server was designed to store uploaded datasets 
 temporarily. Uploads to the server are done anonymously. 
@@ -365,7 +365,7 @@ the \gls{json} strings generated are placed into a list in a single larger
 
 \subsection{The Get\_Fasta Endpoint} \label{get-fasta-endpoint}
 
-The \textbf{get\_gasta} endpoint is used to send the client a \gls{fasta} file 
+The \textbf{get\_fasta} endpoint is used to send the client a \gls{fasta} file 
 containing protein sequences that support the existence of a property step 
 across multiple organisms in a specific uploaded dataset. The \gls{url} path of 
 requests to this endpoint includes the genome property identifier and step 
@@ -392,8 +392,8 @@ The performance of Micromeda's endpoints was tested using a Micromeda file
 generated from the protein sequences and InterProScan annotations of 
 \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177) and 
 \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  319225). 
-\textbf{Performance numbers for this section were recorded using Safari's 
-(version 13; \href{http://apple.com/safari}{apple.com/safari}) Web Inspector.} 
+Performance numbers for this section were recorded using Safari's 
+(version 13; \href{http://apple.com/safari}{apple.com/safari}) Web Inspector.
 When this file was sent to the \textbf{upload} endpoint of Micromeda-Server, it 
 was parsed and added to the Redis cache in 11.3 s \textpm 2.0 s (\gls{n} = 3). 
 The \textbf{get\_tree} endpoint could create a genome property tree from this 
@@ -569,7 +569,7 @@ a GenomePropertiesResultsWithMatches object's \textbf{to\_json} method. This
 method is known to have speed issues (see Subsection \ref{matches-performance} 
 and Section \ref{micromeda-server-performance}) due to the method having to 
 insert assignments into the \gls{json} tree one at a time, rather than in batch. 
-This speed issue could be addressed by reconfiguring Micromeda-Sever's 
+This speed issue could be addressed by reconfiguring Micromeda-Server's 
 \textbf{get\_tree} endpoint to no longer output a tree annotated by property 
 assignments. Instead, new endpoints could be built that return step and property 
 assignments separately (Fig. \ref{fig:new_endpoints}). New methods of 
@@ -614,7 +614,7 @@ compare not only the presence and absence of proteins that support property
 steps but also compare how close these matches are to existing domain models. 
 Thus, it may be useful to create a new endpoint that returns domain annotation 
 \gls{eval} scores for domains that support property steps (Fig. 
-\ref{fig:new_endpoints}). This endpoint could generated its data from the 
+\ref{fig:new_endpoints}). This endpoint could generate its data from the 
 \textbf{step\_matches} DataFrame of reconstituted 
 GenomePropertiesResultsWithMatches objects.
 
