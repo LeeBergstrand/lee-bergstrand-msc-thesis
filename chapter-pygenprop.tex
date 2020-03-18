@@ -863,7 +863,7 @@ InterPro domains \ref{fig:propertyassignment}).
 Step assignments are calculated recursively from both functional element and 
 evidence assignments (Fig. \ref{fig:propertyassignment}). Evidences are assigned 
 YES or NO based on the presence an InterPro consortium signatures found in an 
-AssignmentCache's \textbf{interpro\_signiture\_accessions} attribute (Table 
+AssignmentCache's \textbf{interpro\_signature\_accessions} attribute (Table 
 \ref{tab:assignment-cache-object}) or a recursively calculated child property's 
 assignment (Fig. \ref{fig:propertyassignment}). The signature identifier or 
 child property to be used during calculations is specified inside each 
@@ -872,7 +872,7 @@ Pieces of evidence are assigned NO in two situations:
 
 \begin{itemize}
 \item The evidence's InterPro consortium signature is not found in the 
-AssignmentCache's \textbf{interpro\_signiture\_accessions} attribute 
+AssignmentCache's \textbf{interpro\_signature\_accessions} attribute 
 \item The evidence's child genome property has been assigned NO 
 \end{itemize}
 Otherwise, each evidence is assigned YES (Fig. \ref{fig:propertyassignment}). 
