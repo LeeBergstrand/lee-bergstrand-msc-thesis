@@ -255,6 +255,45 @@ design can be found in Chapter \ref{micromeda-client}.}
 \end{figure}
 
 \begin{itemize}
+\item A program that generates protein sequences from predicted genes found 
+within an organism's genome. For example, in the case of prokaryotic genomes, an 
+existing tool such as \textbf{Prodigal} \cite{hyatt2010prodigal} would be used. 
+
+\item A pre-existing sequence search program for scanning for identifying 
+markers within the sequences of an organism's predicted proteins. These markers 
+are used to identify enzymes that support the existence of a pathway. The search 
+program chosen was \textbf{InterProScan5}, whose output data are used by the 
+Genome Properties Database. An overview of InterProScan5 
+\cite{jones2014interproscan} and its methodology can be found in Chapter 
+\ref{genome-properties}.
+
+\item A pathway database that maps between predicted protein sequences derived 
+from an organism's genome and biochemical pathway steps. The database chosen was 
+the \textbf{Genome Properties} database \cite{richardson2018genome}. A short 
+review of this database and the reason for its selection can be found in Chapter 
+\ref{genome-properties}. This database is pre-existing and was not made as part 
+of the thesis work.
+
+\item A software library that supports the generation of pathway annotations, 
+rapid programmatic comparisons between organism pathway annotations and the 
+generation of Micromeda files. The library is compatible with many 
+emerging machine learning tools and opens up new avenues to their application to 
+pathway analysis. This library is called \textbf{Pygenprop} and is discussed in 
+Chapter \ref{Pygenprop}.
+
+\item A file format that allows users to easily transfer an assessment of what 
+pathways are possessed by multiple organisms and the protein sequences used to 
+support this assessment. These files, called \textbf{Micromeda files}, are the 
+files uploaded to Micromeda-Server and use a custom format that is discussed in 
+Section \ref{MicromedaFiles}. The format allows for the storage of the pathway 
+and sequence information in the most compact way possible.
+
+\item A server web application that runs on a remote computer system and in 
+support of the client application. This server application accepts file uploads 
+from the client and provides the client with easy access to the data held within 
+the file. This component is called \textbf{Micromeda-Server} and is discussed in 
+Chapter \ref{micromeda-server}.
+
 \item A client web application that runs in the user's browser. This web 
 application allows users to upload files to a server. These files contain 
 precalculated data about an organism's predicted pathways and the protein 
@@ -264,41 +303,7 @@ These heat maps allow users to make comparisons across pathways and organisms.
 This component is called \textbf{Micromeda-Client} and is detailed in Chapter 
 \ref{micromeda-client}. Links to a demonstration of the client interface can be 
 found in Section \ref{client-demo}.
-\item A server web application that runs on a remote computer system and in 
-support of the client application. This server application accepts file uploads 
-from the client and provides the client with easy access to the data held within 
-the file. This component is called \textbf{Micromeda-Server} and is discussed in 
-Chapter \ref{micromeda-server}.
-\item A file format that allows users to easily transfer an assessment of what 
-pathways are possessed by multiple organisms and the protein sequences used to 
-support this assessment. These files, called \textbf{Micromeda files}, are the 
-files uploaded to Micromeda-Server and use a custom format that is discussed in 
-Section \ref{MicromedaFiles}. The format allows for the storage of the pathway 
-and sequence information in the most compact way possible.
-\item A software library that supports the generation of pathway annotations, 
-rapid programmatic comparisons between organism pathway annotations and the 
-generation of Micromeda files. The library is compatible with many 
-emerging machine learning tools and opens up new avenues to their application to 
-pathway analysis. This library is called \textbf{Pygenprop} and is discussed in 
-Chapter \ref{Pygenprop}.
-\item A pathway database that maps between predicted protein sequences derived 
-from an organism's genome and biochemical pathway steps. The database chosen was 
-the \textbf{Genome Properties} database \cite{richardson2018genome}. A short 
-review of this database and the reason for its selection can be found in Chapter 
-\ref{genome-properties}. This database is pre-existing and was not made as part 
-of the thesis work.
-\item A pre-existing sequence search program for scanning for identifying 
-markers within the sequences of an organism's predicted proteins. These markers 
-are used to identify enzymes that support the existence of a pathway. The search 
-program chosen was \textbf{InterProScan5}, whose output data are used by the 
-Genome Properties Database. An overview of InterProScan5 
-\cite{jones2014interproscan} and its methodology can be found in Chapter 
-\ref{genome-properties}.
-\item A program that generates protein sequences from predicted genes found 
-within an organism's genome. For example, in the case of prokaryotic genomes, an 
-existing tool such as \textbf{Prodigal} \cite{hyatt2010prodigal} would be used. 
 \end{itemize}
-
 
 \begin{figure}[!ht]
   \centering
