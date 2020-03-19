@@ -46,12 +46,12 @@ individual property records are not indexed nor connected.
 
 The database parser reads both \textbf{DESC} and \textbf{genomeProperties.txt} 
 files one line at a time to decrease memory usage. While loading line by line, 
-lines are split into key-value pairs and loaded into a Python list as they are 
-encountered. Once all keys for a single property are found, the key-value pairs 
-are used to create a series of in-memory Python objects representing the 
-property. In the case of \textbf{genomeProperties.txt} release files, Pygenprop 
-repeats this process for all property records in the file, placing each in a 
-Python list.  Once parsing is completed, this list is used to create a 
+lines are split into key-value pairs and these pairs are loaded into a Python 
+list. Once all keys for a single property are found, the key-value pairs are 
+used to create a series of in-memory Python objects representing the property. 
+In the case of \textbf{genomeProperties.txt} release files, Pygenprop repeats 
+this process for all property records in the file, placing each in a Python 
+list.  Once parsing is completed, this list is used to create a 
 \textbf{GenomePropertiesTree} object\footnote{Note that capital letters are used 
 to differentiate objects and classes from the concepts they represent. For 
 example \textbf{GenomeProperty} objects represent individual genome properties 
@@ -97,7 +97,7 @@ Step, FunctionalElement, and Evidence objects (Fig. \ref{fig:property} and Fig.
 \ref{fig:propertytree}). Methods and attributes of these objects can be used in 
 software applications or explored interactively in Jupyter Notebooks 
 \cite{kluyver2016jupyter}. The below subsections detail Pygenprop's Genome 
-Properties database classes and how they can be used. 
+Properties database classes and how these classes can be used. 
 
 \begin{longtable}{|p{4cm}|p{11cm}|}
 \caption{Summary of the object types used to represent the Genome Properties 
@@ -342,9 +342,9 @@ Out: Photosynth Res. 2006;90(2):173-194.
 \subsection{The Step Class}
 
 The Step class is used to generate objects representing individual genome 
-property steps. They are children of parent GenomeProperty objects and have 
-FunctionalElements objects as children (Fig. \ref{fig:property}). A summary of 
-the properties and attributes of Step objects can be seen in Table 
+property steps. These objects are children of parent GenomeProperty objects and 
+have FunctionalElements objects as children (Fig. \ref{fig:property}). A summary 
+of the properties and attributes of Step objects can be seen in Table 
 \ref{tab:step-object} and example code below.
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
@@ -699,8 +699,9 @@ calculates assignments of YES, PARTIAL, and NO for parent properties.}
 \subsection{The AssignmentCache Class} \label{AssignmentCache}
 
 AssignmentCache objects, instantiated from the AssignmentCache class, are used 
-to assign genome properties to an organism. They can be generated from three 
-sources: 
+to assign genome properties to an organism. These caching objects can be 
+generated from three sources: 
+
 \begin{itemize}
 \item InterProScan \gls{tsv} files (protein domain annotation files) 
 \item Python lists of InterPro member database signature accessions for an 
@@ -721,7 +722,7 @@ designed to store all unique InterPro consortium signature identifiers found in
 an organism's protein domain annotations. The AssignmentCache has a method 
 called \textbf{bootstrap\_assignments} that uses a GenomePropertyTree 
 (Subsection \ref{GenomePropertiesTree-Class}) object and data stored within 
-itself to calculate levels of support for all properties. This function also 
+the AssignmentCache itself to calculate levels of support for all properties. This function also 
 calculates levels of support for steps. AssignmentCaches from multiple organisms 
 can later be combined during the creation of GenomePropertiesResults objects (as 
 discussed in Section \ref{GenomePropertiesResults} below) that allow comparison 
@@ -1161,13 +1162,14 @@ These joined datasets provide great potential as a source of data for data
 mining or as training sets for machine learning algorithms. Pandas DataFrame 
 objects are built on top of NumPy arrays \cite{mckinney2010data}, which are used 
 extensively across the entire Python data science ecosystem \cite{scipystack}. 
-They allow for the transfer of data between algorithms, for example, to those 
-found in machine learning libraries such as \gls{scikit}-learn 
+The arrays allow for the transfer of data between algorithms; for example, to 
+those found in machine learning libraries such as \gls{scikit}-learn 
 \cite{pedregosa2011scikit}, PyTorch \cite{Paszke2017} or Tensorflow 
 \cite{abadi2016tensorflow}.  When trained on pathway assignment data from 
 Pygenprop's Dataframes, such algorithms could be used to build a new generation 
 of bioinformatics classifiers that facilitate the prediction of high-level 
 organism phenotypes or preferred environmental conditions.
+
 
 \subsection{GenomePropertiesResults Performance}
 
@@ -1190,16 +1192,15 @@ evidence for property steps. It may be the case that domains used as step
 evidences will be found in more than one protein of an organism. It may also be 
 the case that some of these proteins may be false positives that may posses the 
 identifying domain, or a similar domain, but do not carry out a genome property 
-step. To filter out these false positives, researchers often want direct access 
-to match information, such as \gls{eval} scores, held within an InterProScan 
-file, so they can use it to filter matches further. Alternatively, users may 
-want access to the entire sequence of proteins containing predicted domains so 
-they can be analyzed more deeply. For example, the proteins that are predicted 
-to possess a motif that supports the existence of a property step could be 
-compared phylogenetically to reference proteins that are already known carry out 
-this step in other organisms. Previously, with the Genome Properties Perl 
-library, the information required to perform the such analyses was kept in four 
-separate file types:
+step. To assist in filtering out these false positives, researchers often want 
+direct access to match information, such as \gls{eval} scores, held within an 
+InterProScan file. Alternatively, users may want access to the entire sequences 
+of proteins containing predicted domains so these proteins can be analyzed more 
+deeply. For example, the proteins that are predicted to possess a motif that 
+supports the existence of a property step could be compared phylogenetically to 
+reference proteins that are already known carry out this step in other 
+organisms. Previously, with the Genome Properties Perl library, the information 
+required to perform the such analyses was kept in four separate file types:
 
 \begin{itemize}
 \item GenomeProperties.txt files kept property information
@@ -1209,14 +1210,15 @@ assignments
 \item  Per-organism InterProScan \gls{tsv} files kept domain annotations 
 \end{itemize}
 
-For a given organism, if one wanted to find proteins that support the existence 
-of a genome property step they would have to write a script to parse all four of 
-these file types, combine the data contained within each and perform searches on 
-this data. These scripts would be difficult and time-consuming to write as they 
-would need much ``boilerplate" code to carry out the joining of the datasets 
-before analysis. Because the file types listed at the start of this section are 
-created per-organism, if one wanted to apply such scripts to multiple organisms, 
-then these scripts would have to be able to remember what file belongs to what 
+For a given organism, if a researcher wanted to find proteins that supports the 
+existence of a genome property step, then they would have to write a script to 
+parse all four of these file types, combine the data contained within each and 
+perform searches on this joined data. These scripts would be difficult and 
+time-consuming to write as the researcher would need to write much 
+``boilerplate" code to carry out the joining of the datasets before analysis. 
+Because the file types listed at the start of this section are created 
+per-organism, if one wanted to apply such scripts to multiple organisms, then 
+these scripts would have to be able to remember what file belongs to what 
 organism. This tracking would further complicate script development.
 
 Pygenprop already possesses much much of the aforementioned boilerplate code. 
@@ -1260,10 +1262,11 @@ objects can be seen in Table \ref{tab:assignmentcachewithmatches}.
 and FASTA files.]{\textbf{How AssignmentCacheWithMatches are made from input 
 InterProScan \gls{tsv} and \gls{fasta} files.} AssignmentCacheWithMatches 
 objects store property assignments, InterProScan annotations, and supporting 
-protein sequences for a single organism. They are generated from a \gls{fasta} 
-file of an organism's proteins and InterProScan TSV file of domain annotations 
-of these proteins. AssignmentCacheWithMatches objects possess a DataFrame that 
-maps between InterProScan annotations and protein sequences.}
+protein sequences for a single organism. Such objects are generated from a 
+\gls{fasta} file of an organism's proteins and InterProScan TSV file of domain 
+annotations of these proteins. AssignmentCacheWithMatches objects possess a 
+DataFrame that maps between InterProScan annotations and protein sequences.}
+
 	 \label{fig:cachewithmatchescreation}
 \end{figure}
 
@@ -1332,7 +1335,7 @@ AssignmentCacheWithMatches object derived from multiple organisms.]{\textbf{How
 GenomePropertiesResultsWithMatches are built from AssignmentCacheWithMatches 
 object derived from multiple organisms.} GenomePropertiesResultsWithMatches 
 objects store property assignments, InterProScan annotations, and supporting 
-protein sequences for multiple organisms. They are generated by combining the 
+protein sequences for multiple organisms. Such objects are generated by combining the 
 AssignmentCacheWithMatches objects generated for multiple organisms. These 
 caches are generated from per-organism \gls{fasta} files and InterProScan files. 
 GenomePropertiesResultsWithMatches objects also retain the Property and step 
@@ -1518,7 +1521,7 @@ sequences. Because the Perl library creates these files per-organism, a large
 number of records must be tracked and managed if a researcher wants to compare 
 assignments across multiple organisms. Also, if a user wants to retain 
 information about domain annotations and protein sequences that support these 
-assignments, they would have to track and manage a series of additional 
+assignments, then they would have to track and manage a series of additional 
 InterProScan \gls{tsv} and \gls{fasta} files for each organism. Tracking, managing, 
 and sharing all these files would be difficult, so Pygenprop supports the 
 creation of Micromeda files that store the information held within these three 
@@ -1557,15 +1560,15 @@ PostgreSQL \cite{momjian2001postgresql, owens2006definitive}
 Traditionally a relational \gls{dbms}, such as MySQL and PostgreSQL, is a server 
 process that continually runs on a computer system (\textit{i}.\textit{e}., they 
 are daemons \cite{martin2006computer}) waiting for input from other programs or 
-human users \cite{dubois1999mysql, momjian2001postgresql}. They are designed to 
-handle connections from hundreds of applications or users simultaneously. Users 
-and software communicate with relational \gls{dbms}s via a \gls{dsl} called 
-\gls{sql}. The language allows a user to define the structure of a database and 
-add, remove, and query data \cite{sql1987guide}. In contrast to traditional 
-databases, SQLite3 does not run as a server process. Instead, SQLite3 is a 
-software library and associated file type that takes \gls{sql} strings as input 
-and manipulates a single small file on disk \cite{owens2006definitive} according 
-to instructions found within these strings.
+human users \cite{dubois1999mysql, momjian2001postgresql}. Such databases are 
+designed to handle connections from hundreds of applications or users 
+simultaneously. Users and software communicate with relational \gls{dbms}s via a 
+\gls{dsl} called \gls{sql}. The language allows a user to define the structure 
+of a database and add, remove, and query data \cite{sql1987guide}. In contrast 
+to traditional databases, SQLite3 does not run as a server process. Instead, 
+SQLite3 is a software library and associated file type that takes \gls{sql} 
+strings as input and manipulates a single small file on disk 
+\cite{owens2006definitive} according to instructions found within these strings.
 
 SQLAlchemy \cite{bayer2014sqlalchemy} is a tool that acts as a compatibility 
 layer that allows users to write software that can query and store data found in 
@@ -1643,7 +1646,7 @@ InterPro annotations, InterPro annotations, and proteins sequences.}
 
 Pygenprop maintains five SQLAlchemy classes for representing relational tables 
 and records. These objects represent individual property assignments, step 
-assignments, InterProScan domain annotations, and protein sequences. They are 
+assignments, InterProScan domain annotations, and protein sequences and are 
 used to generate \gls{sql} statements for both creating \gls{sql} tables and 
 database queries through SQLAlchemy's \gls{orm} functionality. Attributes and 
 Properties of these objects are detailed in Tables \ref{tab:sampleobject}, 

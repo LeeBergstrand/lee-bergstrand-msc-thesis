@@ -9,7 +9,7 @@ an interactive heat map that allows users to perform the same comparisons
 visually. Micromeda-Server was developed to provide an \gls{api} that provides 
 data to this client. Micromeda files allow for the transfer of entire datasets 
 of pathway predictions and supporting information such as protein sequences to 
-Micromeda-Client. They also enable the rapid transfer of datasets between 
+Micromeda-Client. These files also enable the rapid transfer of datasets between 
 researchers. Pygenprop is used to generate these Micromeda files, and the client 
 uses their contents to draw its heat maps. The functional predictions made and 
 displayed by Micromeda are derived from the information found within the Genome 
@@ -134,18 +134,18 @@ assigned different shades of the same colour.
 
 Algorithms for calculating levels of PARTIAL support for biochemical pathways 
 have been developed before. For example, \gls{maple} \cite{takami2016automated}, 
-a \gls{kegg}-based pathway annotation server, can calculate \gls{mcr} (\textit{i}.\textit{e}., 
-continuous levels of support based on the presence of pathway steps) for each 
-module in the \gls{kegg}  database. \gls{kegg} modules are roughly equivalent to 
-higher level genome properties. \gls{mcr}s are calculations of the level of 
-completeness of individual pathways that take into account that multiple 
-different enzymes may catalyze some pathway steps. They are calculated using 
-custom ``boolean algebra-like equations" generated for each \gls{kegg} module 
-\cite{takami2012evaluation}. These equations take \gls{ko} annotations (see 
-Section \ref{visualization-comparison}, Fig. \ref{fig:functree2}, and 
-\cite{mao2005automated}) of an organism's proteins as input. \gls{ko} 
-annotations are equivalent to the step evidence used to support genome property 
-steps. 
+a \gls{kegg}-based pathway annotation server, can calculate \gls{mcr} 
+(\textit{i}.\textit{e}., continuous levels of support based on the presence of 
+pathway steps) for each module in the \gls{kegg}  database. \gls{kegg} modules 
+are roughly equivalent to higher level genome properties. \gls{mcr}s are 
+calculations of the level of completeness of individual pathways that take into 
+account that multiple different enzymes may catalyze some pathway steps. These 
+ratios are calculated using custom ``boolean algebra-like equations" generated 
+for each \gls{kegg} module \cite{takami2012evaluation}. These equations take 
+\gls{ko} annotations (see Section \ref{visualization-comparison}, 
+Fig.\ref{fig:functree2}, and \cite{mao2005automated}) of an organism's proteins 
+as input. \gls{ko} annotations are equivalent to the step evidence used to 
+support genome property steps. 
 
 Pygenprop could also implement a similar ``completeness ratio" algorithm to that 
 used by \gls{maple}. Much of the logic encoded in \gls{maple}'s ``boolean 

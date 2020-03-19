@@ -90,7 +90,7 @@ pipeline) where separate bioinformatics software applications are run in series
 to generate a final output. Such pipelines take an organism's \gls{dna} genome 
 sequence, perform \textit{in-silico} transcription and translation (Fig. 
 \ref{fig:pathway-analysis-steps}), identify enzymes, and identify the pathways 
-that they support via information contained within pathway databases (Fig. 
+that these enzymes support via information contained within pathway databases (Fig. 
 \ref{fig:pathway-analysis-overview}). These tools perform some or all of the 
 following key steps.
 
@@ -116,16 +116,16 @@ in a way that is comprehensible by users.
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=0.9\textwidth]{media/pathway_analysis_steps.pdf}
-	\caption[How the glyoxylate shunt can be predicted from the presence of its 
+\caption[How the glyoxylate shunt can be predicted from the presence of its 
 supporting enzymes.]{\textbf{How the glyoxylate shunt can be predicted from the 
 presence of its supporting enzymes.}  If a microorganism is to be classified as 
 possessing a glyoxylate shunt, then it should have highly similar proteins to 
 those previously known to carry out the pathway, such as Iso and MalG. Several 
 steps are required to go from an organism’s genome sequence to a prediction of 
-its metabolic capabilities. The enzymes that carry out pathway steps must be 
-identified (\textit{e}.\textit{g}., protein annotation). If found, they indicate 
-the presence of pathway steps. Finally, if all or many steps are present, then 
-the biochemical pathway can be said to be present.}
+its metabolic capabilities. The enzymes that carry out the pathway steps must be 
+identified (\textit{e}.\textit{g}., protein annotation). If found, these enzymes 
+would indicate the presence of pathway steps. Finally, if all or many steps are 
+present, then the biochemical pathway can be said to be present.}
 	 \label{fig:pathway-analysis-steps}
 \end{figure}
 
@@ -144,12 +144,12 @@ organism’s genome, pathway prediction can be made.}
 	 \label{fig:pathway-analysis-overview}
 \end{figure}
 
-Users can deploy pathway prediction bioinformatics pipelines in two ways. They 
-can either be installed on to a user's computer, where genomes can be processed 
-directly, or be deployed on to a web server, where users can upload their 
-genomes for remote processing. Some pipelines only work with pathway data from a 
-specific database. For example, Pathway Tools \cite{karp2002pathway} can only 
-present information about pathways found within the MetaCyc 
+Users can deploy pathway prediction bioinformatics pipelines in two ways. The 
+pipelines can either be installed on to a user's computer, where genomes can be 
+processed directly, or be deployed on to a web server, where users can upload 
+their genomes for remote processing. Some pipelines only work with pathway data 
+from a specific database. For example, Pathway Tools \cite{karp2002pathway} can 
+only present information about pathways found within the MetaCyc 
 \cite{karp2002metacyc} database. Often pipelines are optimized for generating 
 data from the genomes of a specific clade on the tree of life. For example, 
 Prokka \cite{seemann2014prokka}, a pipeline that predicts genes and annotates 
@@ -157,8 +157,8 @@ protein sequences, is only designed to work with the genomes of prokaryotic
 microbes. Prokka only carries out the first two steps of the key pathway 
 analysis steps listed at the top of this section \cite{seemann2014prokka}. Once 
 these proteins are predicted, they can be uploaded to servers such as \gls{kaas} 
-\cite{moriya2007kaas} for pathway annotation. Several tools can perform all of the 
-pathway analysis steps outlined in the key pathway analysis steps list. For 
+\cite{moriya2007kaas} for pathway annotation. Several tools can perform all of 
+the pathway analysis steps outlined in the key pathway analysis steps list. For 
 example, \gls{rast} \cite{aziz2008rast} can take the upload of whole or partial 
 bacterial genomes, predict the genes of these genomes, and provide users with a 
 report displaying found pathways.
@@ -340,15 +340,15 @@ the data visualizations.}
 organism's predicted proteins.]{\textbf{How Micromeda files are built from 
 InterProScan annotations of an organism's predicted proteins.} These files 
 possess not only pathway annotations but also the protein sequences that support 
-them. Thus they allow for the transfer of complete pathway datasets. Micromeda 
-files are uploaded to a remote server for visualization.}
+them. Thus, Micromeda files allow for the transfer of complete pathway analysis 
+datasets. Such files can be uploaded to a remote server for visualization.}
 	 \label{fig:micromeda-file-building-and-use}
 \end{figure}
 
 The Micromeda platform can be subdivided into two core components: a 
 toolchain for generating Micromeda files (labelled Micromeda Annotator in Fig. 
 \ref{fig:micromeda-file-generation}) and a web application for visualizing the 
-data they contain (labelled Micromeda Visualizer in Fig. 
+data these files contain (labelled Micromeda Visualizer in Fig. 
 \ref{fig:micromeda-file-generation}). The individual steps for generating 
 Micromeda files can be done manually using only three \gls{cli} tools (see Fig. 
 \ref{fig:micromeda-levels}, Fig. \ref{fig:micromeda-file-building-and-use}, and  
