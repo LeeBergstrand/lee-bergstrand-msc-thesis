@@ -1153,10 +1153,10 @@ Pandas is a Python library for cleaning, filtering, and reshaping data.
 Pygenprop's GenomePropertiesResults object presents property and step 
 assignments as pandas DataFrames, which are a two-dimensional data matrices with 
 both column and row names. These DataFrames allow users to quickly query and 
-filter assignments and join them to pre-existing metadata. For example, gene 
-expression data (microarray or transcriptomic), culture optimal growth 
-conditions, or even host environmental conditions could be merged with genome 
-property assignment results in only a few lines of pandas code.
+filter assignments and join these assignments to pre-existing metadata. For 
+example, gene expression data (microarray or transcriptomic), culture optimal 
+growth conditions, or even host environmental conditions could be merged with 
+genome property assignment results in only a few lines of pandas code.
 
 These joined datasets provide great potential as a source of data for data 
 mining or as training sets for machine learning algorithms. Pandas DataFrame 
@@ -1169,7 +1169,6 @@ those found in machine learning libraries such as \gls{scikit}-learn
 Pygenprop's Dataframes, such algorithms could be used to build a new generation 
 of bioinformatics classifiers that facilitate the prediction of high-level 
 organism phenotypes or preferred environmental conditions.
-
 
 \subsection{GenomePropertiesResults Performance}
 
@@ -1947,9 +1946,9 @@ Several potential improvements are highlighted below.
 Files}
 
 GenomeProperty objects and their related child objects (see Section 
-\ref{genomeprop-oop}) are designed to represent individual genome properties, 
-their steps, functional elements, and evidence. It is currently possible to take 
-a Genome Properties \textbf{DESC} file (see Subsection 
+\ref{genomeprop-oop}) are designed to represent individual genome properties 
+and their steps, functional elements, and evidence. It is currently possible to 
+take a Genome Properties \textbf{DESC} file (see Subsection 
 \ref{Genome-Properties-Files}) and use Pygenprop to turn the file's contents 
 into objects, but it is not possible to do the reverse. Being able to serialize 
 a GenomeProperty object and its children to a \textbf{DESC} file may be useful 

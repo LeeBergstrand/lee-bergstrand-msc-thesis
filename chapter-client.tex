@@ -105,9 +105,9 @@ present themselves intuitively as potential candidates, and this was the case
 while designing Micromeda-Client. An appropriate visualization for 
 multidimensional datasets, such as Genome Properties assignments, is a heat map 
 \cite{wilkinson2009history,tufte2001visual}(Fig. 
-\ref{fig:client-analysis-types}) and this was the visualization technique chosen 
-for the client (Fig. \ref{fig:client-analysis-types}). A heat map was chosen 
-over the competing visualization techniques such as bubble charts 
+\ref{fig:client-analysis-types}) and this visualization technique was the one 
+chosen for the client (Fig. \ref{fig:client-analysis-types}). A heat map was 
+chosen over the competing visualization techniques such as bubble charts 
 \cite{tufte2001visual}, circular maps 
 \cite{ward2002taxonomy,stothard2004circular}, or treemaps 
 \cite{shneiderman1998tree} due to the number of variables that needed to be 
@@ -168,10 +168,11 @@ their position in the Genome Properties \gls{dag} \cite{richardson2018genome}
 \gls{dag} arranges individual properties hierarchically, the assignments of 
 properties closer to the root can be used to summarize the assignments of 
 properties closer to the \gls{dag}'s leaves (Fig. 
-\ref{fig:visualization-philosophy}). In the context of a heat map, this means 
-that a row of assignments for a parent property can be used to summarize the 
-rows of assignments of this property's children, either other properties or 
-steps (Fig. \ref{fig:visualization-philosophy} and Fig. 
+\ref{fig:visualization-philosophy}). In the context of a heat map, this 
+hierarchical assignment summarization means that a row of assignments for a 
+parent property can be used to summarize the rows of assignments of this 
+property's children, either other properties or steps 
+(Fig.\ref{fig:visualization-philosophy} and Fig. 
 \ref{fig:client-analysis-types}). Micromeda-Client provides mechanisms to expand 
 and collapse heat map rows to display either parent summary assignments or more 
 detailed child assignments (Fig. \ref{fig:visualization-philosophy}).
@@ -336,8 +337,8 @@ via \gls{javascript} \cite{flanagan2006javascript}. Users access one page for
 uploading user-generated Micromeda files, and another for presenting the 
 visualizations of the file's data. To use Micromeda-Client, users must first 
 navigate to the upload page and upload a Micromeda file. After the upload is 
-complete, their browser will automatically redirect to the visualization page. 
-Both pages are styled using the Bootstrap 3.0 \gls{css} framework 
+complete, the user's browser will automatically redirect to the visualization 
+page. Both pages are styled using the Bootstrap 3.0 \gls{css} framework 
 \cite{spurlock2013bootstrap}. Bootstrap is used to set up page elements such as 
 header navigation bars and drop-down menus. Bootstrap also makes each page 
 compatible with tablet computers and phones as it will automatically restyle 
@@ -364,25 +365,27 @@ dimensions, the offset of axis labels, and other visualization details (Fig.
 in a \gls{json} file \cite{bray2014rfc}, called 
 \textbf{diagram\_configuration.json}, which is deployed alongside the \gls{html} 
 files of the client. The second data structure is a copy of the Genome 
-Properties \gls{dag} in the form of a tree (\textit{i}.\textit{e}., nodes with two parents are 
-duplicated) of \gls{javascript} objects. Each of these objects represents a 
-genome property or step and are linked together in parent-child relationships. 
-This data structure is analogous to the one used by Pygenprop (Section 
-\ref{GenomePropertiesTree-Class}). Each of these objects possesses an attribute, 
-called assignments, containing a list of property assignments for the organism 
-in a dataset. Micromeda-Client later uses these assignments during the 
+Properties \gls{dag} in the form of a tree (\textit{i}.\textit{e}., nodes with 
+two parents are duplicated) of \gls{javascript} objects. Each of these objects 
+represents a genome property or step and are linked together in parent-child 
+relationships. This data structure is analogous to the one used by Pygenprop 
+(Section \ref{GenomePropertiesTree-Class}). Each of these objects possesses an 
+attribute, called assignments, containing a list of property assignments for the 
+organism in a dataset. Micromeda-Client later uses these assignments during the 
 generation of its heat map. These property and step objects also have an 
-attribute, called \textbf{enabled}, containing a boolean (\textit{i}.\textit{e}., true or false). 
-Elements of Micromeda's \gls{ui} manipulate the \textbf{enabled} attribute of 
-objects in the property tree and this, in turn, manipulates the contents of the 
-visualization (Fig. \ref{fig:tree-map-to-viz}). The \textbf{enabled} boolean of 
-each property object tree determines whether the children of the property should 
-be displayed in client visualization (Fig. \ref{fig:tree-map-to-viz}). The 
-property tree is placed within a parent \gls{javascript} object. This object 
-also possesses methods for dictionary-style lookups of properties from the tree 
-based on their property identifier, allows selection of root and leaf 
-properties, and is analogous to Pygenprop's GenomePropertiesTree class (Section 
-\ref{GenomePropertiesTree-Class}).
+attribute, called \textbf{enabled}, containing a boolean 
+(\textit{i}.\textit{e}., true or false). Elements of Micromeda's \gls{ui} 
+manipulate the \textbf{enabled} attribute of objects in the property tree and 
+this, in turn, manipulates the contents of the visualization (Fig. 
+\ref{fig:tree-map-to-viz}). The \textbf{enabled} boolean of each property object 
+tree determines whether the children of the property should be displayed in 
+client visualization (Fig. \ref{fig:tree-map-to-viz}). The property tree is 
+placed within a parent \gls{javascript} object. This property tree 
+\gls{javascript} object is analogous to objects instantiated from Pygenprop's 
+GenomePropertiesTree class (Section \ref{GenomePropertiesTree-Class}) and, as 
+such, also possesses methods for property identifier-based lookups of the tree's 
+underlying property objects and methods for extracting lists of the tree's root 
+and leaf property objects.
 
 \begin{figure}[!ht]
   \centering
@@ -418,16 +421,18 @@ technique known as \gls{ajax} \cite{garrett2005ajax,li2012jquery} (see
 \href{http://en.wikipedia.org/wiki/Ajax_(programming)}{en.wikipedia.org/wiki/ 
 Ajax\_(programming)}). \gls{ajax} allows requests to be made to the server, 
 using \gls{javascript} \cite{flanagan2006javascript}, without the need for a web 
-page reload. This technique allows Micromeda-Client to remain asynchronous to  
-the server where it was downloaded. \gls{ajax}  requests are made via \gls{http} 
+page reload. This technique allows Micromeda-Client to remain asynchronous to 
+the server where it was downloaded. \gls{ajax} requests are made via \gls{http} 
 \cite{fielding1999hypertext}, through a series of \gls{url} addresses 
-\cite{berners1994rfc} that map to Micromeda-Server endpoints 
-(see Section \ref{endpoints}). All \gls{ajax}  requests to the server were made 
-using the JQuery \gls{javascript}library \cite{chaffer2013learning,li2012jquery}. 
-The \gls{url} address of Micromeda-Server, where \gls{ajax}  requests are made 
-to, is found in a \gls{json} file called server\_config.json. This file is deployed with 
-\gls{html} files of the client and both the file upload and visualization page 
-call this file upon their initial load.
+\cite{berners1994rfc} that map to Micromeda-Server endpoints (see Section 
+\ref{endpoints}). All \gls{ajax} requests to the server were made using the 
+JQuery \gls{javascript} library \cite{chaffer2013learning,li2012jquery}. The 
+\gls{url} address of Micromeda-Server, where \gls{ajax} requests are made to, is 
+found in a \gls{json} file called server\_config.json. This \gls{json} 
+configuration file is deployed with the \gls{html} files of the client (i.e., 
+the \gls{html} files for the client's visualization page and upload page). Both 
+the file upload and visualization page call this \gls{json} file upon their 
+initial load to acquire the location of Micromeda-Server.
 
 The upload page contains a file drag and drop zone. When a user drops a 
 Micromeda file onto this zone, the file is sent via \gls{ajax} to Micromeda-Server 
@@ -700,12 +705,13 @@ Subsection \ref{assignment-endpoints}, if the return of property and step
 assignments were pushed to a separate endpoint, then the data returned would 
 have to be generated by serializing assignment DataFrames of 
 GenomePropertiesResultsWithMatches objects to \gls{json} \cite{bray2014rfc}. If 
-clustering columns in the heat map was required, Micromeda-Server could 
-accomplish this by clustering these DataFrames column-wise using 
-\gls{scikit}-learn \cite{pedregosa2011scikit}. Afterwards, these clustered 
-DataFrames would then be converted to \gls{json} and sent to the client. 
-Returning clustered assignment \gls{json} data could be controlled by an 
-\gls{http} GET parameter in an endpoint request.
+clustering columns in the heat map was required, then Micromeda-Server could 
+accomplish this visual clustering by clustering the DataFrames of 
+GenomePropertiesResultsWithMatches objects column-wise using \gls{scikit}-learn 
+\cite{pedregosa2011scikit} using pandas. Afterwards, these clustered DataFrames 
+would then be converted to \gls{json} and sent to the client. Returning 
+clustered assignment \gls{json} data could be controlled by an \gls{http} GET 
+parameter in an endpoint request.
 
 \subsection{Visualizing Step Assignments by E-value Score Rather Than by 
 Categorical Assignment} \label{interface-e-value}
@@ -797,20 +803,20 @@ equivalent records. Thus, with the Genome Properties website, if users need a
 more detailed description of a property, then they are forced to swap between 
 multiple web pages. To effectively use the \gls{ebi} tool, from a \gls{ui} 
 perspective, users should place both property browser and assignment viewer 
-windows side by side. However, this requires either a large monitor or two 
-monitors placed side by side because the assignment heat map page of the website 
-does not scale down well with a shrinking window size. If both property 
-information and assignment information pages are open simultaneously on a 14" 
-laptop, then the controls of the assignment heat map page are cut off, and the 
-visualization becomes unusable. Unlike Micromeda-Client, the Genome Properties 
-website's assignment viewer only displays a subset of leaf genome properties and 
-their steps, not all properties and steps (Fig. \ref{fig:property-viewer}). The 
-website also does not perform any aggregation of assignments to reduce the 
-length of its heat map (Fig. \ref{fig:property-viewer}). Like the client, users 
-can upload their data. In the case of the \gls{ebi} assignment viewer, users can 
-upload InterProScan \gls{tsv} files instead of Micromeda files 
-\cite{richardson2018genome}. Thus, there is no way for users to access the 
-underlying protein sequences that support each step.
+windows side by side. However, using both of these windows simultaneously 
+requires either a large monitor or two monitors placed side by side because the 
+assignment heat map page of the website does not scale down well with a 
+shrinking window size. If both property information and assignment information 
+pages are open simultaneously on a 14" laptop, then the controls of the 
+assignment heat map page are cut off, and the visualization becomes unusable. 
+Unlike Micromeda-Client, the Genome Properties website's assignment viewer only 
+displays a subset of leaf genome properties and their steps, not all properties 
+and steps (Fig. \ref{fig:property-viewer}). The website also does not perform 
+any aggregation of assignments to reduce the length of its heat map (Fig. 
+\ref{fig:property-viewer}). Like the client, users can upload their data. In the 
+case of the \gls{ebi} assignment viewer, users can upload InterProScan \gls{tsv} 
+files instead of Micromeda files \cite{richardson2018genome}. Thus, there is no 
+way for users to access the underlying protein sequences that support each step.
 
 In contrast to the property assignment heat map generated by the Genome 
 Properties website, Micromeda-Client uses pop-up boxes to display its property 
@@ -821,7 +827,7 @@ users time and reduces mistakes where users view information about the wrong
 property. Also, unlike the \gls{ebi} Genome Properties website, Micromeda-Client 
 displays assignments for all properties, not just leaf properties. The icicle 
 diagram that is present in the client's visualization helps organize property 
-assignments, so users more easily find them. Unlike the \gls{ebi} tool, the 
+assignments, so users more easily find these assignments. Unlike the \gls{ebi} tool, the 
 client's assignment viewer does use interactive aggregation and disaggregation, 
 which decreases the length of its heat maps substantially.
 
