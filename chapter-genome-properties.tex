@@ -151,14 +151,26 @@ evidence by others, and thus the database forms a rooted \gls{dag} (see
 \href{http://en.wikipedia.org/wiki/Directed_acyclic_graph}{en.wikipedia.org/wiki/Directed\_acyclic\_graph}) 
 of connected properties. There are five types of genome properties: pathways, 
 metapathways, systems, guilds, and categories (see 
-\href{https://genome-properties.readthedocs.io/en/latest/flatfile.html\#genome-property-types}{https://genome-properties.readthedocs.ioen/latest/flatfile.html\#genome-property-types} 
-for details). One of the core goals of the latest release of Genome Properties 
-was to expand the database beyond prokaryotic properties to include properties 
-that are only possessed by eukaryotes or are shared between prokaryotes and 
-eukaryotes. The most recent version of the Genome Properties database has also 
-incorporated pathways from MetaCyc \cite{karp2002metacyc}. Section 
-\ref{genomeprop-oop} discusses how Pygenprop represents the structure of the 
-Genome Properties database in memory.
+\href{http://genome-properties.readthedocs.io/en/latest/flatfile.html#genome-property-types}{genome-properties.readthedocs.ioen/latest/flatfile.html\#genome-property-types} 
+for details). The initial release of \gls{ebi} Genome Properties, version 1.0 
+(January 9, 2018), had 584 properties and 3083 steps. The latest public release 
+of the Genome Properties database, version 2.0 (August 30, 2018), contains 1296 
+properties and 6525 steps \cite{richardson2018genome}. One of the core goals of 
+the latest release was to expand the database beyond prokaryotic properties to 
+include properties that are only possessed by eukaryotes or are shared between 
+prokaryotes and eukaryotes. Version 2.0 has also incorporated pathways from 
+MetaCyc \cite{karp2002metacyc}. The next version of the database, version 3.0, 
+is still in active development and is planned to be released in spring 2020 (see 
+\href{http://github.com/ebi-pf-team/genome-properties/issues/30#issuecomment-557090961}{github.com/ebi-pf-team/genome-properties/issues/30\#issuecomment-557090961}). 
+Version 3.0 will contain fixes to existing properties, the addition of new 
+properties\footnote{There is no ceiling to the number of properties that could 
+be added to the Genome Properties database. As long as domains catalogued by the 
+InterPro consortium can identify the proteins involved in a pathway or 
+structure, then a property representing the pathway or structure can be 
+generated.} and code fixes to the Genome Properties Perl library (see 
+\href{http://github.com/ebi-pf-team/genome-properties/tree/rel3.0}{github.com/ebi-pf-team/genome-properties/tree/rel3.0}). 
+Section \ref{genomeprop-oop} discusses how Pygenprop represents the structure of 
+the Genome Properties database in memory.
 
 \subsection{Assignment of Genome Properties to an Organism}
 
