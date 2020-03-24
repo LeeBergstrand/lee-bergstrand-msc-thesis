@@ -901,11 +901,14 @@ creating another recursion cycle.
 \subsubsection{Assigning support for non-categorical properties}
 
 Some properties have steps that are required to exist for the property to be 
-assigned YES or PARTIAL. Also, each property is given a \textbf{threshold} 
-attribute (Table \ref{tab:genome-property-object}), that specifies how many of 
-these required steps must be present before an assignment of PARTIAL support can 
-be applied to the property. If there are required steps for a property, then it 
-can only be assigned YES if all required steps are present (Fig. 
+assigned YES or PARTIAL. Also, each property possesses a \textbf{threshold} 
+attribute (see Table \ref{tab:genome-property-object}) that specifies how many 
+of these required steps must be present before an assignment of PARTIAL support 
+can be applied to the property. These threshold values are included in the 
+Genome Properties database and are predetermined for each property. They are 
+stored in each property's \textbf{DESC} file (see Subsection 
+\ref{Genome-Properties-Files}). If there are required steps for a property, then 
+it can only be assigned YES if all required steps are present (Fig. 
 \ref{fig:propertyassignment}). The property is assigned PARTIAL only if the 
 number of its required steps assigned YES is higher than the required steps 
 threshold attribute (Fig. \ref{fig:propertyassignment}). If the number of 
