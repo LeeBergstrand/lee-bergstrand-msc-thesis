@@ -1929,8 +1929,9 @@ and \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177) were used
 to validate that assignments and supporting information did not change before 
 and after serialization of GenomePropertiesResults and 
 GenomePropertiesResultsWithMatches objects. It was found that Pygenprop could 
-correctly reconstitute these objects (\textit{i}.\textit{e}., they had the same checksum has value 
-before and after) from both SQLite3 files and MessagePack binary strings.
+correctly reconstitute these objects (\textit{i}.\textit{e}., they had the same 
+cryptographic checksum value before and after) from both SQLite3 files and 
+MessagePack binary strings.
 
 Pygenprop has extensive end-to-end and unit tests for its codebase. There are 
 currently 104 unit tests that validate the functionality of the majority of code 
