@@ -138,11 +138,18 @@ supply data to the client  (Fig. \ref{fig:micromeda-server-workflow} and Fig.
 in Section \ref{endpoints}.
 
 Micromeda files contain information about both assignments and supporting 
-information used in their creation. This supporting information, such as 
-protein sequences, can take up substantial disk space. Permanently storing such 
+information used in their creation. This supporting information, such as protein 
+sequences, can take up substantial disk space. Permanently storing such 
 information would be prohibitive in terms of both hardware and maintenance 
 costs. In response, Micromeda-Server was designed to store uploaded datasets 
-temporarily. Uploads to the server are done anonymously. 
+temporarily. Micromeda-Server does not have a user login system \footnote{A user 
+login system is very complex to build and maintain. Code for tracking user 
+names, passwords, and emails must be generated. This user information must be 
+stored in a cryptographically secured and anonymized database. Code for handling 
+logins, logouts, and secure password changes would also have to be implemented. 
+Having Micromeda file upload be anonymous drastically reduced the complexity of 
+Micromeda-Server's development and future deployment.} and uploads to the server 
+are done anonymously.
 
 \section{Use of Redis for Dataset Caching} \label{redis-caching}
 
