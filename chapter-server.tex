@@ -457,8 +457,8 @@ system, a larger deployment must be used (Fig.
 software layers that increase Micromeda-Server's scalability. As discussed in 
 previous sections, multiple copies of Micromeda-Server's Python code must be run 
 simultaneously to handle multiple client requests. This technique is done by 
-putting the Micromeda-Server under the command of a master \gls{http}server that 
-can route traffic to multiple copies of the code in separate processes (Fig. 
+putting the Micromeda-Server under the command of a master \gls{http} server 
+that can route traffic to multiple copies of the code in separate processes (Fig. 
 \ref{fig:micromeda-medium-deploy}). Such master \gls{http} servers include the 
 Apache \cite{fielding1997apache} and Nginx \cite{reese2008nginx} \gls{http} 
 servers. This master server handles the parsing of \gls{http} requests. In 
