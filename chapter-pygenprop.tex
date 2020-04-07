@@ -1979,17 +1979,58 @@ Several potential improvements are highlighted below.
 \subsection{Adding The Ability To Serialize GenomeProperty Objects to DESC 
 Files}
 
+The Genome Properties database consists of a series of flat files hosted in a 
+GitHub repository (see 
+\href{http://github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-properties}). 
+New properties are added to the database via adding additional property 
+\textbf{DESC} files (see Section \ref{Genome-Properties-Files}) to the 
+repository. Information about existing properties can be changed by editing the 
+database's existing \textbf{DESC} files. These \textbf{DESC} files are plain 
+text and currently must be created and edited manually using a plain text 
+editor. Changes to the database are added via fork and pull workflow (see 
+\href{https://www.atlassian.com/git/tutorials/comparing-workflows/forking-workflow}{atlassian.com/git/tutorials/comparing-workflows/forking-workflow}) 
+where a user makes a copy of the database on GitHub, makes changes to this copy, 
+and then requests that their copy's differences be merged into the central 
+Genome Properties database repository via a GitHub pull request. The manual 
+creation and editing of genome properties \textbf{DESC} files require one to 
+thoroughly understand the \textbf{DESC} format and write or edit property files 
+with no errors. For example, before writing their first property file, users 
+must know all twenty-three two-letter keycodes (see Subsection 
+\ref{Genome-Properties-Files}) used by the \textbf{DESC} file format. An easier 
+way to create or edit property files, rather than manual editing, would be of 
+use for those users who are not familiar with the \textbf{DESC} format.
+
 GenomeProperty objects and their related child objects (see Section 
-\ref{genomeprop-oop}) are designed to represent individual genome properties 
-and their steps, functional elements, and evidence. It is currently possible to 
-take a Genome Properties \textbf{DESC} file (see Subsection 
+\ref{genomeprop-oop}) are designed to represent individual genome properties and 
+their steps, functional elements, and evidence. It is currently possible to take 
+a Genome Properties \textbf{DESC} file (see Subsection 
 \ref{Genome-Properties-Files}) and use Pygenprop to turn the file's contents 
 into objects, but it is not possible to do the reverse. Being able to serialize 
 a GenomeProperty object and its children to a \textbf{DESC} file may be useful 
-to users who want to add new genome properties to the Genome Properties 
-database. For example, a custom GenomeProperty object could be built 
-programmatically, written to \textbf{DESC} files, and then this file could be 
-added to the database.
+to users who want to add new genome properties to the Genome Properties database 
+or edit the database's existing properties. For example, the user could use 
+Pygenprop, loaded within a Jupyter Notebook \cite{kluyver2016jupyter}, to parse 
+an existing property's \textbf{DESC} file into a GenomeProperty object and its 
+children. The user, within the notebook, could then programmatically edit these 
+objects' attributes and properties. If the ability to write \textbf{DESC} files 
+was added to Pygenprop, then the updated object representing the property could 
+be written to an updated \textbf{DESC} file. This updated file would be used to 
+replace the old version of the file that currently represents the property in 
+the Genome Properties database, which would result in the property being 
+updated. A user could also build a custom GenomeProperty object programmatically 
+within a Jupyter Notebook that represents a new genome property and this object 
+could be written to a new \textbf{DESC} file. The user could add this new file 
+to the database's pool of flat files, which would, in turn, add to a new 
+property to the database. A property's steps and evidence could be added or 
+edited using the same object-oriented model and would be written by Pygenprop to 
+a \textbf{DESC} file at the same time as their parent property object. The 
+ability to add and edit properties of the database using a notebook interface 
+would make it drastically more accessible for less experienced users to 
+contribute to the Genome Properties database as they would not have to remember 
+details of the \textbf{DESC} format. The ability to write \textbf{DESC} files 
+would also make it easier to generate new properties from data contained in 
+other pathway databases by allowing the porting process to be more easily 
+automated.
 
 \subsection{Adding A Method to Calculate Fold Change in the Presence of Genome 
 Properties and Steps}
