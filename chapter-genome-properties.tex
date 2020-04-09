@@ -40,54 +40,62 @@ Because the enzymes that carry out elements of metabolism in different organisms
 are highly similar and often evolutionarily related, it is useful to categorize 
 proteins into groups that carry out a single function or share specific domains. 
 Protein databases record the function of these groups of proteins and their 
-domains and also store copies of their sequences. The InterPro consortium 
-\cite{apweiler2000interpro,hunter2008interpro,Hunter2009} contains fourteen 
-child databases \cite{finn2016interpro,Hunter2009} (Fig. 
-\ref{fig:interpro-databases}). In addition to the member databases, the 
-consortium also provides the InterPro database 
-\cite{hunter2008interpro,finn2016interpro}, which is a meta-database that allows 
-for mapping between identical records for the same protein or domain groups 
-across member databases. Each protein or domain catalogued is given a global 
-InterPro identifier (e.g., IPRXXXX) that is mapped to multiple identifiers for 
-the same protein or domain within member databases (e.g., PFXXXX or TFXXXX) 
+domains and also store copies of these protein's sequences. In the past, many of 
+these databases were maintained, operated, and funded independently. However, in 
+the past two decades, many of the operators of these protein databases have 
+banded together to form the InterPro consortium 
+\cite{apweiler2000interpro,hunter2008interpro,Hunter2009}, which is headed by 
+the \gls{ebi}\cite{cook2015european,finn2016interpro}. As of 2019, the InterPro 
+consortium of protein databases manages fourteen member databases 
+\cite{finn2016interpro,Hunter2009}. Examples of member databases include 
+\gls{pfam} \cite{bateman2004pfam}, \gls{tigr} \cite{Haft2013}, \gls{panther} 
+\cite{mi2005panther}, the \gls{cdd} \cite{marchler2014cdd}, \gls{hamap} 
+\cite{lima2008hamap}, PRINTS \cite{attwood2000prints} and many others. Hosting 
+of many of these member databases has been moved to \gls{ebi} maintained 
+servers. In addition to the member databases, the consortium also provides the 
+InterPro database \cite{hunter2008interpro,finn2016interpro}, which is a 
+meta-database that allows for mapping between identical records for the same 
+protein or domain groups across member databases. Each protein or domain 
+catalogued is given a global InterPro identifier (\textit{e}.\textit{g}., 
+IPRXXXX) that is mapped to multiple identifiers for the same protein or domain 
+within member databases (\textit{e}.\textit{g}., PFXXXX or TFXXXX) 
 \cite{hunter2008interpro,finn2016interpro}.
 
 An import feature of protein databases is the ability to take the sequence of a 
-novel protein (i.e., a protein that is not currently in the database) and 
-predict the placement and function of its domains, which is a process called 
-domain annotation. The search algorithms used by members database of the 
-consortium compare novel proteins to computational models (i.e., a profile) that 
-represents the sequence diversity (i.e., not all domains from different proteins 
+novel protein (\textit{i}.\textit{e}., a protein that is not currently in the database) and 
+predict the placement and function of the protein's domains, which is a process called 
+domain annotation. The search algorithms used by member databases of the 
+consortium compare novel proteins to computational models (\textit{i}.\textit{e}., a profile) that 
+represents the sequence diversity (\textit{i}.\textit{e}., not all domains from different proteins 
 and organisms have the same sequence) of each domain in the database. If the 
 novel protein possesses a region of high similarity to a model, then it is 
 likely that the novel protein possesses the domain that the model represents. 
 Because the member databases of the InterPro consortium were developed 
 independently, the methods they use for sequence search also vary (Fig. 
-\ref{fig:interpro-databases}). The majority of them use HMMER (Fig. 
+\ref{fig:interpro-databases}). The majority of these databases use HMMER (Fig. 
 \ref{fig:interpro-databases}) \cite{eddy2011accelerated}, which compares the 
 sequence of a novel protein to a \gls{hmm} \cite{de2007hidden}.
 
 \begin{figure}[!ht]
   \centering
 	\includegraphics[width=\textwidth]{media/InterPro.png}
-	 \caption[The fourteen member databases of the InterPro consortium utilize a 
-variety of model-based sequence search techniques to classify novel protein 
-sequences.]{\textbf{The fourteen member databases of the InterPro consortium 
-utilize a variety of model-based sequence search techniques to classify novel 
-protein sequences.} To support these techniques, the databases store models that 
-represent multiple proteins or proteins domains. Examples of such models include 
-\gls{hmm}s and \gls{pssm}. Examples of software that use such models are HMMER 
-\cite{eddy2011accelerated} or RPS-BLAST \cite{mcginnis2004blast}. This figure is 
-modified from the one found in the 
-\href{https://www.ebi.ac.uk/training/online/course/introduction-protein-classification-ebi/protein-classification-resources-ebi-interpro}{EBI 
-InterPro Tutorial}.}
+	 \caption[Member databases of the InterPro consortium and the model-based 
+sequence search techniques that these databases use to classify novel protein 
+sequences.]{\textbf{Member databases of the InterPro consortium and the 
+model-based sequence search techniques that these databases use to classify 
+novel protein sequences.} These search techniques require that the databases 
+store models that represent multiple proteins or proteins domains. Examples of 
+such models include \gls{hmm}s and \gls{pssm}. Examples of software that use 
+such models are HMMER \cite{eddy2011accelerated} or \gls{rpsblast} 
+\cite{mcginnis2004blast}. This figure is modified from the one found at 
+\href{https://www.ebi.ac.uk/training/online/course/introduction-protein-classification-ebi/protein-classification-resources-ebi-interpro}{https://www.ebi.ac.uk/training/online/course/introduction-protein-classification-ebi/protein-classification-resources-ebi-interpro}.}
 	 \label{fig:interpro-databases}
 \end{figure}
 
 If a portion of an organism's protein and a model are highly similar in 
 sequence, they form a match. The quality of this match can be quantified by 
 metrics such as the \gls{eval} score. This \gls{eval} score captures how likely 
-it is that the match is a real (i.e., the organism's protein contains the 
+it is that the match is real (\textit{i}.\textit{e}., the organism's protein contains the 
 domain) given the chance of finding an equivalent match randomly in other 
 proteins. Another metric for match quality is the length of the region of high 
 sequence similarity, the alignment, shared between the protein and the database 
@@ -108,20 +116,20 @@ to each model.
 
 InterPro consortium created a tool, InterProScan, that allows users to compare a 
 novel protein sequence to all domain models found within InterPro member 
-databases. InterProScan is a software wrapper for and execution engine of the 
-model-based sequence search techniques (e.g., HMMER \cite{eddy2011accelerated}) 
-used by all member databases of the InterPro consortium. It also implements the 
-false positive filtering techniques developed for each member database. The 
-latest version of the software, InterProScan5, follows a Master/Worker 
-architecture (see 
+databases. The tool is a software wrapper for and execution engine of the 
+model-based sequence search techniques (\textit{e}.\textit{g}., HMMER 
+\cite{eddy2011accelerated}) used by all member databases of the InterPro 
+consortium. InterProScan also implements the false positive filtering techniques 
+developed for each member database. The latest version of the software, 
+InterProScan5, follows a Master/Worker architecture (see 
 \href{http://en.wikipedia.org/wiki/Master/slave_(technology)}{en.wikipedia.org/wiki/Master/slave\_(technology)}) 
 where a master process schedules jobs for many worker processes. Depending on 
 the number of \gls{cpu} cores of the computer running InterProScan5, tens to 
 hundreds of models can be run against a novel protein simultaneously. Due to its 
-architecture, InterProScan5 can also run jobs run across a compute cluster. Due 
+architecture, InterProScan5 can also run jobs across a compute cluster. Due 
 to this scalability, InterProScan is capable of domain annotating every protein 
-of a microorganism in only a few hours, depending on the computer it is run on 
-and the organism's genome size. InterProScan takes a FASTA file 
+of a microorganism in only a few hours, depending on the computer the software 
+is run on and the organism's genome size. InterProScan takes a \gls{fasta} file 
 \cite{pearson19905} containing an organism's predicted proteins as input and 
 writes domain annotations and match data to \gls{tsv} files. The match data 
 includes supporting information such as \gls{eval} scores for matches and 
@@ -130,27 +138,39 @@ predicted domain start and stop points on the organism's annotated protein.
 \section{The Genome Properties Database} \label{genome-properties-overview}
 
 The backbone of Micromeda is the Genome Properties database \cite{Haft2013}. The 
-database goes beyond simple metabolism to include other organism capabilities 
-such as cell motility (e.g., the presence flagella) and even microbial viral 
-immunity mechanisms such a CRISPR/Cas9 \cite{horvath2010crispr}. Within the 
-database each capability is called a genome property. Multiple steps support 
-each property, and each of these is supported by evidence that can be found from 
-an organism's genome such as the presence InterPro domains (e.g., \gls{pfam} 
-\cite{bateman2004pfam}, \gls{tigr} \cite{haft2001tigrfams}, or \gls{cdd} 
-\cite{marchler2014cdd} domains) in predicted proteins. Several genome properties 
-are required as lines of evidence by others, and thus the database forms a 
-rooted \gls{dag} (see 
+database goes beyond metabolism to include other organism capabilities such as 
+cell motility (\textit{e}.\textit{g}., the presence of flagella and chemotaxis) 
+and even microbial viral immunity mechanisms such a CRISPR/Cas9 
+\cite{horvath2010crispr}. Within the database each capability is called a genome 
+property. Multiple steps support each property, and each of these is supported 
+by evidence that can be found from an organism's genome such as the presence of 
+InterPro domains (\textit{e}.\textit{g}., \gls{pfam} \cite{bateman2004pfam}, 
+\gls{tigr} \cite{haft2001tigrfams}, or \gls{cdd} \cite{marchler2014cdd} domains) 
+in predicted proteins. Several genome properties are required as lines of 
+evidence by others, and thus the database forms a rooted \gls{dag} (see 
 \href{http://en.wikipedia.org/wiki/Directed_acyclic_graph}{en.wikipedia.org/wiki/Directed\_acyclic\_graph}) 
 of connected properties. There are five types of genome properties: pathways, 
-metapathways, systems, guilds and categories (see Genome Properties 
-\href{https://genome-properties.readthedocs.io/en/latest/flatfile.html#genome-property-types}{documentation} 
-for details). One of the core goals of the latest release of Genome Properties 
-was to expand the database beyond prokaryotic properties to include properties 
-that are only possessed by eukaryotes or are shared between prokaryotes and 
-eukaryotes. The most recent version of the Genome Properties database has also 
-incorporated pathways from MetaCyc \cite{karp2002metacyc}. Section 
-\ref{genomeprop-oop} discusses how Pygenprop represents the structure of the 
-Genome Properties database in memory.
+metapathways, systems, guilds, and categories (see 
+\href{http://genome-properties.readthedocs.io/en/latest/flatfile.html#genome-property-types}{genome-properties.readthedocs.ioen/latest/flatfile.html\#genome-property-types} 
+for details). The initial release of \gls{ebi} Genome Properties, version 1.0 
+(January 9, 2018), had 584 properties and 3083 steps. The latest public release 
+of the Genome Properties database, version 2.0 (August 30, 2018), contains 1296 
+properties and 6525 steps \cite{richardson2018genome}. One of the core goals of 
+the latest release was to expand the database beyond prokaryotic properties to 
+include properties that are only possessed by eukaryotes or are shared between 
+prokaryotes and eukaryotes. Version 2.0 has also incorporated pathways from 
+MetaCyc \cite{karp2002metacyc}. The next version of the database, version 3.0, 
+is still in active development and is planned to be released in spring 2020 (see 
+\href{http://github.com/ebi-pf-team/genome-properties/issues/30#issuecomment-557090961}{github.com/ebi-pf-team/genome-properties/issues/30\#issuecomment-557090961}). 
+Version 3.0 will contain fixes to existing properties, the addition of new 
+properties\footnote{There is no ceiling to the number of properties that could 
+be added to the Genome Properties database. As long as domains catalogued by the 
+InterPro consortium can identify the proteins involved in a pathway or 
+structure, then a property representing the pathway or structure can be 
+generated.} and code fixes to the Genome Properties Perl library (see 
+\href{http://github.com/ebi-pf-team/genome-properties/tree/rel3.0}{github.com/ebi-pf-team/genome-properties/tree/rel3.0}). 
+Section \ref{genomeprop-oop} discusses how Pygenprop represents the structure of 
+the Genome Properties database in memory.
 
 \subsection{Assignment of Genome Properties to an Organism}
 
@@ -159,7 +179,7 @@ of an organism's proteins, then the organism is understood to posses a specific
 genome property. The process of predicting what properties are possessed by an 
 organism is called property assignment. To assign properties to an organism, 
 InterProScan is first used to domain annotate all of its predicted proteins 
-(e.g., those produced by Prodigal), and these annotations are then combined with 
+(\textit{e}.\textit{g}., those produced by Prodigal), and these annotations are then combined with 
 information from the Genome Properties database to assess what properties are 
 supported. Each property in the database is assigned YES, PARTIAL, and NO 
 support. With Micromeda, Pygenprop is used to carry out these assessments. The 
@@ -182,7 +202,7 @@ internal folder containing three files:
 \item A \textbf{DESC} file, that contains information about the property
 \item A \textbf{status} file that contains information onto whether the property 
 is public or has been manually curated
-\item A \textbf{FASTA} \cite{pearson19905} file containing representative 
+\item A \textbf{\gls{fasta}} \cite{pearson19905} file containing representative 
 protein sequences that carry out the steps a the property
 \end{itemize}
 
@@ -217,14 +237,13 @@ Pygenprop's Genome Properties database parser (see Section
 files of individual properties and the concatenated 
 \textbf{genomeProperties.txt} release file. The format of \textbf{DESC} files is 
 very similar to the Stockholm sequence alignment format used by both the 
-\gls{pfam} and Rfam databases \cite{bateman2004pfam, griffiths2003rfam}. Like 
+\gls{pfam} and \gls{rfam} databases \cite{bateman2004pfam, griffiths2003rfam}. Like 
 these file types, \textbf{DESC} files consist of a series of key-value pairs. 
 Because these files use different keys than Stockholm, a custom parser had to be 
 developed. An example \textbf{DESC} file can be found at 
 \href{http://raw.githubusercontent.com/ebi-pf-team/genome-properties/master/data/GenProp0145/DESC}{raw.githubusercontent.com/ebi-pf-team/genome-properties/master/data/GenProp0145/DESC}. 
-A table of keys used in  genome properties \textbf{DESC} files can be found in 
-the Genome Properties database 
-\href{https://genome-properties.readthedocs.io/en/latest}{documentation}.
+A table of keys used in  genome properties \textbf{DESC} files can be found at 
+\href{https://genome-properties.readthedocs.io/en/latest/flatfile.html#desc-file}{genome-properties.readthedocs.io/en/latest/flatfile .html\#desc-file}.
 
 \subsection{Reasoning for the Selection of Genome Properties as Micromeda's 
 Pathway Information Source} \label{reason-for-genome-properties-selection}
@@ -236,34 +255,34 @@ search tools. These reasons are explained below.
 One of the primary reasons for using the Genome Properties database and 
 InterProScan is that they allow pathway annotations to be built from domains 
 identified by model-based search tools such as HMMER \cite{eddy2011accelerated} 
-or RPS-BLAST \cite{mcginnis2004blast}. When compared to \gls{blast}-based 
-\cite{altschul1990basic} search methods, which are commonly used by other 
-pathway annotation systems, these model-based tools are better at detecting 
-enzymes whose sequences are phylogenetically divergent from those previously 
-known \cite{eddy2011accelerated}. This improved detection capability provides 
-Micromeda with an advantage when it is applied to the genomes of previously 
-unstudied organisms.
+or \gls{rpsblast} \cite{mcginnis2004blast}. When compared to non-position
+specific \gls{blast}-based \cite{altschul1990basic} search methods, which are 
+commonly used by other pathway annotation systems, these model-based tools are 
+better at detecting enzymes whose sequences are phylogenetically divergent from 
+those previously known \cite{eddy2011accelerated}. This improved detection 
+capability provides Micromeda with an advantage when it is applied to the 
+genomes of previously unstudied organisms.
 
 The Genome Properties database being domain-based also provides Micromeda with 
-another advantage. It allows Micromeda to detect the presence of enzymes that 
-are split across multiple genes or have fused with other proteins. In a recent 
-study that focused on confirming genome-predicted amino-acid auxotrophy across a 
-variety of bacteria, the authors found that many predicted instances of 
-auxotrophy were misannotations \cite{price2018filling}. Many of these 
-misannotations were the result of either gene fusions or the enzyme being split 
-across multiple genes \cite{price2018filling}. Traditional whole protein 
-sequence-based detection methods such as \gls{blast} \cite{altschul1990basic}, 
-which are typically used by pathway annotation pipelines based on databases such 
-as \gls{kegg}, were shown to miss these enzymes \cite{price2018filling}. For 
-example, if previous forms of a protein were all found to be encoded by a single 
-gene, such whole sequence methods were shown to filter out versions of the 
-enzyme that are split across genes due to inadequate alignment lengths for 
-matches to individual subunits \cite{price2018filling}. In contrast, Micromeda 
-would determine that the enzymes exist, as InterProScan will detect all required 
-domains, whether the proteins are on one gene or multiple.
+another advantage. Because the database is based on domains rather than whole 
+proteins, Micromeda can detect the presence of enzymes that are split across 
+multiple genes or have fused with other proteins. In a recent study that focused 
+on confirming genome-predicted amino-acid auxotrophy across a variety of 
+bacteria, the authors found that many predicted instances of auxotrophy were 
+misannotations \cite{price2018filling}. Many of these misannotations were the 
+result of either gene fusions or the enzyme being split across multiple genes 
+\cite{price2018filling}. Traditional whole protein sequence-based detection 
+methods such as \gls{blast} \cite{altschul1990basic}, which are typically used 
+by pathway annotation pipelines based on databases such as \gls{kegg}, were 
+shown to miss these enzymes \cite{price2018filling}. For example, if previous 
+forms of a protein were all found to be encoded by a single gene, such whole 
+sequence methods were shown to filter out versions of the enzyme that are split 
+across genes due to inadequate alignment lengths for matches to individual 
+subunits \cite{price2018filling}. In contrast, InterProScan will detect all 
+required domains, whether the proteins are on one gene or multiple.
 
 Another advantage of Genome Properties is that it is freely available under an 
-open-source licence and is hosted on GitHub \cite{richardson2018genome}. In 
+open-source licence and hosted on GitHub \cite{richardson2018genome}. In 
 contrast, two of the most prominent pathway databases, \gls{kegg} and BioCyc 
 \cite{karp2005expansion}, have been commercialized. \gls{kegg}'s website is free 
 for academic use in terms of using the data held within for hypothesis testing 
