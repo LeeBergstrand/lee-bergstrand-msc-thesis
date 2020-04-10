@@ -170,39 +170,6 @@ Micromeda-Server would have to be modified to provide an endpoint (Section
 \ref{endpoints}) for these serving completeness-based property assignments to 
 Micromeda-Client.
 
-\subsection{Expansion of the Genome Properties Database to Include New 
-Properties Not In InterPro}
-
-Although the Genome Properties database has been shown to have similar overall 
-genome coverage to other pathway databases (see Subsection 
-\ref{reason-for-genome-properties-selection}), it still missing several pathways 
-that are covered by other databases and pathways that are newly emerging in the 
-literature. These pathways could be rapidly added to the Genome Properties 
-database by adding a series of \gls{hmm}s \cite{eddy2011accelerated} to 
-InterProScan's data files. These \gls{hmm}s would be used to detect the enzymes 
-that carry out these new pathways' steps. For example, the \gls{fungene} 
-\cite{fish2013fungene} database contains a series of custom HMMER 
-\cite{eddy2011accelerated} \gls{hmm}s that are used for identifying enzymes 
-involved in biogeochemical processes. Integrating \gls{fungene} as a new InterProScan 
-member database would only require adding \gls{fungene}'s \gls{hmm}s to InterProScan's 
-data files, writing a Python script for filtering out false-positive \gls{hmm} 
-matches, and modifying some of InterProScan's configuration files. Afterwards, 
-InterProScan would automatically use these new \gls{hmm}s when annotating novel 
-proteins and would add the filtered results from running these \gls{hmm}s to its 
-output \gls{tsv} file (see Section \ref{overview-interproscan}). This modified 
-version of InterProScan could then be maintained separately or merged into the 
-central InterProScan GitHub repository. Once \gls{fungene} is added to InterProScan, 
-new Genome Properties could be created that use \gls{fungene} \gls{hmm}s names as step 
-evidence instead of InterPro signature accessions. These novel properties could 
-be implemented by added new property \textbf{DESC} files (Subsection 
-\ref{Genome-Properties-Files}) to the database. This custom version of the 
-Genome Properties database could also be maintained as a fork or merged into the 
-latest version of the Genome Properties database on Github. A similar design 
-pattern could be used to integrate any \gls{hmm}-based pathway database. The 
-main advantage of this approach is that it allows the new database's \gls{hmm}s 
-to be run by InterProScan, which provides high scalability across many \gls{cpu} 
-cores or even on \gls{hpc} clusters.
-
 \section{Recommendations for Future Development}
 
 Researchers are scaling up their research projects from studying the 
