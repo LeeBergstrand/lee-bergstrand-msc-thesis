@@ -514,8 +514,9 @@ property objects along the property tree in a path from the root to the parent
 of matching property object have their \textbf{enabled} attribute set to true. 
 When client visualization is subsequently re-rendered, a path to the assignments 
 of the clicked property is displayed along with the property's assignments. The 
-client then scrolls the page so that the bottom of the X-axis labels are aligned 
-with the top of the icicle diagram cell representing the clicked property.
+client software then automatically scrolls the page, via \gls{javascript}, so 
+that the bottom of the X-axis labels are aligned with the top of the icicle 
+diagram cell representing the clicked property.
 
 After each re-rendering of the assignment visualization, Micromeda-Client sends 
 a series of \gls{ajax}  requests to Micromeda-Server. These are requests for 
