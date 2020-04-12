@@ -151,12 +151,10 @@ Having Micromeda file upload be anonymous drastically reduced the complexity of
 Micromeda-Server's development and future deployment.} and uploads to the server 
 are done anonymously.
 
-The number of simultaneous users that Micromeda-Server can support entirely 
-depends on the server computer systems the software is run on and the deployment 
-strategy used (see Subsection \ref{multi-server-micromeda-deployment}). 
-Micromeda-Server is horizontally-scalable, which means its performance can be 
-improved by running multiple copies of the software across multiple machines. On 
-a single machine, the main bottleneck of Micromeda-Server is the processing 
+The number of simultaneous users that Micromeda-Server can support almost entirely depends on the server computer systems the software is run on and the deployment strategy used (see Subsection \ref{multi-server-micromeda-deployment}).
+Micromeda-Server is horizontally-scalable (see \href{https://en.wikipedia.org/wiki/Scalability#Horizontal_or_Scale_Out}{en.wikipedia.org/wiki/Scalability\#Horizontal\_or\_Scale\_Out}), which means its performance can be 
+improved by running multiple copies of the software across multiple server computer systems. On 
+a single computer, the main bottleneck of Micromeda-Server is the processing 
 power required to parse uploaded Micromeda files. For example, it can take 
 several minutes for a Micromeda file containing information from forty bacterial 
 genomes to be parsed and stored within Redis. This file parsing process can be 
