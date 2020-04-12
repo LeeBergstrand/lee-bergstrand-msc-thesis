@@ -564,13 +564,18 @@ who uploaded the code.
 
 \section{Future Improvements} \label{micromeda-server-improvements}
 
-Micromeda-Server currently provides endpoints for all the information needed by 
-Micromeda's web-based visualization client. However, in addition to the existing 
-endpoints, new endpoints could be made that would provide new data for future 
-versions of this client, allowing it to have expanded functionality. Performance 
-optimizations for the existing endpoints could also be made, which could reduce 
-latency in the client's \gls{ui} by reducing the time spent waiting for 
-responses from Micromeda-Server. Improvements to Micromeda-Server's existing 
+Micromeda-Server currently possesses endpoints that provide all the information 
+needed by Micromeda’s web-based visualization client (see Section 
+\ref{endpoints}). One endpoint provides an annotated Genome Properties tree that 
+includes information about both the structure of the Genome Properties database 
+and assignments of supports for properties and steps. Other endpoints offer 
+detailed information about individual properties and steps, and allow for the 
+download of protein sequences that support property steps. In addition to the 
+existing endpoints, new endpoints could be made that would provide new data for 
+future versions of this client, allowing it to have expanded functionality. 
+Performance optimizations for the existing endpoints could also be made, which 
+could reduce latency in the client’s \gls{ui} by reducing the time spent waiting 
+for responses from Micromeda-Server. Improvements to Micromeda-Server’s existing 
 endpoints and a potential new endpoint are discussed below.
 
 \subsection{Improving Performance of the Upload Endpoint}
