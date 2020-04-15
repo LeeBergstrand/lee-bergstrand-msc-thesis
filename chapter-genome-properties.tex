@@ -184,66 +184,9 @@ information from the Genome Properties database to assess what properties are
 supported. Each property in the database is assigned YES, PARTIAL, and NO 
 support. With Micromeda, Pygenprop is used to carry out these assessments. The 
 Genome Properties database is provided to Pygenprop in the form of a release 
-file, whose contents are detailed in the section below. Subsection 
-\ref{AssignmentCachingAlgorithm} details the exact algorithms used for 
-generating assignments.  
-
-\subsection{Overview of the Genome Properties Flat File Database and Associated 
-File Formats} \label{Genome-Properties-Files} 
-
-The Genome Properties database (as of version 2.0) consists of a series of flat 
-files that are hosted inside a GitHub repository (see 
-\href{http://github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-properties}). 
-Information about individual properties is stored in the repository's 
-\textbf{data} folder, and within this folder each property is assigned a second 
-internal folder containing three files: 
-
-\begin{itemize}
-\item A \textbf{DESC} file, that contains information about the property
-\item A \textbf{status} file that contains information onto whether the property 
-is public or has been manually curated
-\item A \textbf{\gls{fasta}} \cite{pearson19905} file containing representative 
-protein sequences that carry out the steps a the property
-\end{itemize}
-
-The \textbf{data} folder contains information about both public and non-public 
-genome properties. 
-
-In addition to the per-property folders, there is also a Genome Properties 
-release file located in the \textbf{flatfiles} folder of the repository that 
-also contains Genome Properties information. Specifically, this file, called 
-\textbf{genomeProperties.txt}, is a concatenation of all the \textbf{DESC} files 
-of all public properties. This file is created with each new release of the 
-Genome Properties database on GitHub. Below is simplified a folder structure for 
-the Genome Properties GitHub repository.
-
-\begin{verbatim}
-├── code/ - # The Genome Properties Perl library.
-├── data/ - # Data about both public and private properties
-│ ├── GenProp0001/
-│ │ ├── DESC - # Detailed property information
-│ │ ├── FASTA - # Sequences of proteins that carry out steps
-│ │ └── status - # Public and manual curation status
-│ └── GenProp0002/
-│  ├── DESC
-│  ├── FASTA
-│  └── status
-└── flatfiles/
- └── genomeProperties.txt
-\end{verbatim}
-
-Pygenprop's Genome Properties database parser (see Section 
-\ref{genome-properties-parser}) is capable of parsing both single \textbf{DESC} 
-files of individual properties and the concatenated 
-\textbf{genomeProperties.txt} release file. The format of \textbf{DESC} files is 
-very similar to the Stockholm sequence alignment format used by both the 
-\gls{pfam} and \gls{rfam} databases \cite{bateman2004pfam, griffiths2003rfam}. Like 
-these file types, \textbf{DESC} files consist of a series of key-value pairs. 
-Because these files use different keys than Stockholm, a custom parser had to be 
-developed. An example \textbf{DESC} file can be found at 
-\href{http://raw.githubusercontent.com/ebi-pf-team/genome-properties/master/data/GenProp0145/DESC}{raw.githubusercontent.com/ebi-pf-team/genome-properties/master/data/GenProp0145/DESC}. 
-A table of keys used in  genome properties \textbf{DESC} files can be found at 
-\href{https://genome-properties.readthedocs.io/en/latest/flatfile.html#desc-file}{genome-properties.readthedocs.io/en/latest/flatfile .html\#desc-file}.
+file, whose contents are detailed in the Subsection \ref{Genome-Properties-Files}. 
+Subsection \ref{AssignmentCachingAlgorithm} details the exact algorithms used
+for generating assignments.  
 
 \subsection{Reasoning for the Selection of Genome Properties as Micromeda's 
 Pathway Information Source} \label{reason-for-genome-properties-selection}
