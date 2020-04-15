@@ -967,9 +967,7 @@ For a 2.9 MB InterProScan \gls{tsv} file containing domain annotations for 4100
 \textit{Escherichia coli} K12 proteins (\gls{ncbitaxa}: 1010810), the resulting 
 AssignmentCache object was found to take up 1.2 \gls{mb} of \gls{ram} before 
 bootstrapping assignments and 1.7 \gls{mb} after. Assignment bootstrapping was 
-found to take 76.7 ms \textpm 15.4 ms (\gls{n} = 80) for K12. Thus, Pygenprop 
-could calculate property assignments for thousands of genomes in only a few 
-minutes. % Fix thousands if nessary.
+found to take 76.7 ms \textpm 15.4 ms (\gls{n} = 80) for K12.
 
 \section{Development of a Framework for Comparing Genome Property Assignments 
 Across Multiple Organisms} \label{GenomePropertiesResults}
@@ -1209,10 +1207,7 @@ When generated from two AssignmentCache objects containing assignments built
 from the proteomes of \textit{Escherichia coli} K12 (\gls{ncbitaxa}: 1010810) 
 and \textit{Chlorobium chlorochromatii} CaD3 (\gls{ncbitaxa}: 340177), the 
 resulting GenomePropertiesResults object took up 14.4 \gls{mb} of \gls{ram} 
-after instantiation. Creating the object took 180.0 ms \textpm 10.0 ms (\gls{n} 
-= 80). Thus, Pygenprop could create a GenomePropertiesResults object from 
-thousands of assignment caches in only a few tens of minutes and only a few 
-\gls{gb}  of \gls{ram}. 
+after instantiation. Creating the object took 180.0 ms \textpm 10.0 ms (\gls{n} = 80). 
 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to 
 Include Supporting Match Information}
