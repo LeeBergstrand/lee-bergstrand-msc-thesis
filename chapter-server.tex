@@ -128,7 +128,7 @@ Each GenomePropertiesResultsWithMatches object cached to Redis is given a
 Users can set this value for any period, such as minutes or days. After the 
 \gls{ttl} of the cached object is exceeded, the object is flushed from the cache; the 
 user will then have to re-upload their Micromeda file. The default \gls{ttl} 
-used is two hours. During each \gls{api} request, if a dataset key is provided, 
+used is six hours. During each \gls{api} request, if a dataset key is provided, 
 the MessagePack-formatted GenomePropertiesResultsWithMatches object is grabbed 
 from the cache and reconstituted into its original form (Fig. 
 \ref{fig:micromeda-server-workflow}). During the \gls{api} call this 
@@ -150,6 +150,26 @@ logins, logouts, and secure password changes would also have to be implemented.
 Having Micromeda file upload be anonymous drastically reduced the complexity of 
 Micromeda-Server's development and future deployment.} and uploads to the server 
 are done anonymously.
+
+The number of simultaneous users that Micromeda-Server can support almost entirely depends on the server computer systems the software is run on and the deployment strategy used (see Subsection \ref{multi-server-micromeda-deployment}).
+Micromeda-Server is horizontally-scalable (see \href{https://en.wikipedia.org/wiki/Scalability#Horizontal_or_Scale_Out}{en.wikipedia.org/wiki/Scalability\#Horizontal\_or\_Scale\_Out}), which means its performance can be 
+improved by running multiple copies of the software across multiple server computer systems. On 
+a single computer, the main bottleneck of Micromeda-Server is the processing 
+power required to parse uploaded Micromeda files. For example, it can take 
+several minutes for a Micromeda file containing information from forty bacterial 
+genomes to be parsed and stored within Redis. This file parsing process can be 
+parallelized across \gls{cpu} cores, with one core taking several minutes for 
+parse each Micromeda file uploaded. Thus, the maximum number of simultaneous 
+users who can upload Micromeda files in parallel is limited by the number of 
+\gls{cpu} cores inside the server computer system on which Micromeda-Server is 
+hosted. Once the contents of Micromeda files are stored in Redis, and 
+information is being retrieved from this cache, the number of active users can 
+be drastically increased as individual client endpoint \gls{http} requests take 
+only a few \gls{cpu} cycles to complete. In terms of memory usage, a Micromeda 
+file containing information from forty bacterial genomes only takes up a few 
+hundred \gls{mb} of \gls{ram} once uploaded. A server with thirty-two \gls{gb} 
+of \gls{ram} should support close to one hundred simultaneous clients requesting 
+information from previously uploaded Micromeda files.
 
 \section{Use of Redis for Dataset Caching} \label{redis-caching}
 
@@ -244,7 +264,10 @@ to a demonstration of the client interface can be found in Section
 \end{figure}
 
 \begin{longtable}{|p{1.6cm}|p{2.5cm}|p{1.4cm}|p{2.2cm}|p{2.2cm}|p{4cm}|}
-\caption[Five endpoints of Micromeda's server component.]{Five endpoints of Micromeda's server component. By using these endpoints, clients can request data about individual genome properties, upload Micromeda files, and request information about stored assignment databases.}
+\caption[Five endpoints of Micromeda's server component.]{Five endpoints of 
+Micromeda's server component. By using these endpoints, clients can request data 
+about individual genome properties, upload Micromeda files, and request 
+information about stored assignment databases.}
 \label{tab:endpoints}\\
 
 \hline
@@ -544,13 +567,18 @@ who uploaded the code.
 
 \section{Future Improvements} \label{micromeda-server-improvements}
 
-Micromeda-Server currently provides endpoints for all the information needed by 
-Micromeda's web-based visualization client. However, in addition to the existing 
-endpoints, new endpoints could be made that would provide new data for future 
-versions of this client, allowing it to have expanded functionality. Performance 
-optimizations for the existing endpoints could also be made, which could reduce 
-latency in the client's \gls{ui} by reducing the time spent waiting for 
-responses from Micromeda-Server. Improvements to Micromeda-Server's existing 
+Micromeda-Server currently possesses endpoints that provide all the information 
+needed by Micromeda’s web-based visualization client (see Section 
+\ref{endpoints}). One endpoint provides an annotated Genome Properties tree that 
+includes information about both the structure of the Genome Properties database 
+and assignments of supports for properties and steps. Other endpoints offer 
+detailed information about individual properties and steps, and allow for the 
+download of protein sequences that support property steps. In addition to the 
+existing endpoints, new endpoints could be made that would provide new data for 
+future versions of this client, allowing it to have expanded functionality. 
+Performance optimizations for the existing endpoints could also be made, which 
+could reduce latency in the client’s \gls{ui} by reducing the time spent waiting 
+for responses from Micromeda-Server. Improvements to Micromeda-Server’s existing 
 endpoints and a potential new endpoint are discussed below.
 
 \subsection{Improving Performance of the Upload Endpoint}
