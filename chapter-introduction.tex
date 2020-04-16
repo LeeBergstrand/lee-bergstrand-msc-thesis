@@ -1,28 +1,29 @@
 \chapter{Introduction} \label{introduction}
 
-\gls{dna} sequencing allows us to read an organism's genome and, through software, 
-learn more about organism's inherent capabilities without having to study it \textit{in 
-vivo} or \textit{in vitro} \cite{de2012bioinformatic}. In an environmental 
-microbiology context, such sequenced genomes are used to learn more about 
-microorganisms' metabolic capabilities and possibly shed light on their 
-ecological roles \cite{de2012bioinformatic}. In an applied context, predictions 
-of such metabolic capabilities are also useful for the selection of what 
-microbes to use in a bioprocess. In a genetic engineering context, genomically 
-derived information can be used to select what metabolic traits to remove from, 
-or move between, organisms \cite{strohl2001biochemical,sanchez2005novel}.
+\gls{dna} sequencing allows us to read an organism's genome and, through 
+software, learn more about organism's inherent capabilities without having to 
+study it \textit{in vivo} or \textit{in vitro} \cite{de2012bioinformatic}. In an 
+environmental microbiology context, such sequenced genomes are used to learn 
+more about microorganisms' metabolic capabilities and possibly shed light on 
+their ecological roles \cite{de2012bioinformatic}. In an applied context, 
+predictions of such metabolic capabilities are also useful for the selection of 
+what microbes to use in a bioprocess. In a genetic engineering context, 
+genomically derived information can be used to select what metabolic traits to 
+remove from, or move between, organisms 
+\cite{strohl2001biochemical,sanchez2005novel}.
 
-Advances in \gls{dna} sequencing technology over the past decade have revolutionized 
-our ability to acquire bacterial and archaeal genomes. For example, with newer 
-sequencing technologies, such as Oxford Nanopore \cite{jain2016oxford}, a 
-bacterial genome can be acquired in a matter of hours \cite{Lu2016,Cao2017}. 
-Researchers have now moved on to extracting the genomes of unculturable 
-microorganisms from environmental samples using culture-free techniques, such as 
-metagenomic \cite{quince2017shotgun} and single-cell \cite{gawad2016single} 
-sequencing. Over the past few years, the tree of life has been significantly 
-expanded by the \gls{mags} \cite{bowers2017minimum} of these unculturable 
-organisms \cite{Hug2016,Parks2017}. With microbiologists' inability to gather 
-new genomes rectified, the problem now shifts to interpreting the resulting new 
-wealth of genomic data.
+Advances in \gls{dna} sequencing technology over the past decade have 
+revolutionized our ability to acquire bacterial and archaeal genomes. For 
+example, with newer sequencing technologies, such as Oxford Nanopore 
+\cite{jain2016oxford}, a bacterial genome can be acquired in a matter of hours 
+\cite{Lu2016,Cao2017}. Researchers have now moved on to extracting the genomes 
+of unculturable microorganisms from environmental samples using culture-free 
+techniques, such as metagenomic \cite{quince2017shotgun} and single-cell 
+\cite{gawad2016single} sequencing. Over the past few years, the tree of life has 
+been significantly expanded by the \gls{mags} \cite{bowers2017minimum} of these 
+unculturable organisms \cite{Hug2016,Parks2017}. With microbiologists' inability 
+to gather new genomes rectified, the problem now shifts to interpreting the 
+resulting new wealth of genomic data.
 
 Due to their vast size and information density, the interpretation of genomes is 
 often assisted by software. The tool that was developed as part of the thesis 
@@ -45,12 +46,23 @@ biochemically. From a biological context, such processes are carried out via a
 series of chemical reactions catalyzed by proteinaceous biological enzymes. 
 Enzymes that facilitate similar chemical reactions often have similar sequences 
 of amino acid residues, structures, and genes that encode them 
-\cite{galperin1998analogous,zhang2003evolution}. A biochemical 
-pathway represents a series of chemical reactions, that when chained together, 
-are beneficial to a cell \cite{michal2012biochemical}. Examples of such 
-reactions are the breaking down of a nutrient macromolecule into pieces that 
-cells can use or the synthesis of components of cellular structure 
-\cite{wagner2012metabolic}. Each reaction step in a pathway is often 
+\cite{galperin1998analogous,zhang2003evolution}. 
+
+A protein domain is a conserved subset of a protein's sequence that carries out 
+a specific function and is evolutionarily conserved \cite{ren2008conservation}. 
+These domains are associated with distinct sequence motifs, which are patterns 
+in the protein's amino acid sequence \cite{ren2008conservation}. All enzymes 
+have an active site 
+(\href{http://en.wikipedia.org/wiki/Active_site}{en.wikipedia.org/wiki/Active\_site}), 
+and this active site often has a unique sequence motif. This motif can be used 
+to identify specific enzymes or enzyme families uniquely 
+\cite{ren2008conservation}. 
+
+A biochemical pathway represents a series of chemical reactions, that when 
+chained together, are beneficial to a cell \cite{michal2012biochemical}. 
+Examples of such reactions are the breaking down of a nutrient macromolecule 
+into pieces that cells can use or the synthesis of components of cellular 
+structure \cite{wagner2012metabolic}. Each reaction step in a pathway is often 
 \cite{keller2015widespread,tawfik2010enzyme} catalyzed by a specific enzyme 
 whose amino acid sequence, and thus structure and activity, is optimized for the 
 reaction \cite{michal2012biochemical,zhang2003evolution,fersht1999structure}. 
@@ -66,7 +78,7 @@ pathways in a cell are somehow connected and form a network of reactions
 \cite{wagner2012metabolic,stelling2002metabolic}. This network forms the cell's 
 metabolism and is called its metabolic network \cite{wagner2012metabolic}.
 
-\section{Pathway Databases} \label{pathway-databases}
+\section{The State of Pathway Analysis} \label{pathway-databases}
 
 For many decades scientists have been designing and executing studies to figure 
 out what individual enzymes do and what substrates they can catalyze. The 
@@ -78,8 +90,6 @@ databases include \gls{kegg} \cite{kanehisa2000kegg}, MetaCyc
 \cite{karp2002metacyc}, Genome Properties \cite{richardson2018genome}, SEED 
 subsystems \cite{overbeek2005subsystems}, Reactome \cite{croft2013reactome}, and 
 many others.
-
-\section{The State of Pathway Analysis}
 
 As the breadth and depth of the information within pathway databases increases, 
 the information contained within is increasingly being used by automated tools 
@@ -368,8 +378,7 @@ An explicit automated software pipeline for generating Micromeda files does not
 currently exist. However, its potential implementation is discussed in 
 Subsection \ref{pipeline-development}.
 
-
-\subsection{Software Architecture Overview}
+\subsection{Software Architecture Overview} \label{why-micromeda-files}
 
 Micromeda follows a client-server web architecture \cite{svobodova1985client} 
 (see 
@@ -392,9 +401,6 @@ depends on the server computer systems the software is run on and the deployment
 strategy used (see Subsection \ref{multi-server-micromeda-deployment}). 
 Information about the scalability of Micromeda-Server, when running on a single 
 computer, can be found toward the end of Section \ref{server-workflow}}.
-
-\subsection{The Reasoning for Building a Web Application and Having Micromeda 
-files} \label{why-micromeda-files}
 
 Micromeda's \gls{ui} runs inside a user's web browser. The reasoning for using 
 this approach, in contrast to building Micromeda as a native desktop 
@@ -434,21 +440,7 @@ Micromeda-Client and Server and allows future development to focus on creating
 better and more feature-rich versions of Micromeda's \gls{ui} and 
 visualizations.
 
-\section{Summary} \label{introduction_summary}
-
-Micromeda allows users to visualize the differences in pathway presence and 
-absence across organisms. The tool generates visualizations based on the data 
-contained within uploaded Micromeda files. Pygenprop is a software library that 
-can not only produce Micromeda files but also make programmatic comparisons of 
-pathway presence and absence across organisms. Potential improvements to 
-individual components of Micromeda are highlighted in the summary section of 
-each of their chapters. Potential improvements that would require modification 
-of multiple components are highlighted in Chapter \ref{conclusion-chapter}. As 
-discussed in Chapter \ref{conclusion-chapter}, Micromeda breaks new ground in 
-both features and implementation and will increase both the speed and ease at 
-which researchers perform pathway analysis.
-
-\chapter{An Overview of the Genome Properties Database, InterPro, and 
+\section{An Overview of the Genome Properties Database, InterPro, and 
 InterProScan5} \label{genome-properties} 
 
 The architecture and implementation of Micromeda's components, such as Pygenprop 
@@ -463,28 +455,7 @@ chapter will also discuss how domain annotations produced by InterProScan5 are
 combined with mappings from the Genome Properties database to generate pathway 
 predictions.
 
-\section{Protein Domains and Their Use as Markers of Enzyme Function}
-
-A protein domain is a conserved subset of a protein's sequence that carries out 
-a specific function and is evolutionarily conserved \cite{ren2008conservation}. 
-These domains are associated with distinct sequence motifs, which are patterns 
-in the protein's amino acid sequence \cite{ren2008conservation}. All enzymes 
-have an active site 
-(\href{http://en.wikipedia.org/wiki/Active_site}{en.wikipedia.org/wiki/Active\_site}), 
-and this active site often has a unique sequence motif. This motif can be used 
-to identify specific enzymes or enzyme families uniquely 
-\cite{ren2008conservation}. 
-
-The Genome Properties database takes advantage of this identifiability to map 
-from combinations of protein domains to enzymes that carry out pathway steps. 
-\cite{richardson2018genome}. This mapping is in contrast to most other pathway 
-databases, which map from whole proteins to biochemical pathways. If all the 
-required domains for a pathway step are present in an organism's proteins, then 
-the step is considered present. The domains used as markers by the Genome 
-Properties database are those catalogued within the InterPro consortium of 
-protein databases \cite{apweiler2000interpro,richardson2018genome}. 
-
-\section{The InterPro Consortium of Protein Databases} \label{InterProDatabases}
+\subsection{The InterPro Consortium of Protein Databases} \label{InterProDatabases}
 
 Because the enzymes that carry out elements of metabolism in different organisms 
 are highly similar and often evolutionarily related, it is useful to categorize 
@@ -562,7 +533,7 @@ such as minimum \gls{eval} scores or alignment lengths, that can be used to
 filter out matches that may be spurious. The cut-off values can be made unique 
 to each model. 
 
-\section{InterProScan} \label{overview-interproscan}
+\subsection{InterProScan} \label{overview-interproscan}
 
 InterPro consortium created a tool, InterProScan, that allows users to compare a 
 novel protein sequence to all domain models found within InterPro member 
@@ -585,10 +556,20 @@ writes domain annotations and match data to \gls{tsv} files. The match data
 includes supporting information such as \gls{eval} scores for matches and 
 predicted domain start and stop points on the organism's annotated protein.
 
-\section{The Genome Properties Database} \label{genome-properties-overview}
+\subsection{The Genome Properties Database} \label{genome-properties-overview}
 
-The backbone of Micromeda is the Genome Properties database \cite{Haft2013}. The 
-database goes beyond metabolism to include other organism capabilities such as 
+The backbone of Micromeda is the Genome Properties database \cite{Haft2013}. 
+The Genome Properties database takes advantage of the identifiability provided 
+by protein domains to map from combinations of protein domains to enzymes that 
+carry out pathway steps. \cite{richardson2018genome}. This mapping is in 
+contrast to most other pathway databases, which map from whole proteins to 
+biochemical pathways. If all the required domains for a pathway step are present 
+in an organism's proteins, then the step is considered present. The domains used 
+as markers by the Genome Properties database are those catalogued within the 
+InterPro consortium of protein databases 
+\cite{apweiler2000interpro,richardson2018genome}. 
+
+The database goes beyond metabolism to include other organism capabilities such as 
 cell motility (\textit{e}.\textit{g}., the presence of flagella and chemotaxis) 
 and even microbial viral immunity mechanisms such a CRISPR/Cas9 
 \cite{horvath2010crispr}. Within the database each capability is called a genome 
@@ -622,7 +603,7 @@ generated.} and code fixes to the Genome Properties Perl library (see
 Section \ref{genomeprop-oop} discusses how Pygenprop represents the structure of 
 the Genome Properties database in memory.
 
-\subsection{Assignment of Genome Properties to an Organism}
+\subsubsection{Assignment of Genome Properties to an Organism}
 
 If a specified number of required steps are found within the domain annotations 
 of an organism's proteins, then the organism is understood to posses a specific 
@@ -700,7 +681,7 @@ This coverage was consistent across a variety of microbes from distant taxonomic
 clades \cite{richardson2018genome}. Thus, there is no high-level database 
 completeness disadvantage if Micromeda uses the Genome Properties database. 
 
-\section{Summary}
+\section{Summary} \label{introduction_summary}
 
 When Micromeda performs pathway annotation, it does so based on the presence of 
 InterPro domains found within organisms' predicted proteomes. These domains are 
@@ -711,3 +692,15 @@ presence of steps is used to infer YES, PARTIAL, or NO support for individual
 genome properties. The model-based search techniques used by InterProScan allow 
 Micromeda to provide highly accurate and comprehensive results with no licensing 
 fees.
+
+Micromeda allows users to visualize the differences in pathway presence and 
+absence across organisms. The tool generates visualizations based on the data 
+contained within uploaded Micromeda files. Pygenprop is a software library that 
+can not only produce Micromeda files but also make programmatic comparisons of 
+pathway presence and absence across organisms. Potential improvements to 
+individual components of Micromeda are highlighted in the summary section of 
+each of their chapters. Potential improvements that would require modification 
+of multiple components are highlighted in Chapter \ref{conclusion-chapter}. As 
+discussed in Chapter \ref{conclusion-chapter}, Micromeda breaks new ground in 
+both features and implementation and will increase both the speed and ease at 
+which researchers perform pathway analysis.
