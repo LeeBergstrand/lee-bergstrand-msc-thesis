@@ -440,8 +440,8 @@ Micromeda-Client and Server and allows future development to focus on creating
 better and more feature-rich versions of Micromeda's \gls{ui} and 
 visualizations.
 
-\section{An Overview of the Genome Properties Database, InterPro, and 
-InterProScan5} \label{genome-properties} 
+\subsection{An Overview of the Data Sources Used by Micromeda: the Genome 
+Properties Database, InterPro, and InterProScan5} \label{genome-properties} 
 
 The architecture and implementation of Micromeda's components, such as Pygenprop 
 and Micromeda-Client, are tied closely to the structure of the Genome Properties 
@@ -455,7 +455,7 @@ chapter will also discuss how domain annotations produced by InterProScan5 are
 combined with mappings from the Genome Properties database to generate pathway 
 predictions.
 
-\subsection{The InterPro Consortium of Protein Databases} \label{InterProDatabases}
+\subsubsection{The InterPro Consortium of Protein Databases} \label{InterProDatabases}
 
 Because the enzymes that carry out elements of metabolism in different organisms 
 are highly similar and often evolutionarily related, it is useful to categorize 
@@ -533,7 +533,7 @@ such as minimum \gls{eval} scores or alignment lengths, that can be used to
 filter out matches that may be spurious. The cut-off values can be made unique 
 to each model. 
 
-\subsection{InterProScan} \label{overview-interproscan}
+\subsubsection{InterProScan} \label{overview-interproscan}
 
 InterPro consortium created a tool, InterProScan, that allows users to compare a 
 novel protein sequence to all domain models found within InterPro member 
@@ -556,7 +556,7 @@ writes domain annotations and match data to \gls{tsv} files. The match data
 includes supporting information such as \gls{eval} scores for matches and 
 predicted domain start and stop points on the organism's annotated protein.
 
-\subsection{The Genome Properties Database} \label{genome-properties-overview}
+\subsubsection{The Genome Properties Database} \label{genome-properties-overview}
 
 The backbone of Micromeda is the Genome Properties database \cite{Haft2013}. 
 The Genome Properties database takes advantage of the identifiability provided 
@@ -603,8 +603,6 @@ generated.} and code fixes to the Genome Properties Perl library (see
 Section \ref{genomeprop-oop} discusses how Pygenprop represents the structure of 
 the Genome Properties database in memory.
 
-\subsubsection{Assignment of Genome Properties to an Organism}
-
 If a specified number of required steps are found within the domain annotations 
 of an organism's proteins, then the organism is understood to posses a specific 
 genome property. The process of predicting what properties are possessed by an 
@@ -618,9 +616,6 @@ Genome Properties database is provided to Pygenprop in the form of a release
 file, whose contents are detailed in the Subsection \ref{Genome-Properties-Files}. 
 Subsection \ref{AssignmentCachingAlgorithm} details the exact algorithms used
 for generating assignments.  
-
-\subsection{Reasoning for the Selection of Genome Properties as Micromeda's 
-Pathway Information Source} \label{reason-for-genome-properties-selection}
 
 During the development of Micromeda, there were four reasons for selecting the 
 Genome Properties database over other databases and InterProScan over other 
