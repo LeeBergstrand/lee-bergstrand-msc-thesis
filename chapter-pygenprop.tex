@@ -1269,22 +1269,23 @@ after instantiation. Creating the object took 180.0 ms \textpm 10.0 ms (\gls{n} 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to 
 Include Supporting Match Information}
 
-As discussed in Chapter \ref{genome-properties}, Genome properties are assigned 
-based on the presence of InterPro domains that can be used, either singly or in 
-combination, to uniquely identify enzymes or protein structures that act as 
-evidence for property steps. It may be the case that domains used as step 
-evidences will be found in more than one protein of an organism. It may also be 
-the case that some of these proteins may be false positives that may posses the 
-identifying domain, or a similar domain, but do not carry out a genome property 
-step. To assist in filtering out these false positives, researchers often want 
-direct access to match information, such as \gls{eval} scores, held within an 
-InterProScan file. Alternatively, users may want access to the entire sequences 
-of proteins containing predicted domains so these proteins can be analyzed more 
-deeply. For example, the proteins that are predicted to possess a motif that 
-supports the existence of a property step could be compared phylogenetically to 
-reference proteins that are already known carry out this step in other 
-organisms. Previously, with the Genome Properties Perl library, the information 
-required to perform the such analyses was kept in four separate file types:
+As discussed in Subsection \ref{micromeda-data-sources}, Genome properties are 
+assigned based on the presence of InterPro domains that can be used, either 
+singly or in combination, to uniquely identify enzymes or protein structures 
+that act as evidence for property steps. It may be the case that domains used as 
+step evidences will be found in more than one protein of an organism. It may 
+also be the case that some of these proteins may be false positives that may 
+posses the identifying domain, or a similar domain, but do not carry out a 
+genome property step. To assist in filtering out these false positives, 
+researchers often want direct access to match information, such as \gls{eval} 
+scores, held within an InterProScan file. Alternatively, users may want access 
+to the entire sequences of proteins containing predicted domains so these 
+proteins can be analyzed more deeply. For example, the proteins that are 
+predicted to possess a motif that supports the existence of a property step 
+could be compared phylogenetically to reference proteins that are already known 
+carry out this step in other organisms. Previously, with the Genome Properties 
+Perl library, the information required to perform the such analyses was kept in 
+four separate file types:
 
 \begin{itemize}
 \item GenomeProperties.txt files kept property information

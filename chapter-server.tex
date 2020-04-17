@@ -336,7 +336,7 @@ properties. Step nodes are also attached to their parent genome property nodes
 and act as leaves (Fig. \ref{fig:tree-json}). Note that this endpoint returns a 
 tree rather than a \gls{dag} (Fig. \ref{fig:tree-json}). In this tree, 
 properties that would have had two parents in the Genome Properties \gls{dag} 
-(Section \ref{genome-properties-overview}) are duplicated (Fig. 
+(Subsection \ref{micromeda-data-sources}) are duplicated (Fig. 
 \ref{fig:tree-json}). Each property and step node in the tree is annotated by a 
 list of assignments of support (\textit{i}.\textit{e}., YES, NO, PARTIAL), one 
 for each sample in a previously uploaded or default Micromeda file (Fig. 
@@ -647,7 +647,7 @@ that support steps (see Subsection \ref{get-fasta-endpoint}). However, there are
 no endpoints for accessing the stored InterProScan annotations of these 
 proteins. Specifically, these annotations contain \gls{eval} scores representing 
 how closely the domain in the protein matches to a model of a representative 
-domain in a protein database (see Section \ref{InterProDatabases}). The 
+domain in a protein database (see Subsection \ref{micromeda-data-sources}). The 
 \gls{eval} scores for these domains may be useful to client visualizations that 
 compare not only the presence and absence of proteins that support property 
 steps but also compare how close these matches are to existing domain models. 

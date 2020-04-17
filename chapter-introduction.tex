@@ -275,15 +275,15 @@ markers within the sequences of an organism's predicted proteins. These markers
 are used to identify enzymes that support the existence of a pathway. The search 
 program chosen was \textbf{InterProScan5}, whose output data are used by the 
 Genome Properties Database. An overview of InterProScan5 
-\cite{jones2014interproscan} and its methodology can be found in Chapter 
-\ref{genome-properties}.
+\cite{jones2014interproscan} and its methodology can be found in Subsection 
+\ref{micromeda-data-sources}.
 
 \item A pathway database that maps between predicted protein sequences derived 
 from an organism's genome and biochemical pathway steps. The database chosen was 
 the \textbf{Genome Properties} database \cite{richardson2018genome}. A short 
-review of this database and the reason for its selection can be found in Chapter 
-\ref{genome-properties}. This database is pre-existing and was not made as part 
-of the thesis work.
+review of this database and the reason for its selection can be found in 
+Subsection \ref{micromeda-data-sources}. This database is pre-existing 
+and was not made as part of the thesis work.
 
 \item A software library that supports the generation of pathway annotations, 
 rapid programmatic comparisons between organism pathway annotations and the 
@@ -439,21 +439,22 @@ better and more feature-rich versions of Micromeda's \gls{ui} and
 visualizations.
 
 \subsection{An Overview of the Data Sources Used by Micromeda: the Genome 
-Properties Database, InterPro, and InterProScan5} \label{genome-properties} 
+Properties Database, InterPro, and InterProScan5} \label{micromeda-data-sources} 
 
 The architecture and implementation of Micromeda's components, such as Pygenprop 
 and Micromeda-Client, are tied closely to the structure of the Genome Properties 
-database. Thus, it is pertinent to discuss the database's structure. As 
-mentioned in Section \ref{micromeda-overview}, Micromeda uses Pygenprop to 
+database and the data presented by InterProScan and the InterPro consortium. 
+Thus, it is pertinent to detail both tools before moving on to later chapters. 
+As mentioned in Section \ref{micromeda-overview}, Micromeda uses Pygenprop to 
 predict the biochemical pathways possessed by an organism. These predictions are 
 made by providing Pygenprop with a copy of the Genome Properties database and 
 the output of running InterProScan5 on the organism's predicted proteins. In 
 addition to discussing the structure of the Genome Properties database, this 
-chapter will also discuss how domain annotations produced by InterProScan5 are 
+section will also discuss how domain annotations produced by InterProScan5 are 
 combined with mappings from the Genome Properties database to generate pathway 
 predictions.
 
-\subsubsection{The InterPro Consortium of Protein Databases} \label{InterProDatabases}
+\subsubsection{The InterPro Consortium of Protein Databases} 
 
 Because the enzymes that carry out elements of metabolism in different organisms 
 are highly similar and often evolutionarily related, it is useful to categorize 
@@ -531,7 +532,7 @@ such as minimum \gls{eval} scores or alignment lengths, that can be used to
 filter out matches that may be spurious. The cut-off values can be made unique 
 to each model. 
 
-\subsubsection{InterProScan} \label{overview-interproscan}
+\subsubsection{InterProScan}
 
 InterPro consortium created a tool, InterProScan, that allows users to compare a 
 novel protein sequence to all domain models found within InterPro member 
@@ -554,7 +555,7 @@ writes domain annotations and match data to \gls{tsv} files. The match data
 includes supporting information such as \gls{eval} scores for matches and 
 predicted domain start and stop points on the organism's annotated protein.
 
-\subsubsection{The Genome Properties Database} \label{genome-properties-overview}
+\subsubsection{The Genome Properties Database} 
 
 The backbone of Micromeda is the Genome Properties database \cite{Haft2013}. 
 The Genome Properties database takes advantage of the identifiability provided 
@@ -613,7 +614,10 @@ support. With Micromeda, Pygenprop is used to carry out these assessments. The
 Genome Properties database is provided to Pygenprop in the form of a release 
 file, whose contents are detailed in the Subsection \ref{Genome-Properties-Files}. 
 Subsection \ref{AssignmentCachingAlgorithm} details the exact algorithms used
-for generating assignments.  
+for generating assignments.
+
+\subsubsection{Reasoning for Micromeda's Use of Genome Properties and 
+InterProScan as Underlying Data Sources} 
 
 During the development of Micromeda, there were four reasons for selecting the 
 Genome Properties database over other databases and InterProScan over other 
