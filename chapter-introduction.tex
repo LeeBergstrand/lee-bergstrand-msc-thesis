@@ -322,6 +322,19 @@ Properties website can be found in Section \ref{visualization-comparison}.
 
 \section{The Micromeda Platform} \label{micromeda-overview}
 
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.9\textwidth]{media/Micromeda-Simple-Overview.png}
+	 \caption[Web-browser window containing Micromeda’s heat map visualization 
+and interface.] {\textbf{Web-browser window containing Micromeda’s heat map 
+visualization and interface.} This heat map consists of pathway rows by organism 
+columns and allows the comparison of pathway presence and absence across 
+organisms. All other components of Micromeda were built to support this 
+interface by providing it with data. Further explanation of the interface’s 
+design can be found in Chapter \ref{micromeda-client}.}
+	 \label{fig:basic-heatmap-overview}
+\end{figure}
+
 The bioinformatics system presented within this thesis, called Micromeda, is 
 designed to address current gaps in the researcher's ability to compare pathway 
 presence and absence across organisms. The platform generates these comparisons 
@@ -339,19 +352,7 @@ consisting of several components, some of which were developed as part of the
 thesis project, is used to generate data for the visualizations that Micromeda 
 presents. This stack is outlined in the list below.
 
-\begin{figure}[!ht]
-  \centering
-	\includegraphics[width=0.9\textwidth]{media/Micromeda-Simple-Overview.png}
-	 \caption[Web-browser window containing Micromeda’s heat map visualization 
-and interface.] {\textbf{Web-browser window containing Micromeda’s heat map 
-visualization and interface.} This heat map consists of pathway rows by organism 
-columns and allows the comparison of pathway presence and absence across 
-organisms. All other components of Micromeda were built to support this 
-interface by providing it with data. Further explanation of the interface’s 
-design can be found in Chapter \ref{micromeda-client}.}
-	 \label{fig:basic-heatmap-overview}
-\end{figure}
-
+\FloatBarrier
 \begin{itemize}
 \item A program that generates protein sequences from predicted genes found 
 within an organism's genome. For example, in the case of prokaryotic genomes, an 

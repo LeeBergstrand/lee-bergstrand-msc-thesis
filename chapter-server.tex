@@ -35,47 +35,6 @@ addresses) that return specific types of data. These addresses are known as
 
 \section{Micromeda-Server Workflow and Implementation} \label{server-workflow}
 
-\begin{figure}[!ht]
-  \centering
-	\includegraphics[width=0.50\textwidth]{media/Micromeda-Server.pdf}
-	 \caption[Components of Micromeda-Server's software 
-architecture.]{\textbf{Components of Micromeda-Server's software architecture.} 
-The web server code was written in Python using the Flask web framework 
-\cite{grinberg2018flask}. Micromeda-Server is supported by a Redis cache and a 
-series of text files. A genomeproperties.txt file supplies data for the 
-generation of Genome Properties \gls{dag}. Micromeda files, either default or 
-uploaded, provide information about property assignments, step assignments, and 
-supporting information of multiple organisms.}
-	 \label{fig:micromeda-server}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-	\includegraphics[width=0.80\textwidth]{media/Micromeda-Server-Workflow.pdf}
-	 \caption[How uploaded Micromeda files are cached to Redis by 
-Micromeda-Server.]{\textbf{How uploaded Micromeda files are cached to Redis by 
-Micromeda-Server.} The caching process involves the generation of 
-GenomePropertiesResultsWithMatches objects for each uploaded file. These objects 
-are cached in Redis and reconstituted between API calls. Micromeda-Server uses 
-methods possessed by these reconstituted GenomePropertiesResultsWithMatches 
-objects to produce responses that are sent back to a web client application. 
-Each uploaded file is assigned a dataset key that is provided to the client. The 
-client later uses this key to request data from a specific Micromeda file.}
-	 \label{fig:micromeda-server-workflow}
-\end{figure}
-
-\begin{figure}[!ht]
-  \centering
-	\includegraphics[width=0.65\textwidth]{media/Micromeda-Endpoints.pdf}
-	 \caption[Endpoints that Micromeda-Server presents for accessing Genome 
-Properties and Micromeda file data.]{\textbf{Endpoints that Micromeda-Server 
-presents for accessing Genome Properties and Micromeda file data.} These 
-endpoints return JSON documents and \gls{fasta} files that are generated using 
-methods of GenomePropertiesResultsWithMatches objects, GenomeProperty objects, 
-and GenomePropertiesTree objects.}
-	 \label{fig:micromeda-endpoints}
-\end{figure}
-
 Micromeda-Server is designed to provide a web \gls{api} to client applications 
 that require access to information about the Genome Properties database. The 
 server also provides an \gls{api} for accessing temporarily stored property 
@@ -101,6 +60,7 @@ to a GenomePropertiesResultsWithMatches object and is used to supply data to the
 \gls{api} if users upload no Micromeda files. The standard workflow for starting 
 and then using Micromeda-Server is the following:
 
+\FloatBarrier
 \begin{enumerate}
   \item Start Micromeda-Server while providing a \textbf{genomeProperties.txt} 
 file and an optional default Micromeda file (Fig. \ref{fig:micromeda-server})
@@ -121,6 +81,47 @@ Micromeda file (Fig. \ref{fig:micromeda-server-workflow})
   \item If the client provides no dataset key then the server supplies 
 information about the default dataset during \gls{api} requests
 \end{enumerate}
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.55\textwidth]{media/Micromeda-Server.pdf}
+	 \caption[Components of Micromeda-Server's software 
+architecture.]{\textbf{Components of Micromeda-Server's software architecture.} 
+The web server code was written in Python using the Flask web framework 
+\cite{grinberg2018flask}. Micromeda-Server is supported by a Redis cache and a 
+series of text files. A genomeproperties.txt file supplies data for the 
+generation of Genome Properties \gls{dag}. Micromeda files, either default or 
+uploaded, provide information about property assignments, step assignments, and 
+supporting information of multiple organisms.}
+	 \label{fig:micromeda-server}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=\textwidth]{media/Micromeda-Server-Workflow.pdf}
+	 \caption[How uploaded Micromeda files are cached to Redis by 
+Micromeda-Server.]{\textbf{How uploaded Micromeda files are cached to Redis by 
+Micromeda-Server.} The caching process involves the generation of 
+GenomePropertiesResultsWithMatches objects for each uploaded file. These objects 
+are cached in Redis and reconstituted between API calls. Micromeda-Server uses 
+methods possessed by these reconstituted GenomePropertiesResultsWithMatches 
+objects to produce responses that are sent back to a web client application. 
+Each uploaded file is assigned a dataset key that is provided to the client. The 
+client later uses this key to request data from a specific Micromeda file.}
+	 \label{fig:micromeda-server-workflow}
+\end{figure}
+
+\begin{figure}[!ht]
+  \centering
+	\includegraphics[width=0.7\textwidth]{media/Micromeda-Endpoints.pdf}
+	 \caption[Endpoints that Micromeda-Server presents for accessing Genome 
+Properties and Micromeda file data.]{\textbf{Endpoints that Micromeda-Server 
+presents for accessing Genome Properties and Micromeda file data.} These 
+endpoints return JSON documents and \gls{fasta} files that are generated using 
+methods of GenomePropertiesResultsWithMatches objects, GenomeProperty objects, 
+and GenomePropertiesTree objects.}
+	 \label{fig:micromeda-endpoints}
+\end{figure}
 
 Each GenomePropertiesResultsWithMatches object cached to Redis is given a 
 \gls{ttl} value \cite{gwertzman1996world} (see 
@@ -215,7 +216,7 @@ allows for this design pattern (see Subsection \ref{messagepack-performance}).
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.50\textwidth]{media/Client-Processing.pdf}
+	\includegraphics[width=0.60\textwidth]{media/Client-Processing.pdf}
 	 \caption[How requests directed towards Python web endpoints are spread out across 
 multiple processes and sharing data between these processes is 
 difficult.]{\textbf{How requests directed towards Python web endpoints are spread 
@@ -227,6 +228,7 @@ process, such as a cache or database.}
 	 \label{fig:client-processing}
 \end{figure}
 
+\FloatBarrier
 \section{Application Programming Interface Endpoints} \label{endpoints}
 
 Micromeda-Server provides several endpoints for supplying web clients with 
@@ -467,7 +469,7 @@ useful to developers who want to test newly developed features or bug fixes.
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.25\textwidth]{media/micromeda-simple-deployment.pdf}
+	\includegraphics[width=0.20\textwidth]{media/micromeda-simple-deployment.pdf}
 	 \caption[How Micromeda-Server would be deployed to support a development or 
 single-user environment.]{\textbf{How Micromeda-Server would be deployed to 
 support a development or single-user environment.} In this deployment style, 
@@ -500,7 +502,7 @@ same server computer system (Fig. \ref{fig:micromeda-medium-deploy}).
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.35\textwidth]{media/micromeda-medium-deployment.pdf}
+	\includegraphics[width=0.30\textwidth]{media/micromeda-medium-deployment.pdf}
 	 \caption[How Micromeda-Server would be deployed to support multiple users 
 using a single server computer system.]{\textbf{How Micromeda-Server would be 
 deployed to support multiple users using a single server computer system.} When 
@@ -626,7 +628,7 @@ performance.
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.8\textwidth]{media/micromeda-server-new-endpoints.pdf}
+	\includegraphics[width=\textwidth]{media/micromeda-server-new-endpoints.pdf}
 	 \caption[New endpoints that could be added to Micromeda-Server to allow for 
 expanded client functionality.]{\textbf{New endpoints that could be added to 
 Micromeda-Server to allow for expanded client functionality.} These endpoints 
