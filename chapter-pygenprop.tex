@@ -44,6 +44,64 @@ next section. A secondary goal of the parser is to build connections between
 individual properties as the database consists of a series of flat files, whose 
 individual property records are not indexed nor connected. 
 
+\subsection{Overview of the Genome Properties Flat File Database and Associated 
+File Formats} \label{Genome-Properties-Files} 
+
+The Genome Properties database (as of version 2.0) consists of a series of flat 
+files that are hosted inside a GitHub repository (see 
+\href{http://github.com/ebi-pf-team/genome-properties}{github.com/ebi-pf-team/genome-properties}). 
+Information about individual properties is stored in the repository's 
+\textbf{data} folder, and within this folder each property is assigned a second 
+internal folder containing three files: 
+
+\FloatBarrier
+\begin{itemize}
+\item A \textbf{DESC} file, that contains information about the property
+\item A \textbf{status} file that contains information onto whether the property 
+is public or has been manually curated
+\item A \textbf{\gls{fasta}} \cite{pearson19905} file containing representative 
+protein sequences that carry out the steps a the property
+\end{itemize}
+
+The \textbf{data} folder contains information about both public and non-public 
+genome properties. 
+
+In addition to the per-property folders, there is also a Genome Properties 
+release file located in the \textbf{flatfiles} folder of the repository that 
+also contains Genome Properties information. Specifically, this file, called 
+\textbf{genomeProperties.txt}, is a concatenation of all the \textbf{DESC} files 
+of all public properties. This file is created with each new release of the 
+Genome Properties database on GitHub. Below is simplified a folder structure for 
+the Genome Properties GitHub repository.
+
+\begin{verbatim}
+├── code/ - # The Genome Properties Perl library.
+├── data/ - # Data about both public and private properties
+│ ├── GenProp0001/
+│ │ ├── DESC - # Detailed property information
+│ │ ├── FASTA - # Sequences of proteins that carry out steps
+│ │ └── status - # Public and manual curation status
+│ └── GenProp0002/
+│  ├── DESC
+│  ├── FASTA
+│  └── status
+└── flatfiles/
+ └── genomeProperties.txt
+\end{verbatim}
+
+Pygenprop's Genome Properties database parser (see Section 
+\ref{genome-properties-parser}) is capable of parsing both single \textbf{DESC} 
+files of individual properties and the concatenated 
+\textbf{genomeProperties.txt} release file. The format of \textbf{DESC} files is 
+very similar to the Stockholm sequence alignment format used by both the 
+\gls{pfam} and \gls{rfam} databases \cite{bateman2004pfam, griffiths2003rfam}. Like 
+these file types, \textbf{DESC} files consist of a series of key-value pairs. 
+Because these files use different keys than Stockholm, a custom parser had to be 
+developed. An example \textbf{DESC} file can be found at 
+\href{http://raw.githubusercontent.com/ebi-pf-team/genome-properties/master/data/GenProp0145/DESC}{raw.githubusercontent.com/ebi-pf-team/genome-properties/master/data/GenProp0145/DESC}. 
+A table of keys used in  genome properties \textbf{DESC} files can be found at 
+\href{https://genome-properties.readthedocs.io/en/latest/flatfile.html#desc-file}{genome-properties.readthedocs.io/en/latest/flatfile .html\#desc-file}.
+
 \subsection{Parser Implementation}
 
 The database parser reads both \textbf{DESC} and \textbf{genomeProperties.txt} 
@@ -213,6 +271,7 @@ parents & Attribute & List of parent genome properties objects representing
 properties that use the property as step evidences \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using GenomeProperty objects}
 
 \begin{lstlisting}[language=Python]
@@ -275,6 +334,7 @@ record\_ids & Attribute  & Identifier of the external database record that a
 property is equivalent to (\textit{e}.\textit{g}., a \gls{kegg} pathway map identifier) \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using DatabaseReference objects}
 
 \begin{lstlisting}[language=Python]
@@ -287,7 +347,8 @@ Out: MetaCyc
 reference.record_title
 Out: Pathway: 3,8-divinyl-chlorophyllide a biosynthesis III
 
-# Returns a list to handle cases where there are multiple identifiers.
+# Returns a list to handle cases where 
+# there are multiple identifiers.
 reference.record_ids[0] 
 Out: PWY-7159
 
@@ -324,6 +385,7 @@ authors  & Attribute  & Authors of the literature reference   \\ \hline
 citation  & Attribute  & Citation for the literature reference   \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using literature reference objects}
 
 \begin{lstlisting}[language=Python]
@@ -391,6 +453,7 @@ functional \_elements & Attribute  & List of FunctionalElement objects that are
 used to support the existence a step               \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using step objects}
 
 \begin{lstlisting}[language=Python]
@@ -454,6 +517,7 @@ required  & Attribute  & True if the functional element is required for
 assignment of the parent genome property \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using FunctionalElement objects}
 
 \begin{lstlisting}[language=Python]
@@ -522,6 +586,7 @@ sufficient    & Attribute  & True if the evidence alone can prove the existence
 of a functional element                   \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using Evidence objects}
 
 \begin{lstlisting}[language=Python]
@@ -614,12 +679,13 @@ dictionary is keyed by genome property identifier.
 \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using GenomePropertiesTree objects}
 
 \begin{lstlisting}[language=Python]
 
 tree = GenomePropertyTree(*property_object_list)
-tree_two = parse_genome_properties_flat_file(properties_file_handle)
+tree_two = parse_genome_properties_flat_file(prop_file_handle)
 	
 len(tree) # number of properties in the database
 Out: false
@@ -725,6 +791,7 @@ AssignmentCache objects, instantiated from the AssignmentCache class, are used
 to assign genome properties to an organism. These caching objects can be 
 generated from three sources: 
 
+\FloatBarrier
 \begin{itemize}
 \item InterProScan \gls{tsv} files (protein domain annotation files) 
 \item Python lists of InterPro member database signature accessions for an 
@@ -807,12 +874,13 @@ AssignmentCache is created from a file, the sample name is set to the filename
 without file extension. \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using AssignmentCache  objects}
 
 \begin{lstlisting}[language=Python]
-tree = parse_genome_properties_flat_file(properties_file_handle)
+tree = parse_genome_properties_flat_file(prop_file_handle)
 
-cache1 = parse_genome_property_longform_file(pre_calculated_file_handle)
+cache1 = parse_genome_property_longform_file(long_file_handle)
 cache2 = parse_interproscan_file(interproscan_tsv_file_handle)
 cache3 = AssignmentCache(sample_name='E_coli', 
 interpro_signature_accessions=identifier_list)
@@ -894,6 +962,7 @@ child property to be used during calculations is specified inside each
 evidence's representative Evidence object (Table \ref{tab:evidence-object}). 
 Pieces of evidence are assigned NO in two situations: 
 
+\FloatBarrier
 \begin{itemize}
 \item The evidence's InterPro consortium signature is not found in the 
 AssignmentCache's \textbf{interpro\_signature\_accessions} attribute 
@@ -909,6 +978,7 @@ YES or NO assignments as inputs, as would be the case if the property's steps
 used InterPro domains as evidence.}. Functional elements are assigned YES under 
 two situations: 
 
+\FloatBarrier
 \begin{itemize}
 \item If all underlying pieces of evidence have been assigned YES
 \item If a single piece of evidence that sufficient on its own to support the 
@@ -1071,6 +1141,7 @@ tree & Attribute & GenomePropertiesTree object provided during instantiation of
 the GenomePropertiesResults object \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using GenomePropertiesResults objects}
 
 \begin{lstlisting}[language=Python]
@@ -1122,6 +1193,7 @@ GenProp1067 & Defense systems & 5 & Complement activation, common pathway 1 & NO
 }
 \end{table}
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]
 # Get property assignments for GenProp1065 and GenProp1067
 results.get_results('GenProp1065', 'GenProp1067', 
@@ -1140,6 +1212,7 @@ GenProp1067 & PARTIAL & PARTIAL \\ \hline
 \end{tabular}
 \end{table}
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]
 # Get counts of YES and NO assignments for steps GenProp1065 
 # and GenProp1067
@@ -1158,6 +1231,7 @@ YES & 2 & 1 \\ \hline
 \end{tabular}
 \end{table}
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]
 # Get percentages of YES and NO assignments for steps GenProp1065 
 # and GenProp1067
@@ -1212,23 +1286,25 @@ after instantiation. Creating the object took 180.0 ms \textpm 10.0 ms (\gls{n} 
 \section{Extension of the AssignmentCache and GenomePropertiesResults classes to 
 Include Supporting Match Information}
 
-As discussed in Chapter \ref{genome-properties}, Genome properties are assigned 
-based on the presence of InterPro domains that can be used, either singly or in 
-combination, to uniquely identify enzymes or protein structures that act as 
-evidence for property steps. It may be the case that domains used as step 
-evidences will be found in more than one protein of an organism. It may also be 
-the case that some of these proteins may be false positives that may posses the 
-identifying domain, or a similar domain, but do not carry out a genome property 
-step. To assist in filtering out these false positives, researchers often want 
-direct access to match information, such as \gls{eval} scores, held within an 
-InterProScan file. Alternatively, users may want access to the entire sequences 
-of proteins containing predicted domains so these proteins can be analyzed more 
-deeply. For example, the proteins that are predicted to possess a motif that 
-supports the existence of a property step could be compared phylogenetically to 
-reference proteins that are already known carry out this step in other 
-organisms. Previously, with the Genome Properties Perl library, the information 
-required to perform the such analyses was kept in four separate file types:
+As discussed in Subsection \ref{micromeda-data-sources}, Genome properties are 
+assigned based on the presence of InterPro domains that can be used, either 
+singly or in combination, to uniquely identify enzymes or protein structures 
+that act as evidence for property steps. It may be the case that domains used as 
+step evidences will be found in more than one protein of an organism. It may 
+also be the case that some of these proteins may be false positives that may 
+posses the identifying domain, or a similar domain, but do not carry out a 
+genome property step. To assist in filtering out these false positives, 
+researchers often want direct access to match information, such as \gls{eval} 
+scores, held within an InterProScan file. Alternatively, users may want access 
+to the entire sequences of proteins containing predicted domains so these 
+proteins can be analyzed more deeply. For example, the proteins that are 
+predicted to possess a motif that supports the existence of a property step 
+could be compared phylogenetically to reference proteins that are already known 
+carry out this step in other organisms. Previously, with the Genome Properties 
+Perl library, the information required to perform the such analyses was kept in 
+four separate file types:
 
+\FloatBarrier
 \begin{itemize}
 \item GenomeProperties.txt files kept property information
 \item Per-organism long-form property assignment files kept property and step 
@@ -1405,6 +1481,7 @@ and sequences for proteins that support genome property steps in multiple
 samples \\ \hline
 \end{longtable}
 
+\FloatBarrier
 \subsubsection{Example code for using GenomePropertiesResults objects}
 
 \begin{lstlisting}[language=Python]
@@ -1418,8 +1495,7 @@ results = GenomePropertiesResultsWithMatches(cache_one, cache_two,
                                       properties_tree=property_tree)
 \end{lstlisting} 
 
-\pagebreak
-
+\FloatBarrier
 \begin{lstlisting}[language=Python]        
 results.get_step_matches('GenProp1764', 1)
 Out:
@@ -1452,6 +1528,7 @@ C\_luteolum\_DSM\_273 & PF01507 & NC\_007512.1\_1606 & 5.4e-40 & MSRI... \\
 }
 \end{table}
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]     
 # Retrieve matches only for hits with the lowest E-value
 # and for a single step                                   
@@ -1474,6 +1551,7 @@ C\_luteolum\_DSM\_273 & PF01507 & NC\_007512.1\_1606 & 5.4e-40 & MSRI... \\
 }
 \end{table}
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]  
 # Retrieve matches only for hits with the lowest E-value 
 # for a single property and for only one sample                                  
@@ -1497,6 +1575,7 @@ Out:
 }
 \end{table}
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]  
 # For a given property step, write the protein 
 # that is most likely to carry out the step in each 
@@ -1571,6 +1650,7 @@ substantially more disk space than equivalent binary formats. \gls{hdf5}
 data, allowing a user to define data structures inside the file. SQLite3 was 
 chosen over \gls{hdf5} for the following reasons:
 
+\FloatBarrier
 \begin{itemize}
 \item It would take less time to design SQLite3 database tables than it would be 
 to define our own custom \gls{hdf5} structures
@@ -1629,6 +1709,7 @@ relational \gls{dbms}.}
 	 \label{fig:sqlalchemy}
 \end{figure}
 
+\FloatBarrier
 \subsection{The Schema of the Micromeda File Format}
 
 As with all relational database schemas, Micromeda's schema consists of a series 
@@ -1639,6 +1720,7 @@ files sizes, and thus transfer times, to a minimum allowing for quick
 dissemination of datasets. The optimizations that were chosen to support this 
 goal are listed below:
 
+\FloatBarrier
 \begin{itemize}
 \item Only retain supporting information for steps that are assigned YES
 \item Only retain step assignments that are assigned YES (step assignments of NO 
@@ -1669,6 +1751,7 @@ InterPro annotations, InterPro annotations, and proteins sequences.}
 	 \label{fig:micromedaschema}
 \end{figure}
 
+\FloatBarrier
 \subsection{SQLAlchemy Classes Used By Micromeda} \label{sqlalchemy-classes}
 
 Pygenprop maintains five SQLAlchemy classes for representing relational tables 
@@ -1810,6 +1893,7 @@ objects and then use SQLAlchemy to write the information contained within these
 objects to the engine's connected database. Code for writing Micromeda files can 
 be found below.
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]  
 
 # A SQLAlchemy engine object can be created
@@ -1836,6 +1920,7 @@ or AssignmentCacheWithMatches objects, respectively. These lists can the be
 combined into GenomePropertiesResults or GenomePropertiesResultsWithMatches 
 objects. Code for reading Micromeda files can be found below.
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]  
 tree = parse_genome_properties_flat_file(properties_file_handle)
 engine = create_engine('sqlite:///data.micro')
@@ -1860,7 +1945,7 @@ GenomePropertiesResultsWithMatches object in 6.3 s \textpm 1.3 s (\gls{n} = 20).
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.70\textwidth]{media/micromeda_file_size.pdf}
+	\includegraphics[width=0.80\textwidth]{media/micromeda_file_size.pdf}
 	 \caption[Comparison of a Micromeda file's size to the cumulative size of the 
 input files used to create it.]{\textbf{Comparison of a Micromeda file's size to 
 the cumulative size of the input files used to create it.} Micromeda files take 
@@ -1921,6 +2006,7 @@ the MessagePack binary stream back to a GenomePropertyResultsWithMatches object.
 Code for serializing and deserializing GenomePropertyResultsWithMatches objects 
 can be found below.
 
+\FloatBarrier
 \begin{lstlisting}[language=Python]  
 message = results.to_msgpack()
 
@@ -2072,7 +2158,7 @@ would no longer have to be added to a property tree nodes one at a time.
 Assignment DataFrames could be converted to \gls{json} using methods built into 
 pandas.
 
-\section{Summary}
+\section{Summary} \label{pygenprop-summary}
 
 Pygenprop is a Python library for the programmatic utilization of Genome 
 Properties data. The software has methods for both the exploration of the Genome 
