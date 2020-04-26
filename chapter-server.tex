@@ -84,7 +84,7 @@ information about the default dataset during \gls{api} requests
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.55\textwidth]{media/Micromeda-Server.pdf}
+	\includegraphics[width=0.58\textwidth]{media/Micromeda-Server.pdf}
 	 \caption[Components of Micromeda-Server's software 
 architecture.]{\textbf{Components of Micromeda-Server's software architecture.} 
 The web server code was written in Python using the Flask web framework 
@@ -152,8 +152,8 @@ Having Micromeda file upload be anonymous drastically reduced the complexity of
 Micromeda-Server's development and future deployment.} and uploads to the server 
 are done anonymously.
 
-The number of simultaneous users that Micromeda-Server can support almost entirely depends on the server computer systems the software is run on and the deployment strategy used (see Subsection \ref{multi-server-micromeda-deployment}).
-Micromeda-Server is horizontally-scalable (see \href{https://en.wikipedia.org/wiki/Scalability#Horizontal_or_Scale_Out}{en.wikipedia.org/wiki/Scalability\#Horizontal\_or\_Scale\_Out}), which means its performance can be 
+The number of simultaneous users that Micromeda-Server can support almost entirely depends on the server computer systems the software is run on and the deployment strategy used (see Section \ref{micromeda-server-deployments}).
+Micromeda-Server is horizontally-scalable (see \href{https://en.wikipedia.org/wiki/Scalability#Horizontal_or_Scale_Out}{en.wikipedia.org/ wiki/Scalability\#Horizontal\_or\_Scale\_Out}), which means its performance can be 
 improved by running multiple copies of the software across multiple server computer systems. On 
 a single computer, the main bottleneck of Micromeda-Server is the processing 
 power required to parse uploaded Micromeda files. For example, it can take 
@@ -212,11 +212,11 @@ MessagePack formatted GenomePropertiesResultsWithMatches objects from the Redis
 cache, reconstitute these objects, and then use their methods to gather data for 
 a response (Fig. \ref{fig:micromeda-server-workflow} and Fig. \ref{endpoints}). 
 Rapid serialization of MessagePack to GenomePropertiesResultsWithMatches objects 
-allows for this design pattern (see Subsection \ref{messagepack-performance}).
+allows for this design pattern (see Section \ref{msgpack}).
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.60\textwidth]{media/Client-Processing.pdf}
+	\includegraphics[width=0.50\textwidth]{media/Client-Processing.pdf}
 	 \caption[How requests directed towards Python web endpoints are spread out across 
 multiple processes and sharing data between these processes is 
 difficult.]{\textbf{How requests directed towards Python web endpoints are spread 
@@ -310,9 +310,7 @@ supporting the existence of a given property step. A dataset key can be provided
 to specify a dataset. \\ \hline
 \end{longtable}
 
-\subsection{The Upload Endpoint} \label{endpoint-upload}
-
-This \gls{api} endpoint accepts the client upload of a Micromeda file and 
+The \textbf{upload} endpoint accepts the client upload of a Micromeda file and 
 returns a hexadecimal encoded \gls{uuid} key \cite{leach2005universally} (see 
 \href{http://en.wikipedia.org/wiki/Universally_unique_identifier}{en.wikipedia.org/wiki/ 
 Universally\_unique\_identifier}) to the client. After upload, the Micromeda 
@@ -328,8 +326,6 @@ in the Redis cache (Fig. \ref{fig:micromeda-server-workflow}). Micromeda-Server
 returns the key to the client application in response to the file upload. The 
 client can provide this key to other \gls{api} endpoints to receive data from 
 the uploaded Micromeda file (Fig. \ref{fig:micromeda-server-workflow}). 
-
-\subsection{The Get\_Tree Endpoint} \label{get-tree}
 
 The \textbf{get\_tree} endpoint provides the client with a \gls{json} tree 
 representing all properties and steps in Genome Properties database (Fig. 
@@ -371,9 +367,6 @@ belongs to a single organism in a dataset.}
 	 \label{fig:tree-json}
 \end{figure}
 
-\subsection{The Get\_Single\_Genome\_Property\_Info Endpoint} 
-\label{get-property-info-endpoint}
-
 The \textbf{get\_single\_genome\_property\_info} endpoint takes a genome 
 property identifier as a \gls{url} parameter (Table \ref{tab:endpoints}). This 
 genome property identifier is used query for a matching GenomeProperty object 
@@ -387,8 +380,6 @@ the endpoint. This \gls{json} document includes the property name, property
 description, and a list of equivalent records from other databases (Table 
 \ref{tab:genome-property-object}).
 
-\subsection{The Get\_Multiple\_Genome\_Property\_Info Endpoint}
-
 When the \textbf{get\_multiple\_genome\_property\_info} endpoint is called, the 
 \textbf{to\_json} method (Table \ref{tab:genome-property-object}) is called on 
 every GenomeProperty object (Section \ref{genome-property-class}), which is a 
@@ -396,8 +387,6 @@ child of the GenomePropertiesTree object (Section
 \ref{GenomePropertiesTree-Class}) created on Micromeda-Server start up. Each of 
 the \gls{json} strings generated are placed into a list in a single larger 
 \gls{json} document, which is then returned by the endpoint. 
-
-\subsection{The Get\_Fasta Endpoint} \label{get-fasta-endpoint}
 
 The \textbf{get\_fasta} endpoint is used to send the client a \gls{fasta} file 
 containing protein sequences that support the existence of a property step 
@@ -451,8 +440,6 @@ It is common to deploy web servers in different configurations depending on the
 expected request volume. Three deployment strategies of increasing size will be 
 discussed below. 
 
-\subsection{Development and Single User Deployment}
-
 If a user wishes to install and run Micromeda-Server on their desktop or laptop 
 and only needs to visualize one dataset at a time, then a very simplified 
 deployment strategy can be used (Fig. \ref{fig:micromeda-small-deploy}). This 
@@ -479,8 +466,6 @@ encounters problems when used by multiple users because only a single copy of
 the client Python is run at a time.}
 	 \label{fig:micromeda-small-deploy}
 \end{figure}
-
-\subsection{Single Server Deployment} \label{single-server-micromeda-deployment}
 
 If a user requires Micromeda-Server to handle multiple users simultaneously, 
 such as would be the case if the software was installed on a server computer 
@@ -517,9 +502,6 @@ omitted from the diagram for simplicity.}
 	 \label{fig:micromeda-medium-deploy}
 \end{figure}
 
-\subsection{Multiple Server Deployment} 
-\label{multi-server-micromeda-deployment}
-
 For a large number of simultaneous users, Micromeda-Server may need to be scaled 
 horizontally to multiple servers (Fig. \ref{fig:micromeda-large-deploy}). This 
 scaling is done by placing a load balancer 
@@ -549,23 +531,20 @@ simplicity.}
 	 \label{fig:micromeda-large-deploy}
 \end{figure}
 
-\subsection{Cloud Platform As A Service (PaaS) Deployment}
-
 Various cloud computing corporations have developed \gls{paas} 
 \cite{lawton2008developing} products (see 
 \href{http://en.wikipedia.org/wiki/Platform_as_a_service}{en.wikipedia.org/wiki/Platform\_as\_a\_service}) 
 that help users scale Python web applications without having to spend the time 
-setting up complex multiple server deployments as discussed in Subsection 
-\ref{multi-server-micromeda-deployment}. These \gls{paas}, such as Google App 
-Engine (\href{http://cloud.google.com/appengine}{cloud.google.com/ appengine}) 
-or Heroku (\href{http://heroku.com}{heroku.com}), provide the simplicity of a 
-single user deployment with the scalability of multiple server deployments. Such 
-platforms provide both attributes by only requiring developers to upload their 
-Python code files to the platform and having the platform automate the rest of 
-the deployment process. For example, load balancers and multiple copies of 
-request handling processes are spun up by such platforms automatically. Such 
-platforms perform these tasks in the background and invisibly to the developer 
-who uploaded the code.
+setting up complex multiple server deployments. These \gls{paas}, such as Google 
+App Engine (\href{http://cloud.google.com/appengine}{cloud.google.com/ 
+appengine}) or Heroku (\href{http://heroku.com}{heroku.com}), provide the 
+simplicity of a single user deployment with the scalability of multiple server 
+deployments. Such platforms provide both attributes by only requiring developers 
+to upload their Python code files to the platform and having the platform 
+automate the rest of the deployment process. For example, load balancers and 
+multiple copies of request handling processes are spun up by such platforms 
+automatically. Such platforms perform these tasks in the background and 
+invisibly to the developer who uploaded the code.
 
 \section{Future Improvements} \label{micromeda-server-improvements}
 
@@ -645,7 +624,7 @@ Micromeda files not only contain property and step assignments for a set of
 organisms but also contain additional information such as domain annotations and 
 proteins sequences that support the existence of property steps. 
 Micromeda-Server currently provides an endpoint for accessing protein sequences 
-that support steps (see Subsection \ref{get-fasta-endpoint}). However, there are 
+that support steps (see Section \ref{endpoints}). However, there are 
 no endpoints for accessing the stored InterProScan annotations of these 
 proteins. Specifically, these annotations contain \gls{eval} scores representing 
 how closely the domain in the protein matches to a model of a representative 

@@ -82,7 +82,7 @@ method used must allow users to perform the following tasks.
 When a visualization approach was selected for use by Micromeda-Client, the 
 compatibility of the visualization with these tasks was prioritized.
 
-\subsection{An Overview of Genome Properties Data}
+\section{Overview of Genome Properties Data and How Micromeda-Client Visualizes This Data} \label{client-visualization}
 
 Specific visualization techniques are better suited for presenting certain types 
 of the data over others, and it is essential first to discuss the nature of data to 
@@ -101,9 +101,6 @@ Each piece of assignment data that is presented by Micromeda-Client also belongs
 to a specific property or step and organism. Thus, the Genome Properties data 
 can also be considered to be multidimensional 
 \cite{pedersen1999multidimensional}.
-
-\subsection{How Micromeda-Client Visualizes Assignment Data}
-\label{client-visualization}
 
 When designing a data visualization, often specific visualization techniques 
 present themselves intuitively as potential candidates, and this was the case 
@@ -334,7 +331,7 @@ dataset, there are often multiple proteins with predicted true-positive domain
 matches that support a single genome property step. However, of this set 
 matching proteins, the protein with the lowest match \gls{eval} score for the 
 step’s supporting domain is most likely to carry out the step. As discussed in 
-Subsection \ref{get-fasta-endpoint}, Micromeda-Server’s \textbf{get\_fasta} 
+Section \ref{endpoints}, Micromeda-Server’s \textbf{get\_fasta} 
 endpoint returns the \gls{fasta} formatted sequences of either all proteins 
 containing a match to a domain that supports a property step, regardless of the 
 organism, or a single protein per organism, each with the lowest \gls{eval} 
@@ -367,16 +364,6 @@ page. Both pages are styled using the Bootstrap 3.0 \gls{css} framework
 header navigation bars and drop-down menus. Bootstrap also makes each page 
 compatible with tablet computers and phones as it will automatically restyle 
 non-visualization page elements to fit on these smaller screens.
-
-\section{Demonstration of the Client User Interface} \label{client-demo}
-
-A demo of Micromeda’s client interface can be found at
-\href{http://tundra-pear.glitch.me}{tundra-pear.glitch.me}. This demo is 
-hosted in a way that certain features that require Micromeda-Server, such as 
-Genome Property pop-ups and \gls{fasta} file downloads, are disabled. A video 
-that displays these additional features can be found at
-\href{https://tinyurl.com/wlgelmg}{tinyurl.com/wlgelmg}. 
-This video also demonstrates the process of uploading a Micromeda file.
 
 \subsection{Core Data Structures} \label{visual-data-structures}
 
@@ -460,7 +447,7 @@ initial load to acquire the location of Micromeda-Server.
 
 The upload page contains a file drag and drop zone. When a user drops a 
 Micromeda file onto this zone, the file is sent via \gls{ajax} to Micromeda-Server 
-using the server's \textbf{upload} endpoint (Subsection \ref{endpoint-upload}). 
+using the server's \textbf{upload} endpoint (see Section \ref{endpoints}). 
 The drag and drop zone was implemented using DropzoneJS \cite{meno}. After the 
 file upload is complete, Micromeda-Server returns the file's associated dataset 
 key to Micromeda-Client. This dataset key is stored in the browser's web local 
@@ -471,8 +458,8 @@ stored, the client redirects the browser to the visualization page where
 visualizations of uploaded file's contents are generated.
 
 As the visualisation page loads, the client requests a \gls{json} tree from 
-Micromeda-Server's \textbf{get\_tree} endpoint (Subsection \ref{get-tree}) via 
-\gls{ajax} . The dataset key saved in the browser's local storage is provided 
+Micromeda-Server's \textbf{get\_tree} endpoint (see Subsection \ref{endpoints}) 
+via \gls{ajax}. The dataset key saved in the browser's local storage is provided 
 with this request and ensures that Micromeda-Server returns data from the 
 browser's most recently uploaded Micromeda file. Micromeda-Server will respond 
 to the \textbf{get\_tree} request by returning \gls{json} tree containing 
@@ -541,8 +528,8 @@ After each re-rendering of the assignment visualization, Micromeda-Client sends
 a series of \gls{ajax}  requests to Micromeda-Server. These are requests for 
 information about each property that is visible in the icicle diagram (Fig. 
 \ref{fig:micromeda-interface}). These requests are sent to Micromeda-Server's 
-\textbf{Get\_Single\_Genome\_Property \_Info} endpoint (Subsection 
-\ref{get-property-info-endpoint}). The endpoint returns a \gls{json} document 
+\textbf{Get\_Single\_Genome\_Property \_Info} endpoint (see Section 
+\ref{endpoints}). The endpoint returns a \gls{json} document 
 containing the information about each property that is later used in property 
 information pop-up boxes (Fig. \ref{fig:micromeda-interface}). The contents of 
 these documents are also cached in web local storage using localForage 
@@ -562,12 +549,12 @@ information for a property was previously cached, a template is used. The cached
 or template property information is used to generate the contents of the 
 property information pop-up box. The \gls{fasta} download pop box, when generated, 
 contains links for downloading \gls{fasta} files. These links point to \gls{url}s 
-provided by Micromeda-Server's \textbf{get\_fasta} endpoint (Subsection 
-\ref{get-fasta-endpoint}). When the``get all proteins" link is clicked (Fig. 
+provided by Micromeda-Server's \textbf{get\_fasta} endpoint (see Section 
+\ref{endpoints}). When the``get all proteins" link is clicked (Fig. 
 \ref{fig:micromeda-interface}), the endpoint \gls{url}'s \textbf{all} \gls{http} 
 GET parameter is set to true during the request and a \gls{fasta} file containing all 
-proteins that support the step is returned (see Subsection 
-\ref{get-fasta-endpoint}). The \textbf{all} \gls{http} GET parameter is not 
+proteins that support the step is returned (see Section 
+\ref{endpoints}). The \textbf{all} \gls{http} GET parameter is not 
 added to requests initiated by clicking the ``get top proteins" link of the 
 pop-up. This lack of a parameter causes the return of a \gls{fasta} file containing 
 only the proteins that are most likely to support a step. During both of these 
@@ -578,7 +565,7 @@ upon removal of the user's cursor via the triggering of an onmouseout event
 \cite{dom-events} 
 (\href{http://en.wikipedia.org/wiki/DOM_events}{en.wikipedia.org/wiki/DOM\_events}).
 
-\section{Interface Performance}
+\section{Performance Testing, End-User Testing, and Demonstration of the Client User Interface} \label{client-demo}
 
 Performance testing found that the client's visualization was capable of being 
 re-rendered almost instantaneously even when several hundred rows of assignments 
@@ -587,7 +574,13 @@ visual lag attributed to their construction. All \gls{ui} lag was caused by
 waiting for data from Micromeda-Server endpoints. Ways of speeding up these 
 endpoints are discussed in Section \ref{micromeda-server-improvements}.
 
-\section{End-User Testing}
+A demo of Micromeda’s client interface can be found at
+\href{http://tundra-pear.glitch.me}{tundra-pear.glitch.me}. This demo is 
+hosted in a way that certain features that require Micromeda-Server, such as 
+Genome Property pop-ups and \gls{fasta} file downloads, are disabled. A video 
+that displays these additional features can be found at
+\href{https://tinyurl.com/wlgelmg}{tinyurl.com/wlgelmg}. 
+This video also demonstrates the process of uploading a Micromeda file.
 
 Three potential users of Micromeda-Client were provided with a visualization of 
 data relevant to their research projects. These users were interviewed 
@@ -603,8 +596,8 @@ user's browser. Micromeda-Client can be deployed in two ways. The client can be
 served from a web server, such as NGINX \cite{reese2008nginx}, running on the 
 same server computer system as Micromeda-Server (Fig. 
 \ref{fig:client-deployment}). Such a web server is already a component of the 
-medium-scale deployment of Micromeda-Server described in Subsection 
-\ref{single-server-micromeda-deployment}. Alternatively, Micromeda-Server can be 
+medium-scale deployment of Micromeda-Server described in Section 
+\ref{micromeda-server-deployments}. Alternatively, Micromeda-Server can be 
 served from a \gls{cdn} \cite{farber2003internet} 
 (\href{http://en.wikipedia.org/wiki/Content_delivery_network}{en.wikipedia.org/wiki/Content\_delivery\_network}) 
 such as Amazon Cloudfront \cite{varia2014overview} 
@@ -704,7 +697,7 @@ better fit a variety of datasets and user devices.
 Separate Endpoint}
 
 Currently, Micromeda-Client gathers its assignment data from the 
-\textbf{get\_tree} endpoint of Micromeda-Server (Subsection \ref{get-tree}). 
+\textbf{get\_tree} endpoint of Micromeda-Server (see Section \ref{endpoints}). 
 There are problems with this approach, as discussed in Subsection 
 \ref{assignment-endpoints}, and it would be more appropriate to have a separate 
 server endpoint for returning assignments for properties and steps. In addition 

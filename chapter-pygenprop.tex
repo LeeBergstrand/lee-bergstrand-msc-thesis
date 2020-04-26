@@ -102,7 +102,7 @@ developed. An example \textbf{DESC} file can be found at
 A table of keys used in  genome properties \textbf{DESC} files can be found at 
 \href{https://genome-properties.readthedocs.io/en/latest/flatfile.html#desc-file}{genome-properties.readthedocs.io/en/latest/flatfile .html\#desc-file}.
 
-\subsection{Parser Implementation}
+\subsection{Parser Implementation and Performance}
 
 The database parser reads both \textbf{DESC} and \textbf{genomeProperties.txt} 
 files one line at a time to decrease memory usage. While loading line by line, 
@@ -118,8 +118,6 @@ example \textbf{GenomeProperty} objects represent individual genome properties
 and \textbf{Step} objects represent individual property steps.} that represents 
 the database's rooted \gls{dag} structure. The parser then returns this final 
 object.
-
-\subsection{Parser Performance}
 
 Pygenprop's Genome Properties flat file parser processes a single \textbf{DESC} 
 file in 415 µs \textpm 6 µs (\gls{n} = 80) on average and the latest release of 
@@ -271,6 +269,7 @@ parents & Attribute & List of parent genome properties objects representing
 properties that use the property as step evidences \\ \hline
 \end{longtable}
 
+\pagebreak
 \FloatBarrier
 \subsubsection{Example code for using GenomeProperty objects}
 
@@ -586,6 +585,7 @@ sufficient    & Attribute  & True if the evidence alone can prove the existence
 of a functional element                   \\ \hline
 \end{longtable}
 
+\pagebreak
 \FloatBarrier
 \subsubsection{Example code for using Evidence objects}
 
@@ -679,6 +679,7 @@ dictionary is keyed by genome property identifier.
 \\ \hline
 \end{longtable}
 
+\pagebreak
 \FloatBarrier
 \subsubsection{Example code for using GenomePropertiesTree objects}
 
@@ -775,7 +776,7 @@ detailed description of this class is also found in the subsections below.
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.90\textwidth]{media/Pygenprop_Assignment.pdf}
+	\includegraphics[width=\textwidth]{media/Pygenprop_Assignment.pdf}
 	 \caption[Overview of the genome property assignment process used by 
 Pygenprop.]{\textbf{Overview of the genome property assignment process used by 
 Pygenprop.} The assignment algorithms use by Pygenprop recursively generate 
@@ -945,12 +946,9 @@ have already been calculated in previous recursive cycles. If these assignments
 are found, recursion is stopped, and these cached assignment values are used. 
 Because the AssignmentCache object's assignment dictionaries are used as a 
 cache, the rate of the assignment process will increase exponentially in speed 
-as more properties are calculated, vastly reducing overall assignment time (as 
-discussed in Subsection \ref{AssignmentCache-Performance} below). Recursion also 
-stops when step assignments are calculated for steps that are supported by 
-InterPro domains \ref{fig:propertyassignment}).
-
-\subsubsection{Assigning support for steps, functional elements and evidences}
+as more properties are calculated, vastly reducing overall assignment time. 
+Recursion also stops when step assignments are calculated for steps that are 
+supported by InterPro domains \ref{fig:propertyassignment}).
 
 Step assignments are calculated recursively from both functional element and 
 evidence assignments (Fig. \ref{fig:propertyassignment}). Evidences are assigned 
@@ -998,8 +996,6 @@ AssignmentCache after step assignment calculations. If a piece of evidence has a
 genome property as its child, then this property's assignment is calculated, 
 creating another recursion cycle.
 
-\subsubsection{Assigning support for non-categorical properties}
-
 Some properties have steps that are required to exist for the property to be 
 assigned YES or PARTIAL. Also, each property possesses a \textbf{threshold} 
 attribute (see Table \ref{tab:genome-property-object}) that specifies how many 
@@ -1019,8 +1015,6 @@ only those that are required. If a property's step's assignment value is not
 known, it is calculated using the recursive step assignment algorithm described 
 earlier in Subsection \ref{AssignmentCachingAlgorithm}.
 
-\subsubsection{Assigning support for categorical properties}
-
 Categorical properties, such as GenProp0011 (methanogenesis), do not have any 
 required steps; all steps are optional. Thus a different assignment algorithm is 
 required for these property assignments. Categorical properties are only 
@@ -1029,9 +1023,6 @@ PARTIAL otherwise (Fig. \ref{fig:propertyassignment}). Note that the generation
 of support assignments for categorical properties is unique to Pygenprop and is 
 not performed by the Genome Properties Perl library. The recursion in the Perl 
 library stops before it reaches categorical properties.
-
-\subsection{AssignmentCache and Assignment Algorithm Performance} 
-\label{AssignmentCache-Performance}
 
 For a 2.9 MB InterProScan \gls{tsv} file containing domain annotations for 4100 
 \textit{Escherichia coli} K12 proteins (\gls{ncbitaxa}: 1010810), the resulting 
@@ -1212,6 +1203,7 @@ GenProp1067 & PARTIAL & PARTIAL \\ \hline
 \end{tabular}
 \end{table}
 
+\pagebreak
 \FloatBarrier
 \begin{lstlisting}[language=Python]
 # Get counts of YES and NO assignments for steps GenProp1065 
@@ -1360,7 +1352,7 @@ objects can be seen in Table \ref{tab:assignmentcachewithmatches}.
 
 \begin{figure}[!ht]
   \centering
-\includegraphics[width=0.65\textwidth]{media/assignmentcachewithmatches_creation.pdf}
+\includegraphics[width=0.60\textwidth]{media/assignmentcachewithmatches_creation.pdf}
 	 \caption[How AssignmentCacheWithMatches are made from input InterProScan TSV 
 and FASTA files.]{\textbf{How AssignmentCacheWithMatches are made from input 
 InterProScan \gls{tsv} and \gls{fasta} files.} AssignmentCacheWithMatches 
@@ -1369,9 +1361,10 @@ protein sequences for a single organism. Such objects are generated from a
 \gls{fasta} file of an organism's proteins and InterProScan TSV file of domain 
 annotations of these proteins. AssignmentCacheWithMatches objects possess a 
 DataFrame that maps between InterProScan annotations and protein sequences.}
-
 	 \label{fig:cachewithmatchescreation}
 \end{figure}
+
+\pagebreak
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \caption{Attributes of AssignmentCacheWithMatches objects that are not possessed 
@@ -1393,8 +1386,6 @@ matches       & Attribute     & Pandas DataFrame containing domain annotation
 information and protein sequences for an organism \\ \hline
 \end{longtable}
 
-\pagebreak
-
 \subsection{The GenomePropertiesResultsWithMatches Class} 
 \label{PropertyResultsWithMatches}
 
@@ -1408,6 +1399,22 @@ existence of property steps. A pandas DataFrame within each instantiated
 GenomePropertiesResultsWithMatches object stores this information. Unlike 
 AssignmentCacheWithMatches objects, GenomePropertiesResultsWithMatches objects 
 maintain supporting data for more than one organism.
+
+\begin{figure}[!ht]
+  \centering
+\includegraphics[width=0.50\textwidth]{media/assignment_results_with_matches_overview.pdf}
+	 \caption[How GenomePropertiesResultsWithMatches are built from 
+AssignmentCacheWithMatches object derived from multiple organisms.]{\textbf{How 
+GenomePropertiesResultsWithMatches are built from AssignmentCacheWithMatches 
+object derived from multiple organisms.} GenomePropertiesResultsWithMatches 
+objects store property assignments, InterProScan annotations, and supporting 
+protein sequences for multiple organisms. Such objects are generated by combining the 
+AssignmentCacheWithMatches objects generated for multiple organisms. These 
+caches are generated from per-organism \gls{fasta} files and InterProScan files. 
+GenomePropertiesResultsWithMatches objects also retain the Property and step 
+assignment DataFrames from Fig. \ref{fig:resultscreation} (not shown).}
+	 \label{fig:resultswithmatchescreation}
+\end{figure} 
 
 GenomePropertiesResultsWithMatches objects are generated by combining a series 
 of AssignmentCacheWithMatches objects for different organisms (Fig. 
@@ -1427,24 +1434,8 @@ GenomePropertiesResultsWithMatches class can be also be used to generate
 \gls{fasta} files, using \gls{scikit}-bio, containing proteins that are 
 predicted to carry out a property step in multiple organisms. A summary of the 
 methods, properties, and attributes of GenomePropertiesResultsWithMatches 
-objects can be seen in Table\ref{tab:genomepropertyresultswithmatches} and 
+objects can be seen in Table \ref{tab:genomepropertyresultswithmatches} and 
 example code below. 
-
-\begin{figure}[!ht]
-  \centering
-\includegraphics[width=0.60\textwidth]{media/assignment_results_with_matches_overview.pdf}
-	 \caption[How GenomePropertiesResultsWithMatches are built from 
-AssignmentCacheWithMatches object derived from multiple organisms.]{\textbf{How 
-GenomePropertiesResultsWithMatches are built from AssignmentCacheWithMatches 
-object derived from multiple organisms.} GenomePropertiesResultsWithMatches 
-objects store property assignments, InterProScan annotations, and supporting 
-protein sequences for multiple organisms. Such objects are generated by combining the 
-AssignmentCacheWithMatches objects generated for multiple organisms. These 
-caches are generated from per-organism \gls{fasta} files and InterProScan files. 
-GenomePropertiesResultsWithMatches objects also retain the Property and step 
-assignment DataFrames from Fig. \ref{fig:resultscreation} (not shown).}
-	 \label{fig:resultswithmatchescreation}
-\end{figure} 
 
 \begin{longtable}{|p{2.7cm}|p{2cm}|p{10cm}|}
 \caption{Methods, properties, and attributes of 
@@ -1619,8 +1610,8 @@ and steps, users many find it useful to be able to store these assignments for l
 use or dissemination. With the Genome Properties Perl library, property and step 
 assignments can be saved to text files written in either a custom human-readable 
 format (see 
-\href{http://github.com/Micromeda/pygenprop/blob/master/pygenprop/testing/test_constants/C_chlorochromatii_CaD3.txt}{github.com/Micromeda/ 
-pygenprop/blob/master/pygenprop/testing/test\_constants/\_chlorochromatii\_CaD3.txt}) 
+\href{http://github.com/Micromeda/pygenprop/blob/master/pygenprop/testing/test_constants/C_chlorochromatii_CaD3.txt}{github.com/ Micromeda/ 
+pygenprop/blob/master/pygenprop/testing/test\_constants/ \_chlorochromatii \_CaD3.txt}) 
 or \gls{json} format. Both of these file types are created per-organism and do 
 not contain supporting information such as annotation match scores or protein 
 sequences. Because the Perl library creates these files per-organism, a large 
@@ -1696,7 +1687,7 @@ as PostgreSQL or MySQL (Fig. \ref{fig:sqlalchemy}).
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.68\textwidth]{media/SQLAlchemy.pdf}
+	\includegraphics[width=0.70\textwidth]{media/SQLAlchemy.pdf}
 	 \caption[How Pygenprop uses SQLAlchemy objects to write property assignments, 
 InterProScan annotations, and protein sequences to Micromeda files and 
 databases.]{\textbf{How Pygenprop uses SQLAlchemy objects to write property 
@@ -1879,7 +1870,7 @@ identifer & Attribute & Identifier of a protein sequence \\ \hline
 sequence & Attribute & Protein sequence of the protein \\ \hline
 \end{longtable}
 
-\subsection{Writing Micromeda Files}
+\subsection{Reading and Writing Micromeda Files}
 
 Both GenomePropertiesResults and GenomePropertiesResultsWithMatches objects 
 provide a \textbf{to\_assignment\_database} method (Tables 
@@ -1909,8 +1900,6 @@ engine2 = engine = create_engine(db_uri)
 results.to_assignment_database(engine2)
 
 \end{lstlisting}
-
-\subsection{Reading Micromeda Files}
 
 The reading of assignments from Micromeda files or databases is facilitated by 
 the \textbf{load\\ \_assignment\_caches\_from\_database} and 
@@ -1945,7 +1934,7 @@ GenomePropertiesResultsWithMatches object in 6.3 s \textpm 1.3 s (\gls{n} = 20).
 
 \begin{figure}[!ht]
   \centering
-	\includegraphics[width=0.80\textwidth]{media/micromeda_file_size.pdf}
+	\includegraphics[width=0.70\textwidth]{media/micromeda_file_size.pdf}
 	 \caption[Comparison of a Micromeda file's size to the cumulative size of the 
 input files used to create it.]{\textbf{Comparison of a Micromeda file's size to 
 the cumulative size of the input files used to create it.} Micromeda files take 
@@ -1957,6 +1946,7 @@ stored in a single file and one fifth of the disk space.}
 	 \label{fig:micromedafilesize}
 \end{figure}
 
+\FloatBarrier
 \section{Development of an In-Memory Transfer Format for Property Assignments 
 and Supporting Match Information} \label{msgpack}
 
@@ -1973,8 +1963,6 @@ space taken up by the format is less of a concern. The format ultimately chosen
 was MessagePack  \cite{furuhashi2013messagepack}(see 
 \href{http://msgpack.org}{msgpack.org}).
 
-\subsection{Selection of MessagePack}
-
 Several formats were reviewed to support memory-to-memory transfer and in-memory 
 caching of GenomePropertyResultsWithMatches objects. These included: \gls{json}, 
 Google Protocol Buffers \cite{varda2008protocol}, and MessagePack. \gls{json} 
@@ -1990,9 +1978,6 @@ selected over Protocol Buffers because pandas provide built-in methods, though
 currently experimental, for serializing DataFrames directly to MessagePack. 
 MessagePack also serializes four times faster than Protocol Buffers 
 \cite{cooper_2010}.
-
-\subsection{Serialization and Deserialization of 
-GenomePropertyResultsWithMatches to MessagePack}
 
 GenomePropertyResults and GenomePropertyResultsWithMatches objects have a method 
 called \textbf{to\_msgpack} that supports serialization of these objects to a 
@@ -2012,9 +1997,6 @@ message = results.to_msgpack()
 
 new_results = load_results_from_msgpack(message)
 \end{lstlisting}
-
-\subsection{MessagePack Serialization and Deserialization Performance} 
-\label{messagepack-performance}
 
 For 1877 proteins from \textit{Pelodictyon luteolum} DSM 273 (\gls{ncbitaxa}:  
 319225) and 1774 proteins from \textit{Chlorobium chlorochromatii} CaD3 
