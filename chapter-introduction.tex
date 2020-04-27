@@ -695,14 +695,29 @@ of an organism's proteins, then the organism is understood to posses a specific
 genome property. The process of predicting what properties are possessed by an 
 organism is called property assignment. To assign properties to an organism, 
 InterProScan is first used to domain annotate all of its predicted proteins 
-(\textit{e}.\textit{g}., those produced by Prodigal), and these annotations are then combined with 
-information from the Genome Properties database to assess what properties are 
-supported. Each property in the database is assigned YES, PARTIAL, and NO 
-support. With Micromeda, Pygenprop is used to carry out these assessments. The 
-Genome Properties database is provided to Pygenprop in the form of a release 
-file, whose contents are detailed in the Subsection \ref{Genome-Properties-Files}. 
-Subsection \ref{AssignmentCachingAlgorithm} details the exact algorithms used
-for generating assignments.
+(\textit{e}.\textit{g}., those produced by Prodigal), and these annotations are 
+then combined with information from the Genome Properties database to assess 
+what properties are supported. Each property in the database is assigned YES, 
+PARTIAL, and NO support. With Micromeda, Pygenprop is used to carry out these 
+assessments. The Genome Properties database is provided to Pygenprop in the form 
+of a release file, whose contents are detailed in the Subsection 
+\ref{Genome-Properties-Files}. Subsection \ref{AssignmentCachingAlgorithm} 
+details the exact algorithms used for generating assignments.
+
+Though the Genome Properties database does catalogue properties that are not 
+biochemical pathways (e.g. complex cellular components such as flagella), the 
+vocabulary used to describe the database is similar to the lexicon used to 
+describe pathway components. For example, entities that support the existence of 
+individual genome properties are called steps, not subcomponents or 
+substructures. These naming conventions are still used even when a property 
+represents a cellular structure or process rather than a pathway. For simplicity 
+and consistency of language across the thesis, biochemical pathway-based 
+verbiage and examples are used throughout the thesis when providing example 
+usages of Micromeda or describing the reasoning behind specific design 
+decisions. However, it should be noted that Micromeda’s analysis abilities are 
+not strictly limited to pathway analysis. The tool can analyze any property in 
+the Genome Properties database, including those describing non-metabolic 
+capabilities.
 
 \subsubsection{Reasoning for Micromeda's Use of Genome Properties and 
 InterProScan} 
