@@ -567,26 +567,67 @@ upon removal of the user's cursor via the triggering of an onmouseout event
 
 \section{Performance Testing, End-User Testing, and Demonstration of the Client User Interface} \label{client-demo}
 
-Performance testing found that the client's visualization was capable of being 
+Performance testing found that the client’s visualization was capable of being 
 re-rendered almost instantaneously even when several hundred rows of assignments 
-were displayed. All interactive components of Micromeda-Client had almost no 
-visual lag attributed to their construction. All \gls{ui} lag was caused by 
+were displayed. All interactive components of Micromeda-Client had practically 
+no visual lag attributed to their construction. All \gls{ui} delay was caused by 
 waiting for data from Micromeda-Server endpoints. Ways of speeding up these 
 endpoints are discussed in Section \ref{micromeda-server-improvements}.
 
-A demo of Micromeda’s client interface can be found at
-\href{http://tundra-pear.glitch.me}{tundra-pear.glitch.me}. This demo is 
-hosted in a way that certain features that require Micromeda-Server, such as 
-Genome Property pop-ups and \gls{fasta} file downloads, are disabled. A video 
-that displays these additional features can be found at
-\href{https://tinyurl.com/wlgelmg}{tinyurl.com/wlgelmg}. 
-This video also demonstrates the process of uploading a Micromeda file.
+A demo of Micromeda’s client interface can be found at 
+\href{http://tundra-pear.glitch.me}{tundra-pear.glitch.me}. This demo is hosted 
+in a way that certain features that require Micromeda-Server, such as Genome 
+Property pop-ups and \gls{fasta} file downloads, are disabled. A video that 
+displays these disabled features can be found at 
+\href{https://tinyurl.com/wlgelmg}{tinyurl.com/wlgelmg}. This video also 
+demonstrates the process of uploading a Micromeda file. A tutorial 
+that covers how to generate Micromeda files can be found at 
+\href{https://github.com/Micromeda/micromeda-workflow}{github.com/Micromeda/micromeda-workflow}.
 
-Three potential users of Micromeda-Client were provided with a visualization of 
-data relevant to their research projects. These users were interviewed 
-afterwards and their suggestions for improving the client's \gls{ui} were 
-recorded. Several of their suggestions are discussed in Section 
-\ref{client-improvements}. 
+Three potential users of Micromeda-Client were provided with a customized 
+version of the demo interface linked in the preceding paragraph. These interface 
+demos were customized to contain data relevant to each user’s research project. 
+The potential users were required to provide the author with multiple microbial 
+genomes or \gls{mags} in \gls{fasta} format. The author put these sequence files 
+through the Micromeda pipeline (\textit{i}.\textit{e}., protein prediction using 
+Prodigal, scanning for Interpro domains with InterProScan, and Genome Properties 
+assignment with Pygenprop). The resulting property and step assignments were 
+integrated into a customized version of the client demo. The author generated 
+one demo for each user.  The users that were provided with demos were from both 
+academia and industry. Specifically, they consisted of the following:
+
+\begin{itemize}
+\item An academic researcher interested in using Micromeda to analyze a series 
+of \gls{mags} of putatively ammonia-oxidizing organisms found in wastewater 
+treatment plant samples.
+\item An academic researcher that wanted to use Micromeda to analyze a series of 
+\gls{mags} of anoxygenic phototrophic bacteria gathered from boreal shield lake 
+water samples.
+\item A commercial entity interested in using Micromeda to assist them with the 
+trait-based down-selection of plant growth-promoting microbes from an existing 
+genetically sequenced culture collection. They hoped to use the down-selected 
+organisms in agricultural field trials.
+\end{itemize}
+
+These users were interviewed via video conference after they were provided with 
+their customized demo. The interviews were freeform and open-ended. However, the 
+following key questions were asked:
+
+\begin{itemize}
+\item Was the potential user happy with how Micromeda-Client presents property 
+and step assignment information?
+\item How intuitive did they find the client’s \gls{ui} and were there any 
+changes to the interface that could be made to make the interface more 
+intuitive?
+\item Is there any aesthetic changes to Micromeda-Client that the user would 
+recommend?
+\item What additional features should be added to the client to improve its data 
+analysis capabilities?
+\end{itemize}
+
+After user interviews, suggestions for improving the client’s \gls{ui} were 
+recorded. Several of the potential user's recommendations are discussed in 
+Section \ref{client-improvements}.
 
 \section{Deployment}
 
