@@ -5,11 +5,11 @@ software, learn more about organism's inherent capabilities without having to
 study it \textit{in vivo} or \textit{in vitro} \cite{de2012bioinformatic}. In an 
 environmental microbiology context, such sequenced genomes are used to learn 
 more about microorganisms' metabolic capabilities and possibly shed light on 
-their ecological roles \cite{de2012bioinformatic}. In an applied context, 
-predictions of such metabolic capabilities are also useful for the selection of 
-what microbes to use in a bioprocess. In a genetic engineering context, 
-genomically derived information can be used to select what metabolic traits to 
-remove from, or move between, organisms 
+these organism's ecological roles \cite{de2012bioinformatic}. In an applied 
+context, predictions of such metabolic capabilities are also useful for the 
+selection of what microbes to use in a bioprocess. In a genetic engineering 
+context, genomically derived information can be used to select what metabolic 
+traits to remove from, or move between, organisms 
 \cite{strohl2001biochemical,sanchez2005novel}.
 
 Advances in \gls{dna} sequencing technology over the past decade have 
@@ -35,9 +35,9 @@ both Micromeda and Pygenprop is their ability to not only compare the predicted
 metabolic features of organisms, in terms of biochemical pathways present, but 
 also allow users to access the underlying protein sequences that support these 
 predictions. Details about the information presented by Micromeda and its 
-expected use cases are presented within the sections below. The following 
-chapters will discuss the database Micromeda uses, Pygenprop, and Micromeda's 
-implementation.
+expected use cases are given within the sections below. Towards the end of this 
+chapter, the data sources used by Micromeda are also discussed. The following 
+chapters will discuss Pygenprop and Micromeda's overall implementation.
 
 \section{Enzymes and Biochemical Pathways} \label{enzymes-and-pathways} 
 
@@ -219,13 +219,13 @@ The majority of these libraries are written to support either the \gls{pfam}
 and Metacyc \cite{international} databases. There is currently only one such 
 library that supports the Genome Properties database, the Genome Properties 
 library created by \gls{ebi} (see 
-\href{http://github.com/ebi-pf-team/genome-properties/tree/rel3.0}{github.com/ebi-pf-team/genome-properties/tree/rel3.0}). 
+\href{https://github.com/ebi-pf-team/genome-properties/tree/master/code}{github.com/ebi-pf-team/genome-properties/tree/master/code}). 
 The majority of pathway bioinformatics libraries are written in Perl 
 \cite{wall1994perl} or R. In contrast, very few are written in Python  
 \cite{zhang2009kegggraph,posma2013metabonetworks,yu2012clusterprofiler,cock2009biopython,international}. 
 This lack of Python support makes the majority of these libraries unusable for 
 developing software written Python. The Python programming language is 
-increasingly being used in bioinformatics and is widely used by both researchers 
+increasingly being used in bioinformatics and is widely used by both academia 
 and industry for writing machine learning software 
 \cite{antao2018bioinformatics,muller2016introduction}. The machine learning 
 algorithms contained in Python libraries, such as \gls{scikit}-learn 
@@ -235,7 +235,7 @@ networks \cite{costello2018machine,cuperlovic2018machine}. In addition to
 existing deficiencies in database compatibility and Python compatibility, the 
 majority of pathway bioinformatics libraries also only focus on helping users 
 download data from existing pathway databases \cite{tenenbaum2019keggrest, 
-cock2009biopython} or visualizing biochemical pathways as graph networks 
+cock2009biopython} or visualize biochemical pathways as graph networks 
 \cite{posma2013metabonetworks}, rather than helping users with making pathway 
 comparisons across organisms. This focus on data download and network 
 visualization make these libraries less useful for comparative genomics. Only 
@@ -249,12 +249,11 @@ Genome Properties database and was generated as part of the thesis work. The
 library attempts to address capability gaps found in existing pathway 
 bioinformatics libraries by providing users with expanded capability to compare 
 the presence and absence of pathways across organisms. Also, Pygenprop is 
-tightly integrated with Python-based data science and emerging machine learning 
-tools found within the Scipy 
-\cite{scipystack} ecosystem, including \gls{scikit}-learn. Pygenprop is 
-discussed at length in Chapter \ref{Pygenprop}. Further details on the 
-differences between it and existing pathway bioinformatics libraries can be 
-found in Section \ref{pygenprop-summary}.
+tightly integrated with emerging Python-based data science and machine 
+learning tools found within the Scipy \cite{scipystack} ecosystem, including 
+\gls{scikit}-learn. Pygenprop is discussed at length in Chapter \ref{Pygenprop}. 
+Further details on the differences between it and existing pathway 
+bioinformatics libraries can be found in Section \ref{pygenprop-summary}.
 
 Due to a lack of coding skills among biologists, there is a need for dedicated 
 bioinformatics tools that simplify pathway comparisons across organisms. 
@@ -280,7 +279,7 @@ time. As a result, the heat maps generated by Microscope and the \gls{ebi}'s
 Genome Properties website do not allow one to easily navigate between the 
 presence and absence results of pathways that require the presence of other 
 pathways to function. Also, both sites require users to browse through multiple 
-web pages to learn about more details of the pathways visualized in their heat 
+web pages to learn more details about the pathways visualized in their heat 
 maps, which is both time-consuming and challenging to do when using computers 
 with small screens. FuncTree2 \cite{darzi2019functree2}, a pathway visualization 
 software designed to present \gls{kegg} annotation data, does not use heat maps 
@@ -383,23 +382,23 @@ Chapter \ref{Pygenprop}.
 \item A file format that allows users to easily transfer an assessment of what 
 pathways are possessed by multiple organisms and the protein sequences used to 
 support this assessment. These files, called \textbf{Micromeda files}, are the 
-files uploaded to Micromeda-Server and use a custom format that is discussed in 
-Section \ref{MicromedaFiles}. The format allows for the storage of the pathway 
-and sequence information in the most compact way possible.
+files uploaded to Micromeda-Server, which is discussed in the bullet point below, 
+and use a custom format that is discussed in Section \ref{MicromedaFiles}. The 
+format allows for the storage of the pathway and sequence information in the 
+most compact way possible.
 
 \item A server web application that runs on a remote computer system and in 
-support of the client application. This server application accepts file uploads 
-from the client and provides the client with easy access to the data held within 
-the file. This component is called \textbf{Micromeda-Server} and is discussed in 
-Chapter \ref{micromeda-server}.
+support of a client application. This server application accepts 
+\textbf{Micromeda file} uploads from the client and provides the client with 
+easy access to the data held within the file. This component is called 
+\textbf{Micromeda-Server} and is discussed in Chapter \ref{micromeda-server}.
 
 \item A client web application that runs in the user's browser. This web 
-application allows users to upload files to a server. These files contain 
-precalculated data about an organism's predicted pathways and the protein 
-sequences that support these predictions. This application draws pathway 
-heat maps based on this uploaded data  (Fig. \ref{fig:basic-heatmap-overview}). 
-These heat maps allow users to make comparisons across pathways and organisms. 
-This component is called \textbf{Micromeda-Client} and is detailed in Chapter 
+application allows users to upload \textbf{Micromeda files} to 
+\textbf{Micromeda-Server}. This application draws pathway heat maps based on 
+this uploaded data  (Fig. \ref{fig:basic-heatmap-overview}). These heat maps 
+allow users to make comparisons across pathways and organisms. This component is 
+called \textbf{Micromeda-Client} and is detailed in Chapter 
 \ref{micromeda-client}. Links to a demonstration of the client interface can be 
 found in Section \ref{client-demo}.
 \end{itemize}
@@ -496,7 +495,7 @@ run. Because the application is web browser-based, it will work on any operating
 system with a modern web browser, including mobile devices such as tablet 
 computers and cell phones.
 
-Micromeda files exist is that they allow the rapid transfer of pathway 
+The reason that Micromeda files exist is that they allow the rapid transfer of pathway 
 annotation datasets that, in turn, allow for a separation of data generation and 
 visualization. This separation is essential because there are vast computational 
 complexity differences between generating pathway annotations and visualizing 
@@ -532,13 +531,13 @@ Properties Database, InterPro, and InterProScan5} \label{micromeda-data-sources}
 The architecture and implementation of Micromeda's components, such as Pygenprop 
 and Micromeda-Client, are tied closely to the structure of the Genome Properties 
 database and the data presented by InterProScan and the InterPro consortium. 
-Thus, it is pertinent to detail both tools before moving on to later chapters. 
+Thus, it is pertinent to detail these tools before moving on to later chapters. 
 As mentioned in Section \ref{micromeda-overview}, Micromeda uses Pygenprop to 
 predict the biochemical pathways possessed by an organism. These predictions are 
 made by providing Pygenprop with a copy of the Genome Properties database and 
 the output of running InterProScan5 on the organism's predicted proteins. In 
 addition to discussing the structure of the Genome Properties database, this 
-section will also discuss how domain annotations produced by InterProScan5 are 
+subsection will also discuss how domain annotations produced by InterProScan5 are 
 combined with mappings from the Genome Properties database to generate pathway 
 predictions.
 
@@ -648,7 +647,7 @@ predicted domain start and stop points on the organism's annotated protein.
 The backbone of Micromeda is the Genome Properties database \cite{Haft2013}. 
 The Genome Properties database takes advantage of the identifiability provided 
 by protein domains to map from combinations of protein domains to enzymes that 
-carry out pathway steps. \cite{richardson2018genome}. This mapping is in 
+carry out pathway steps \cite{richardson2018genome}. This mapping is in 
 contrast to most other pathway databases, which map from whole proteins to 
 biochemical pathways. If all the required domains for a pathway step are present 
 in an organism's proteins, then the step is considered present. The domains used 
@@ -686,7 +685,7 @@ be added to the Genome Properties database. As long as domains catalogued by the
 InterPro consortium can identify the proteins involved in a pathway or 
 structure, then a property representing the pathway or structure can be 
 generated.} and code fixes to the Genome Properties Perl library (see 
-\href{http://github.com/ebi-pf-team/genome-properties/tree/rel3.0}{github.com/ebi-pf-team/genome-properties/tree/rel3.0}). 
+\href{https://github.com/ebi-pf-team/genome-properties/tree/master/code}{github.com/ebi-pf-team/genome-properties/tree/master/code}). 
 Section \ref{genomeprop-oop} discusses how Pygenprop represents the structure of 
 the Genome Properties database in memory.
 
@@ -705,7 +704,7 @@ of a release file, whose contents are detailed in the Subsection
 details the exact algorithms used for generating assignments.
 
 Though the Genome Properties database does catalogue properties that are not 
-biochemical pathways (e.g. complex cellular components such as flagella), the 
+biochemical pathways (\textit{e}.\textit{g}., complex cellular components such as flagella), the 
 vocabulary used to describe the database is similar to the lexicon used to 
 describe pathway components. For example, entities that support the existence of 
 individual genome properties are called steps, not subcomponents or 
