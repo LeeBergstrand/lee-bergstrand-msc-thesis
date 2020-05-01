@@ -3,7 +3,7 @@
 Micromeda is designed to help researchers compare the genomically predicted 
 functional characteristics across multiple organisms. Two key elements facilitate 
 this capability. Firstly, Pygenprop, a library that assists Micromeda's other 
-components, can be used separately to compare functional characteristics across 
+components, can be used to compare functional characteristics across 
 organisms programmatically. Secondly, Micromeda-Client can be used to generate 
 an interactive heat map that allows users to perform the same comparisons 
 visually. Micromeda-Server was developed to provide an \gls{api} that provides 
@@ -20,13 +20,14 @@ Properties database and the domain annotations of an organism's proteins.
 In contrast to many pathway annotation systems (see Sections 
 \ref{server-summary} and \ref{visualization-comparison}) that are either run 
 remotely or locally on a researcher's computer, Micromeda has both local and 
-remote components. InterProScan and Pygenprop run locally on users' computers 
-and generate Micromeda files. These files are later uploaded to Micromed-Client, 
-which is deployed on a remote server along with Micromeda-Server. The main 
-reason for this split is to shift the computational cost of generating pathway 
-annotations onto users while allowing \gls{ui} components, such as 
-Micromeda-Client, to be centrally hosted. This central hosting will allow for 
-the rapid deployment of \gls{ui} updates and bug fixes.
+remote components. InterProScan and Pygenprop are run locally on users' 
+computers and are used to generate Micromeda files. These files are later 
+uploaded to Micromed-Client, which is deployed on a remote server along with 
+Micromeda-Server. The main reason for this split is to shift the computational 
+cost of generating pathway annotations onto users while allowing \gls{ui} 
+components, such as Micromeda-Client, to be centrally hosted. This central 
+hosting will allow for the rapid deployment of updated versions of Micromeda
+with new \gls{ui} features and bug fixes.
 
 From a human-computer interaction perspective, Micromeda provides a 
 much-improved \gls{ui} for visualizing the difference in predicted function 
@@ -116,7 +117,7 @@ assigned different shades of the same colour.
 
 Algorithms for calculating levels of PARTIAL support for biochemical pathways 
 have been developed before. For example, \gls{maple} \cite{takami2016automated}, 
-a \gls{kegg}-based pathway annotation server, can calculate \gls{mcr} 
+a \gls{kegg}-based pathway annotation server, can calculate the \gls{mcr} 
 (\textit{i}.\textit{e}., continuous levels of support based on the presence of 
 pathway steps) for each module in the \gls{kegg}  database. \gls{kegg} modules 
 are roughly equivalent to higher level genome properties. \gls{mcr}s are 
