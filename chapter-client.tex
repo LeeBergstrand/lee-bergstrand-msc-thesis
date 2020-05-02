@@ -31,28 +31,28 @@ are listed below and are displayed in Fig. \ref{fig:client-analysis-types}.
 can select subsets of organisms that may possess a specific phenotype (Fig. 
 \ref{fig:client-analysis-types}a). Such comparisons are useful in scientific 
 fields where specific traits must be identified. Such fields include pathogen 
-research, microbial ecology, bioengineering and bioprocess engineering, among 
+research, microbial ecology, bioengineering, and bioprocess engineering, among 
 others.
 \item By comparing the assignments of multiple genome properties, users can 
 identify patterns of conservation across organisms in a dataset (Fig. 
 \ref{fig:client-analysis-types}c). In microbial ecology, such comparisons can be 
 used to identify microorganisms that fit specific biochemically determined 
 ecological niches (\textit{e}.\textit{g}., photoferrotrophy).
-\item By looking at the step assignments of a single property of a single 
+\item By looking at the step assignments of a single property and 
 organism, users can evaluate the correctness of a property assignment (Fig. 
 \ref{fig:client-analysis-types}b). A property might be assigned NO or PARTIAL 
 because it is missing only a few required steps; However, it may possess many 
 other steps that are not required (Fig. \ref{fig:client-analysis-types}b). Being 
 able to look at all step assignments for the property would allow users to 
 determine why a property has been given a specific assignment.
-\item By comparing step assignments of single property across multiple 
+\item By comparing step assignments of a single property across multiple 
 organisms, users can see whether pathway steps are retained across organisms 
 (Fig. \ref{fig:client-analysis-types}d). If a property step is not retained in a 
-large assortment of phylogenetically distant genomes, it may not be required by 
-a pathway or may be carried out by proteins that are non-canonical (Fig. 
-\ref{fig:client-analysis-types}d). Such non-canonical proteins may not possess 
-domains used by Genome Properties but nonetheless do still carry out a missing 
-pathway step.
+large assortment of phylogenetically distant organisms, it may not be required 
+by a pathway or may be carried out by proteins that are non-canonical in these 
+phylogenetically distant organisms (Fig. \ref{fig:client-analysis-types}d). Such 
+non-canonical proteins may not possess domains used by Genome Properties but 
+still carry out a missing pathway step.
 \end{itemize}
 
 \begin{figure}[!ht]
@@ -85,22 +85,21 @@ compatibility of the visualization with these tasks was prioritized.
 \section{Overview of Genome Properties Data and How Micromeda-Client Visualizes This Data} \label{client-visualization}
 
 Specific visualization techniques are better suited for presenting certain types 
-of the data over others, and it is essential first to discuss the nature of data to 
+of data over others, and it is essential first to discuss the nature of data to 
 be visualized before discussing how a specific visualization approach was 
-selected for Micromeda-Client. At its core, the data presented by 
-Micromeda-Client consist of assignments for genome properties and their steps. 
-Such assignments are ordinal data 
+selected for integration into Micromeda-Client. At its core, the data presented 
+by Micromeda-Client consist of assignments for genome properties and their 
+steps. Such assignments are ordinal data 
 \cite{richardson2018genome,agresti2010analysis}, as their states of YES, 
 PARTIAL, and NO are ordered. It should be noted that properties are connected 
-hierarchically \cite{richardson2018genome} and thus this structure is 
-hierarchical data \cite{richardson2018genome,samet1990applications}. The 
-property hierarchy influences the ordinal assignment data of each property 
-because assignments of parent genome properties can be used to summarize the 
-assignments of child genome properties or steps \cite{richardson2018genome}. 
-Each piece of assignment data that is presented by Micromeda-Client also belongs 
-to a specific property or step and organism. Thus, the Genome Properties data 
-can also be considered to be multidimensional 
-\cite{pedersen1999multidimensional}.
+hierarchically \cite{richardson2018genome}. Thus, this structure is hierarchical 
+data \cite{richardson2018genome,samet1990applications}. The property hierarchy 
+influences the ordinal assignment data of each property because assignments of 
+parent genome properties can be used to summarize the assignments of child 
+genome properties or steps \cite{richardson2018genome}. Each piece of assignment 
+data that is presented by Micromeda-Client also belongs to a specific property 
+or step and organism. Thus, the Genome Properties data can also be considered to 
+be multidimensional \cite{pedersen1999multidimensional}.
 
 When designing a data visualization, often specific visualization techniques 
 present themselves intuitively as potential candidates, and this was the case 
@@ -129,7 +128,7 @@ Columns are used to group assignments from the same organism across properties
 or steps. This configuration leads to a heat map that is much taller than it is 
 wide and requires that users scroll vertically. Vertical scrolling is much more 
 convenient than scrolling horizontally because it allows users to scroll the 
-visualization quickly by using their mouse.
+visualization quickly by using their mouse's scroll wheel.
 
 The magnitude of each assignment is encoded using cell colour (Fig. 
 \ref{fig:client-analysis-types}). Because assignments are ordinal data, it makes 
@@ -206,11 +205,11 @@ trees, due to their spacial compactness (Fig.
 \ref{fig:visualization-philosophy}). The icicle diagram is used to control the 
 heat map's content (Fig. \ref{fig:visualization-philosophy}). Icicle diagrams 
 are used to display hierarchical data, such as the parent-child relationship 
-between properties and between properties and their steps. With the 
+between properties and between properties and their steps. With 
 Micromeda-Client, each genome property and step in the Genome Properties 
 database is assigned a node in the icicle diagram (Fig. 
 \ref{fig:visualization-philosophy}). Nodes that represent properties are 
-labelled gray and nodes that represent steps of leaf properties are labelled 
+coloured gray and nodes that represent steps of leaf properties are coloured 
 green. The leaf nodes of the icicle diagram are aligned to rows in the adjacent 
 heat map (Fig. \ref{fig:visualization-philosophy}) that contain the assignments 
 for the property or step that the node represents.
@@ -223,17 +222,18 @@ are added to the heat map. These rows belong to the same properties or steps
 that the newly added icicle diagram nodes represent. The new heat map rows 
 replace the clicked node's assignment row. The new icicle nodes and heat map 
 rows are vertically aligned. Each new node in the icicle diagram has the same 
-height as its parent. The clicked node's shape is expanded vertically to align 
-with the top and bottom of its first and last child node cells, respectively. 
-The overall length of the icicle diagram and heat map is extended. If the user 
-clicks the previous clicked node once again, then the expansion process 
-is reversed. The child nodes and their assignment rows are removed from the 
-visualization (Fig. \ref{fig:visualization-philosophy}), the clicked cell 
-returns to its original shape, and its matching summary assignment row is placed 
-back into the heat map (Fig. \ref{fig:visualization-philosophy}). Child 
-assignment rows are also removed from the heat map. Columns in the icicle 
-diagram are deleted, upon child cell removal, only if all sibling or cousin 
-nodes to the clicked node also have no children displayed.
+height as the heat map row to which the new node is aligned. The clicked node's 
+shape is expanded vertically to align with the top and bottom of its first and 
+last child node cells, respectively. The overall length of the icicle diagram 
+and heat map is extended. If the user clicks the previously clicked node once 
+again, then the expansion process is reversed. The child nodes and their 
+assignment rows are removed from the visualization (Fig. 
+\ref{fig:visualization-philosophy}), the clicked cell returns to its original 
+shape, and its matching summary assignment row is placed back into the heat map 
+(Fig. \ref{fig:visualization-philosophy}). Child assignment rows are also 
+removed from the heat map. Columns in the icicle diagram are deleted, upon child 
+cell removal, only if all sibling or cousin nodes to the clicked node also have 
+no children displayed.
 
 The visualization strategy chosen for Micromeda-client supports the required 
 tasks presented at the top of this section. The heat map allows users to track 
@@ -259,17 +259,19 @@ either a property name or identifier. As the user enters this string, a list of
 matching property names are displayed in a drop-down menu (Fig. 
 \ref{fig:micromeda-interface}). As the user enters additional information, this 
 list of possible matches shrinks. If the user clicks one of these property 
-names, then the Micromeda-Client will automatically scroll to the heat map row 
-where assignments for the clicked property are located. If the property is not 
-shown in the current version of the heat map, then it will be added by 
+names, then Micromeda-Client will automatically scroll to the heat map row where 
+assignments for the clicked property are located. If the property is not shown 
+in the current version of the heat map, then it will be added to the heat map by 
 disaggregating heat map rows in a path towards the property. This path is built 
-recursively by disaggregating parent properties along a path from the root of 
-the Genome Properties \gls{dag} to the property that was clicked in the search 
-menu. As the client diagram scrolls, the X-axis labels remain in a fixed 
-position to provide users with sample/genome name information for any assignment 
-views. A similar scrolling behaviour as to when a search bar item is clicked is 
-also activated when a user clicks a node in the icicle diagram. The diagram's 
-X-axis is scrolled to align with the clicked node's associated heat map row.
+recursively by disaggregating heat map rows of parent properties along a path 
+from the root of the Genome Properties \gls{dag} to the property that was 
+clicked in the search menu. As the user scrolls the client diagram, the X-axis 
+labels of the diagram remain in a fixed position at the top of the web browser 
+window (i.e., the X-axis scrolls with the diagram and does not become hidden 
+during page scrolling) to provide users with sample/genome name information. A 
+similar scrolling behaviour as to when a search bar item is clicked is also 
+activated when a user clicks a node in the icicle diagram. The diagram's X-axis 
+is scrolled to align with the clicked node's associated heat map row.
 
 \begin{figure}[!ht]
   \centering
@@ -292,19 +294,17 @@ more context about the displayed properties. The icicle diagram possesses
 question mark glyphs\footnote{A glyph is an elemental component of a data 
 visualization. A data visualization is composed of a series of glyphs. Often 
 glyphs are directly mapped to data points \cite{chen}.} at the bottom of each 
-property node that facilitates access to an additional set of property 
-information (Fig. \ref{fig:micromeda-interface}). When a user places their 
-cursor over one of these glyphs, a pop-up box appears displaying information 
-about the property that the glyph's node represents (Fig. 
-\ref{fig:micromeda-interface}). When a user places their cursor over one of 
-these glyphs, a pop-up box appears displaying information about the property 
-that the glyph's node represents (Fig. \ref{fig:micromeda-interface}). This 
-pop-up box includes the name of the property, a description of it, a link to the 
-property on the \gls{ebi}  Genome Properties website (\textit{e}.\textit{g}., 
+property node that facilitates access to additional information about the 
+property that the node represents (Fig. \ref{fig:micromeda-interface}). When a 
+user places their cursor over one of these glyphs, a pop-up box appears 
+displaying information about the property that the glyph's node represents (Fig. 
+\ref{fig:micromeda-interface}). This pop-up box includes the name of the 
+property, a description of it, a link to the property on the \gls{ebi} Genome 
+Properties website (\textit{e}.\textit{g}., 
 \href{https://www.ebi.ac.uk/interpro/genomeproperties/#GenProp0867}{ebi.ac.uk/interpro/genomeproperties/ 
 \#GenProp0867}), and a list of links to equivalent records in other pathway 
 databases such as \gls{kegg} \cite{kanehisa2000kegg} and MetaCyc 
-\cite{karp2002metacyc}. The box is once again hidden when the user's cursor 
+\cite{karp2002metacyc}. The box is hidden once again when the user's cursor 
 leaves the glyph or the pop-up box.
 
 \FloatBarrier
@@ -320,24 +320,24 @@ are most likely to carry out the step for each organism in a dataset\footnote{As
 discussed in Subsection \ref{micromeda-data-sources}, each member 
 database of the InterPro consortium possesses custom software that filters 
 domain matches. These filtering tools implement rules, such as minimum match 
-\gls{eval} scores or minimum alignment lengths, that remove false-positives. 
-These rules are unique to each member database and are custom to the sequence 
-search tool used by each database. InterProScan implements all sequence search 
-tools and the false-positive filtering methods used by member databases. All 
-domain matches identified by InterProScan are considered to be true positives, 
-as they have passed scrutinous match filtering rules. Pygenprop utilizes these 
-true-positive InterProScan matches to predict genome properties. For a given 
-dataset, there are often multiple proteins with predicted true-positive domain 
-matches that support a single genome property step. However, of this set 
-matching proteins, the protein with the lowest match \gls{eval} score for the 
-step’s supporting domain is most likely to carry out the step. As discussed in 
-Section \ref{endpoints}, Micromeda-Server’s \textbf{get\_fasta} 
-endpoint returns the \gls{fasta} formatted sequences of either all proteins 
-containing a match to a domain that supports a property step, regardless of the 
-organism, or a single protein per organism, each with the lowest \gls{eval} 
-match to the domain that supports a property step. Micomeda-Client’s step 
-protein download pop-up boxes provide web links that allow users to download 
-\gls{fasta} files generated by the \textbf{get\_fasta} 
+\gls{eval} scores or minimum match alignment lengths, that are used to remove 
+false-positives matches. These rules are unique to each member database and are 
+custom to the sequence search tool used by each database. InterProScan 
+implements all sequence search tools and the false-positive filtering methods 
+used by member databases. All domain matches identified by InterProScan are 
+considered to be true positives, as they have passed scrutinous match filtering 
+rules. Pygenprop utilizes these true-positive InterProScan matches to predict 
+genome properties. For a given dataset, there are often multiple proteins with 
+predicted true-positive domain matches that support a single genome property 
+step. However, of this set matching proteins, the protein with the lowest match 
+\gls{eval} score for the step’s supporting domain is most likely to carry out 
+the step. As discussed in Section \ref{endpoints}, Micromeda-Server’s 
+\textbf{get\_fasta} endpoint returns the \gls{fasta} formatted sequences of 
+either all proteins containing a match to a domain that supports a property 
+step, regardless of the organism, or a single protein per organism, each with 
+the lowest \gls{eval} match to the domain that supports a property step. 
+Micomeda-Client’s step protein download pop-up boxes provide web links that 
+allow users to download \gls{fasta} files generated by the \textbf{get\_fasta} 
 endpoint.\label{protein-download-note}}. The second link downloads a \gls{fasta} 
 file containing any protein that could have carried out the step across all 
 organisms in a dataset\textsuperscript{\ref{protein-download-note}}. When the 
@@ -363,7 +363,7 @@ page. Both pages are styled using the Bootstrap 3.0 \gls{css} framework
 \cite{spurlock2013bootstrap}. Bootstrap is used to set up page elements such as 
 header navigation bars and drop-down menus. Bootstrap also makes each page 
 compatible with tablet computers and phones as it will automatically restyle 
-non-visualization page elements to fit on these smaller screens.
+non-visualization page elements to fit on these device's smaller screens.
 
 \subsection{Core Data Structures} \label{visual-data-structures}
 
@@ -462,16 +462,16 @@ Micromeda-Server's \textbf{get\_tree} endpoint (see Subsection \ref{endpoints})
 via \gls{ajax}. The dataset key saved in the browser's local storage is provided 
 with this request and ensures that Micromeda-Server returns data from the 
 browser's most recently uploaded Micromeda file. Micromeda-Server will respond 
-to the \textbf{get\_tree} request by returning \gls{json} tree containing 
+to the \textbf{get\_tree} request by returning a \gls{json} tree containing 
 assignments for all properties and steps within this uploaded Micromeda file. 
 The client parses this \gls{json} file into a \gls{javascript} object tree and 
 uses it as the property tree data structure mentioned in Subsection 
-\ref{visual-data-structures}. The visualization is then built using the 
-dimensions from the diagram configuration array, the contents of the property 
-tree and the \textbf{enabled} attribute of the property objects therein 
-Subsection \ref{visual-data-structures}. The visualization itself is generated 
-using functions from version 3.0 of the D3.js visualization library 
-\cite{bostock2015d3} and custom \gls{javascript} code.
+\ref{visual-data-structures}.The visualization is then built using the 
+dimensions from the diagram configuration array, the structure of the property 
+tree, and the \textbf{enabled} attribute of property objects contained within 
+the property tree (see Subsection \ref{visual-data-structures}). The 
+visualization itself is generated using functions from version 3.0 of the D3.js 
+visualization library \cite{bostock2015d3} and custom \gls{javascript} code.
 
 \subsection{Interactivity After Initial Visualization Load}
 
@@ -491,18 +491,19 @@ configuration (Fig. \ref{fig:tree-map-to-viz}).
 In the case where a user clicks a leaf node of the icicle diagram, the client 
 changes the matching property object's \textbf{enabled} attribute from false to 
 true. Then, when the diagram is subsequently re-rendered, the children of the 
-clicked node are also rendered (Fig. \ref{fig:tree-map-to-viz}). The client then 
-scrolls the page so that the X-axis labels are aligned with the top of the 
-clicked node. All scrolling behaviour in the client is facilitated by JQuery 
-\cite{li2012jquery}. The opposite occurs when users click a non-leaf node of the 
-icicle diagram. The client changes the associated property object's 
-\textbf{enabled} attribute from true to false and, after re-rendering, the 
-node's children are removed from the diagram. The client then scrolls so that 
-the X-axis labels are aligned with the top of the clicked node. When a parent 
-property object's \textbf{enabled} attribute is changed, this change is not 
-cascaded to its children. This lack of transfer provides the visualization with 
-a sort of ``memory" where the visibility state of each grandchild property is 
-retained (Fig. \ref{fig:tree-map-to-viz}).
+clicked node are also rendered (Fig. \ref{fig:tree-map-to-viz}). The client 
+software then automatically scrolls the page, via JavaScript, so that the bottom 
+of the X-axis labels are aligned with the top of the clicked node. All scrolling 
+behaviour in the client is facilitated by JQuery \cite{li2012jquery}. The 
+opposite occurs when users click a non-leaf node of the icicle diagram. The 
+client changes the associated property object's \textbf{enabled} attribute from 
+true to false and, after re-rendering, the node's children are removed from the 
+diagram. The client then scrolls so that the X-axis labels are aligned with the 
+top of the clicked node. When a parent property object's \textbf{enabled} 
+attribute is changed, this change is not cascaded to its children. This lack of 
+transfer provides the visualization with a sort of ``memory" where the 
+visibility state of each grandchild property is retained (Fig. 
+\ref{fig:tree-map-to-viz}).
 
 At page load, the property tree is used to create a \gls{javascript} array of 
 pairs of property names and identifiers. After the visualization generation, an 
@@ -511,8 +512,8 @@ Micromeda-Client interface (Fig. \ref{fig:micromeda-interface}). This menu is
 built using the Select2 library \cite{select2} 
 (\href{http://select2.org}{select2.org}) and uses the previously mentioned pairs 
 of property identifiers and names as search data. When a user searches for a 
-property name or identifier in the search menu, properties whose name or 
-identifier are similar to the search query are displayed in a drop-down menu 
+property name or identifier in the search menu, properties whose names or 
+identifiers are similar to the search query are displayed in a drop-down menu 
 (Fig. \ref{fig:micromeda-interface}). When the user clicks one of these menu 
 properties, then another \gls{javascript} event occurs where the parent of the 
 matching property object in the \gls{javascript} property tree is modified. All 
@@ -525,44 +526,45 @@ that the bottom of the X-axis labels are aligned with the top of the icicle
 diagram cell representing the clicked property.
 
 After each re-rendering of the assignment visualization, Micromeda-Client sends 
-a series of \gls{ajax}  requests to Micromeda-Server. These are requests for 
+a series of \gls{ajax} requests to Micromeda-Server. These are requests for 
 information about each property that is visible in the icicle diagram (Fig. 
 \ref{fig:micromeda-interface}). These requests are sent to Micromeda-Server's 
 \textbf{Get\_Single\_Genome\_Property \_Info} endpoint (see Section 
-\ref{endpoints}). The endpoint returns a \gls{json} document 
-containing the information about each property that is later used in property 
-information pop-up boxes (Fig. \ref{fig:micromeda-interface}). The contents of 
-these documents are also cached in web local storage using localForage 
-\cite{localforage}. During the subsequent diagram renderings, requests are not 
-made for properties with data already cached. This caching reduces request 
-frequency to the server and overall server load. The request volume is also 
-reduced by only making requests for properties that are visible.
+\ref{endpoints}). The endpoint returns a \gls{json} document containing 
+information about each property that is later displayed in property information 
+pop-up boxes (Fig. \ref{fig:micromeda-interface}). The contents of these 
+documents are cached in web local storage using localForage \cite{localforage}. 
+During the subsequent diagram renderings, requests are not made for properties 
+whose data is already cached. Caching property information client-side and only 
+requesting information about visible properties reduces the number of requests 
+sent to Micromeda-Server and the overall load to be handled by the server 
+computer system that Micromeda-Server is run on.
 
-Both property information and \gls{fasta} download pop-up boxes are generated upon 
-activation of \gls{javascript} onmouseover events \cite{dom-events} 
+Both property information and \gls{fasta} download pop-up boxes are generated 
+upon activation of \gls{javascript} onmouseover events \cite{dom-events} 
 (\href{http://en.wikipedia.org/wiki/DOM_events}{en.wikipedia.org/wiki/DOM\_events}) 
 of the question mark and step download glyphs, respectively. When a question 
 mark glyph of a property icicle diagram node is hovered over, information about 
 the property is retrieved from web local storage using localForage. This 
-property information was cached during the previous diagram render. If no 
-information for a property was previously cached, a template is used. The cached 
-or template property information is used to generate the contents of the 
-property information pop-up box. The \gls{fasta} download pop box, when generated, 
-contains links for downloading \gls{fasta} files. These links point to \gls{url}s 
-provided by Micromeda-Server's \textbf{get\_fasta} endpoint (see Section 
-\ref{endpoints}). When the``get all proteins" link is clicked (Fig. 
-\ref{fig:micromeda-interface}), the endpoint \gls{url}'s \textbf{all} \gls{http} 
-GET parameter is set to true during the request and a \gls{fasta} file containing all 
-proteins that support the step is returned (see Section 
-\ref{endpoints}). The \textbf{all} \gls{http} GET parameter is not 
-added to requests initiated by clicking the ``get top proteins" link of the 
-pop-up. This lack of a parameter causes the return of a \gls{fasta} file containing 
-only the proteins that are most likely to support a step. During both of these 
-types of requests, the dataset key stored in local web storage is attached. This 
-key tells the Micromeda-Server to generate \gls{fasta} files from sequences found in 
-the browser's most recently uploaded Micromeda file. Both pop-up boxes are hidden 
-upon removal of the user's cursor via the triggering of an onmouseout event 
-\cite{dom-events} 
+property information was cached during the previous diagram render.If no 
+information for a property was previously cached, a property information 
+template is used. The cached or template property information is used to 
+generate the contents of the property informationpop-up box. The \gls{fasta} 
+download pop box, when generated, contains links for downloading \gls{fasta} 
+files. These links point to \gls{url}s provided by Micromeda-Server's 
+\textbf{get\_fasta} endpoint (see Section \ref{endpoints}). When the``get all 
+proteins" link is clicked (Fig. \ref{fig:micromeda-interface}), the endpoint 
+\gls{url}'s \textbf{all} \gls{http} GET parameter is set to true during the 
+request and a \gls{fasta} file containing all proteins that support the step is 
+returned (see Section \ref{endpoints}). The \textbf{all} \gls{http} GET 
+parameter is not added to requests initiated by clicking the ``get top proteins" 
+link of the pop-up. This lack of a parameter causes the return of a \gls{fasta} 
+file containing only the proteins that are most likely to support a step. During 
+both of these types of sequence file requests, the dataset key stored in local 
+web storage is attached. This key tells the Micromeda-Server to generate 
+\gls{fasta} files from sequences found in the browser's most recently uploaded 
+Micromeda file. Both pop-up boxes are hidden upon removal of the user's cursor 
+via the triggering of an onmouseout event \cite{dom-events} 
 (\href{http://en.wikipedia.org/wiki/DOM_events}{en.wikipedia.org/wiki/DOM\_events}).
 
 \section{Performance Testing, End-User Testing, and Demonstration of the Client User Interface} \label{client-demo}
@@ -617,8 +619,7 @@ following key questions were asked:
 \item Was the potential user happy with how Micromeda-Client presents property 
 and step assignment information?
 \item How intuitive did they find the client’s \gls{ui} and were there any 
-changes to the interface that could be made to make the interface more 
-intuitive?
+changes to the interface that could be made to make it more intuitive?
 \item Is there any aesthetic changes to Micromeda-Client that the user would 
 recommend?
 \item What additional features should be added to the client to improve its data 
@@ -646,7 +647,7 @@ such as Amazon Cloudfront \cite{varia2014overview}
 Cloudflare Anycast \cite{calder2015analyzing} 
 (\href{http://cloudflare.com/cdn}{cloudflare.com/cdn}). In this deployment 
 configuration, the end-user downloads the client code from the nearest content 
-delivery server in the \gls{cdn} , rather than the same server where 
+delivery server in the \gls{cdn}, rather than the same server where 
 Micromeda-Server is hosted (Fig. \ref{fig:client-deployment}). After loading, 
 the client would then send \gls{api} requests to Micromeda-Server, which would 
 be hosted outside the \gls{cdn}  (Fig. \ref{fig:client-deployment}). During 
@@ -727,7 +728,7 @@ diagram cells and organism names being displayed off-page.
 
 To fix such anomalies, future versions of Micromeda-Client could use 
 \gls{javascript} to automatically adjust diagram configuration measurements to 
-fit different datasets or different window sizes better. For example, X-axis 
+fit different datasets or browser window sizes. For example, X-axis 
 spacing values could be changed dynamically based on the length of the longest 
 organism name in a dataset. Alternatively, the heat map cell width could be 
 adjusted based on the number of samples in a dataset. By adjusting the default 
@@ -767,10 +768,10 @@ GenomePropertiesResultsWithMatches objects to \gls{json} \cite{bray2014rfc}. If
 clustering columns in the heat map was required, then Micromeda-Server could 
 accomplish this visual clustering by clustering the DataFrames of 
 GenomePropertiesResultsWithMatches objects column-wise using \gls{scikit}-learn 
-\cite{pedregosa2011scikit} using pandas. Afterwards, these clustered DataFrames 
+\cite{pedregosa2011scikit} and pandas. Afterwards, these clustered DataFrames 
 would then be converted to \gls{json} and sent to the client. Returning 
 clustered assignment \gls{json} data could be controlled by an \gls{http} GET 
-parameter in an endpoint request.
+parameter in an endpoint request. 
 
 \subsection{Visualizing Step Assignments by E-value Score Rather Than by 
 Categorical Assignment} \label{interface-e-value}
@@ -808,7 +809,11 @@ these \gls{eval} score data, as discussed in Subsection \ref{e-value-endpoint}.
 
 \subsection{Improving Filtering Capability of the Client}
 
-A \gls{ui} switch would have to be implemented that would allow users to switch 
+During end-user testing, users requested a way to identify assignments that 
+differ between organisms. Such differences could be highlighted by removing 
+assignment rows from the heat map that possess the same assignment across all 
+organisms in the dataset, leaving only those that differ. For example, a 
+\gls{ui} switch would have to be implemented that would allow users to switch 
 between a complete assignment view of all assignment rows and only those that 
 differ. The assignment rows would have to be dropped based on those that are 
 displayed in the current version of the heat map. Each node in the 
@@ -838,10 +843,11 @@ interviewing potential users of Micromeda-Client, the interviewees conveyed
 their frustration with these existing tools. Users mentioned how these tools 
 forced them to navigate through multiple web pages to gather the information 
 needed to perform their analyses. This process is time-consuming and 
-error-prone. In response to this information, Micromeda-Client was designed to 
+error-prone.In response to this information, Micromeda-Client was designed to 
 integrate as much information as possible into a single view and interactivity 
-is used to show and hide information as needed by users. Below is a detailed 
-comparison between Micromeda-Client and three similar visualization tools.
+is used to allow users to show and hide property assignment information as 
+needed. Below is a detailed comparison between Micromeda-Client and three 
+similar visualization tools.
 
 As of fall 2019, there is only one Genome Properties assignment visualization 
 tool available other than Micromeda-Client. This tool is part of the \gls{ebi} 
@@ -879,16 +885,17 @@ way for users to access the underlying protein sequences that support each step.
 
 In contrast to the property assignment heat map generated by the Genome 
 Properties website, Micromeda-Client uses pop-up boxes to display its property 
-information. Users of Micromeda-Client do not have to search for the property 
-that they are interested in an entirely new window, nor do they need to swap 
-between multiple windows. Having all the information in a single view saves 
-users time and reduces mistakes where users view information about the wrong 
-property. Also, unlike the \gls{ebi} Genome Properties website, Micromeda-Client 
-displays assignments for all properties, not just leaf properties. The icicle 
-diagram that is present in the client's visualization helps organize property 
-assignments, so users more easily find these assignments. Unlike the \gls{ebi} tool, the 
-client's assignment viewer does use interactive aggregation and disaggregation, 
-which decreases the length of its heat maps substantially.
+information. Users of Micromeda-Client do not have to search for information 
+about a property of interest in an entirely new window, nor do they need to swap 
+between multiple windows to find this information. Having all the information in 
+a single view saves users time and reduces mistakes where users view information 
+about the wrong property. Also, unlike the\gls{ebi} Genome Properties website, 
+Micromeda-Client displays assignments for all properties, not just leaf 
+properties. The icicle diagram that is present in the client's visualization 
+helps organize property assignments, so users more easily find these 
+assignments. Unlike the \gls{ebi} tool, the client's assignment viewer does use 
+interactive aggregation and disaggregation, which decreases the length of its 
+heat maps substantially.
 
 \begin{figure}[!ht]
    \centering
@@ -986,8 +993,8 @@ visualization. Figure is from \cite{darzi2019functree2}.}
 \end{figure}
 
 In contrast to the Genome Properties website and Microscope, some alternative 
-annotation visualization tools do present their data hierarchically within the 
-same visualization \cite{darzi2019functree2}. For example, FuncTree2 
+pathway annotation visualization tools do present their data hierarchically 
+within the same visualization \cite{darzi2019functree2}. For example, FuncTree2
 \cite{darzi2019functree2} allows users to plot \gls{ko} annotation 
 \cite{mao2005automated,kanehisa2011kegg} frequency (i.e, the number of proteins 
 of an organism that that possess a specific \gls{ko} annotation) across 
@@ -996,10 +1003,10 @@ a radial tree with nodes annotated by stacked bar charts. The bar charts of leaf
 nodes of the tree represent counts for a singular \gls{ko}, whereas charts 
 annotating nodes closer to root display summed \gls{ko} counts for child nodes 
 (Fig. \ref{fig:functree2}). Unlike Micromeda-Client, aggregated and 
-disaggregated data are presented simultaneously. Nodes in the tree can be clicked 
-to add and remove child nodes from the visualization. Instead of a default 
-\gls{kegg}-based tree, users can also upload their tree and annotation frequency 
-information.
+disaggregated data are presented simultaneously. Nodes in the tree can be 
+clicked to add and remove child nodes from the visualization. Instead of the 
+default \gls{kegg}-based tree, FuncTree2 also accepts the upload of custom 
+built trees and annotation frequencies derived from other pathway databases.
 
 One of the key design differences between FuncTree2 and Micromeda-Client is 
 their choice of radial and linear layouts, respectively. In the application note 
@@ -1013,21 +1020,22 @@ study has shown that icicle diagrams (as used by Micromeda-Client) allowed users
 to have higher interaction accuracy and efficiency \cite{muramalla2017radial} 
 than radial sunburst diagrams (as used by tools such as Krona 
 \cite{ondov2011interactive} 
-(\href{http://github.com/marbl/Krona}{github.com/marbl/Krona}).
+(\href{http://github.com/marbl/Krona}{github.com/marbl/Krona})).
 Such gains in user interaction capability should also carry over to 
 Micromeda-Client, which uses a rectangular, rather than a radial 
 layout\footnote{I assert that radial layouts are most useful when they show 
-connections between data on opposite sides of the circle. This design pattern is 
-used by visualization tools such as Circos \cite{krzywinski2009circos}.}.
+connections between data on opposite sides of the layout. This design 
+pattern is used by visualization tools such as Circos 
+\cite{krzywinski2009circos}.}.
 
 Rather than defaulting to a horizontal tree or radial tree, micromeda's client 
 replaces both of these trees with an icicle diagram. This icicle diagram 
 provides superior spacial compactness to either tree type as no edges have to be 
-rendered and nodes can be placed adjacently. Rectangular diagrams have better 
-space utilization than radial diagrams on modern computer monitors 
-\cite{muramalla2017radial}. In contrast to FuncTree2, the visualization of 
-Micromeda-Client only allows users to show either aggregated assignments for a 
-parent node or the disaggregated assignments of its children, not both 
+rendered and nodes can be placed adjacently in a compact fashion. Rectangular 
+diagrams have better space utilization than radial diagrams on modern computer 
+monitors \cite{muramalla2017radial}. In contrast to FuncTree2, the visualization 
+of Micromeda-Client only allows users to show either aggregated assignments for 
+a parent node or the disaggregated assignments of its children, not both 
 simultaneously. Both the decision to use icicle diagrams and to either present 
 parent or child assignments allow the client's diagram to retain the same square 
 layout as an annotated horizontal tree with superior space utilization to a 
