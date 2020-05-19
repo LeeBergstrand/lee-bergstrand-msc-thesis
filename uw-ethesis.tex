@@ -120,10 +120,10 @@
     pdfsubject={Comparative Genomics Software},  % subject: CHANGE THIS TEXT! and uncomment this line
     pdfnewwindow=true,      % links in new window
     colorlinks=true,        % false: boxed links; true: colored links
-    linkcolor=blue,         % color of internal links
-    citecolor=green,        % color of links to bibliography
+    linkcolor=black,         % color of internal links
+    citecolor=black,        % color of links to bibliography
     filecolor=magenta,      % color of file links
-    urlcolor=cyan,           % color of external links
+    urlcolor=black,           % color of external links
     breaklinks=true
 }
 \ifthenelse{\boolean{PrintVersion}}{   % for improved print quality, change some hyperref options
@@ -149,6 +149,7 @@
 \usepackage{subcaption}
 \usepackage{graphicx}
 \usepackage{textcomp}
+\usepackage{placeins}
 
 % Setting up the page margins...
 % uWaterloo thesis requirements specify a minimum of 1 inch (72pt) margin at the
@@ -267,6 +268,18 @@ description={A person of supposed average intelligence who makes incredibly brai
 \newabbreviation{orm}{ORM}{object-relational mapping}
 \newabbreviation{3nf}{3NF}{3rd normal form}
 \newabbreviation{rast}{RAST}{rapid annotation using subsystem technology}
+\newabbreviation{rfam}{Rfam}{non-coding RNA families}
+\newabbreviation{rpsblast}{RPS-BLAST}{reverse position-specific basic local alignment search tool}
+\newabbreviation{mmseqs2}{MMseqs2}{Many-against-Many sequence searching two}
+\newabbreviation{fungene}{FunGene}{Functional Gene Pipeline and Repository}
+\newabbreviation{antismash}{antiSMASH}{antibiotics \& Secondary Metabolite Analysis Shell}
+\newabbreviation{fasta}{FASTA}{fast-all}
+\newabbreviation{uwsgi}{uWSGI}{web server gateway interface server}
+\newabbreviation{bacdive}{BacDive}{the Bacterial Diversity Metadatabase}
+\newabbreviation{scikit}{Scikit}{scientific Python tool kit}
+\newabbreviation{dna}{DNA}{Deoxyribonucleic acid}
+\newabbreviation{hamap}{HAMAP}{High-quality Automated and Manual Annotation of Proteins}
+\newabbreviation{panther}{PANTHER}{protein analysis through evolutionary relationships}
 
 % List of Symbols
 \newglossary*{symbols}{List of Symbols}
@@ -305,7 +318,6 @@ description={Random vector: a location in n-dimensional Cartesian space, where e
 % Tip 4: Putting each sentence on a new line is a way to simplify later editing.
 %----------------------------------------------------------------------
 \input{chapter-introduction.tex}
-\input{chapter-genome-properties.tex}
 \input{chapter-pygenprop.tex}
 \input{chapter-server.tex}
 \input{chapter-client.tex}
